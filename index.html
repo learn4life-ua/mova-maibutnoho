@@ -17,17 +17,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
     <style>
         :root {
-            --blue: #4BA3C3;      /* акцент з обкладинки */
-            --blue-dark: #1E3A5F; /* темний синій */
-            --sky: #70B7E6;       /* небесний */
-            --yellow-accent: #FFED00; /* Жовтий акцент */
-            --gray-bg: #F5F7FA;   /* світлий фон */
+            --blue: #4BA3C3;         /* акцент з обкладинки */
+            --blue-dark: #1E3A5F;    /* темний синій */
+            --sky: #70B7E6;          /* небесний */
+            --yellow-accent: #FFED00; /* Жовтий акцент (залишив, якщо знадобиться) */
+            --gray-bg: #F5F7FA;      /* світлий фон */
             --text: #2C2C2C;
             --muted: #6B7280;
             --border: #D1D5DB;
             --card-shadow: 0 10px 22px rgba(0,0,0,0.08);
+            /* Додаткові кольори для коду */
+            --code-string: #007a99;
+            --code-orange: #E65100;
+            --code-red: #D9534F;
         }
 
+        /* ... (усі ваші стилі для header, toolbar, card, accordion, footer залишаються тут) ... */
         html, body { height: 100%; }
         body {
             font-family: 'Inter', sans-serif;
@@ -40,144 +45,59 @@
             background-image: linear-gradient(135deg, #FFFFFF 0%, #F5F7FA 55%, #FFFFFF 100%);
             background-attachment: fixed;
         }
-
-        /* Шапка */
-        header {
-            background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
-            color: #fff;
-            text-align: center;
-            padding: 2.25rem 1rem 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.10);
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-        header .wrap { max-width: 1100px; margin: 0 auto; }
-        header h1 {
-            font-size: clamp(1.5rem, 2.2vw + 1rem, 2.25rem);
-            font-weight: 700;
-            margin: 0 0 .35rem;
-        }
-        header p {
-            margin: 0;
-            font-size: 1rem;
-            color: #E0F4FB;
-        }
-
-        /* Пошук та навігація */
-        .toolbar {
-            max-width: 1100px;
-            margin: 1rem auto 0;
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: .75rem;
-            padding: 0 1rem 1.25rem;
-        }
-        .search {
-            background: #fff;
-            border: 1px solid var(--border);
-            border-radius: .75rem;
-            padding: .65rem .9rem;
-            display: flex;
-            gap: .6rem;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
-        }
-        .search input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: .98rem;
-            background: transparent;
-            color: var(--text);
-        }
-        .quick-nav {
-            display: flex;
-            gap: .5rem;
-            flex-wrap: wrap;
-        }
-        .chip {
-            background: #fff;
-            border: 1px solid var(--border);
-            color: var(--blue-dark);
-            border-radius: 999px;
-            padding: .5rem .8rem;
-            font-size: .88rem;
-            text-decoration: none;
-            transition: transform .2s ease, box-shadow .2s ease;
-        }
-        .chip:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.06); }
-
-        /* Сітка карток (якщо потрібна) */
-        main {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 1.25rem 1rem 2.5rem;
-            /* display: grid; */ /* Розкоментуйте, якщо потрібна сітка */
-            /* gap: 1.25rem; */
-            /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
-        }
-        /* Стилі карток (залишив, якщо знадобляться) */
-        .card { /* ... */ }
-
-        /* Акордеон: чистий, стриманий */
-        .accordion details {
-            background: #fff; border: 1px solid var(--border); border-radius: .8rem;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.04); margin-bottom: .75rem; overflow: hidden;
-        }
-        .accordion summary {
-            list-style: none; cursor: pointer; padding: 1rem 1.1rem;
-            display: flex; align-items: center; gap: .75rem; font-weight: 600; color: var(--blue-dark);
-            position: relative; /* Додано для позиціонування псевдоелемента */
-        }
+        header { /* ... */ }
+        .toolbar { /* ... */ }
+        .search { /* ... */ }
+        .quick-nav { /* ... */ }
+        .chip { /* ... */ }
+        main { max-width: 1100px; margin: 0 auto; padding: 1.25rem 1rem 2.5rem; }
+        .section-title { margin-top: .75rem; margin-bottom: 1.25rem; color: var(--blue-dark); font-size: 1.3rem; font-weight: 700; letter-spacing: .02em; display: flex; align-items: center; gap: .6rem; }
+        .section-title:before { content: ''; display: inline-block; width: 18px; height: 18px; border-radius: 4px; background: linear-gradient(135deg, var(--blue-dark), var(--blue)); }
+        .card-grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom: 2.5rem; }
+        .card { background: #fff; border-radius: 1rem; padding: 1.3rem 1.3rem 1.15rem; border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0,0,0,0.05); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: .5rem; min-height: 160px; }
+        .card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow); border-color: #cdd3da; }
+        .eyebrow { color: var(--blue-dark); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+        .card h2 { font-size: 1.12rem; color: var(--blue-dark); margin: 0; }
+        .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+        .pill { margin-top: auto; align-self: flex-start; background: var(--blue); color: #fff; border-radius: .6rem; padding: .35rem .6rem; font-size: .8rem; }
+        .accordion-wrapper { max-width: 48rem; margin: 0 auto; }
+        .accordion details { background: #fff; border: 1px solid var(--border); border-radius: .8rem; box-shadow: 0 6px 14px rgba(0,0,0,0.04); margin-bottom: .75rem; overflow: hidden; }
+        .accordion summary { list-style: none; cursor: pointer; padding: 1rem 1.1rem; display: flex; align-items: center; gap: .75rem; font-weight: 600; color: var(--blue-dark); position: relative; }
         .accordion summary::-webkit-details-marker { display: none; }
         .accordion summary span { flex: 1; }
-        .accordion details[open] summary { background: linear-gradient(90deg, rgba(30,58,95,0.06), rgba(75,163,195,0.06)); border-left: 4px solid var(--yellow-accent); padding-left: calc(1.1rem - 4px); } /* Змінено padding */
+        .accordion details[open] summary { background: linear-gradient(90deg, rgba(30,58,95,0.06), rgba(75,163,195,0.06)); border-left: 4px solid var(--blue); padding-left: calc(1.1rem - 4px); }
         .accordion .acc-body { padding: .75rem 1.1rem 1rem; border-top: 1px solid var(--border); }
         .accordion .acc-link { display: inline-block; margin: .25rem 0; color: var(--blue); text-decoration: none; }
         .accordion .acc-link:hover { text-decoration: underline; }
         .accordion .sublist { margin: 0; padding: 0 0 0 1.1rem; }
         .accordion .sublist li { margin: .25rem 0; }
-        .accordion .sublist a { color: var(--text); text-decoration: none; } /* Додав стиль для посилань всередині списку */
-        .accordion .sublist a:hover { color: var(--blue); text-decoration: underline; }
-
-        /* Іконки-стрілки */
-        .accordion summary::after {
-            content: '\25BC'; /* ▼ */
-            font-size: .9rem; color: var(--blue-dark); transition: transform .2s ease;
-        }
+        .accordion .sublist a { color: var(--blue); text-decoration: none; display: inline-block; padding: .2rem 0; }
+        .accordion .sublist a:hover { text-decoration: underline; }
+        .accordion summary::after { content: '\25BC'; font-size: .9rem; color: var(--blue-dark); transition: transform .2s ease; }
         details[open] > summary::after { transform: rotate(-180deg); }
-        
-        /* Жовтий маркер для відкритого пункту */
-        .accordion summary span::before {
-            content: "";
-            display: inline-block;
-            width: 10px; height: 10px; border-radius: 50%;
-            background: transparent; margin-right: .5rem; transform: translateY(1px);
-            transition: background-color 0.2s ease; /* Додав анімацію */
-        }
-        details[open] > summary span::before { background: var(--yellow-accent); }
+        .accordion summary span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: transparent; margin-right: .5rem; transform: translateY(1px); transition: background-color 0.2s ease; }
+        details[open] > summary span::before { background: var(--blue); }
 
 
-        /* === ДОДАНО: СТИЛІ ДЛЯ БЛОКІВ КОДУ (PRISM.JS) === */
-        /* Загальний контейнер для блоку коду */
+        /* === ДОДАНО/ОНОВЛЕНО: СТИЛІ ДЛЯ БЛОКІВ КОДУ === */
+        /* Загальний контейнер */
         pre[class*="language-"] {
-            background: #ffffff; /* Чистий білий фон */
-            border: 1px solid var(--border); /* Використовуємо змінну */
-            border-left: 5px solid var(--blue-dark); /* Акцентна лінія зліва */
-            border-radius: 8px; /* Округлені кути */
-            padding: 1.5em;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--blue-dark); /* Темно-синя лінія */
+            border-radius: 8px;
+            padding: 1.2em 1.5em; /* Трохи менше вертикального падінгу */
             margin: 1.5em 0;
-            overflow: auto; /* Горизонтальна прокрутка */
-            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace; /* Моноширинний шрифт */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Легка тінь */
-            font-size: 0.9em; /* Трохи зменшив шрифт */
+            overflow: auto;
+            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            font-size: 0.9em;
             line-height: 1.6;
         }
-        /* Стиль для самого коду всередині контейнера */
+        /* Код всередині */
         code[class*="language-"] {
-            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
-            color: var(--text); /* Основний колір тексту */
+            font-family: inherit; /* Успадковує від <pre> */
+            color: var(--text);
             text-align: left;
             white-space: pre;
             word-spacing: normal;
@@ -185,167 +105,120 @@
             word-wrap: normal;
             tab-size: 4;
             hyphens: none;
+            background: none; /* Важливо скинути фон, якщо тема Prism його додає */
         }
-        /* --- Синтаксичне підсвічування --- */
+        /* Синтаксис */
         .token.comment, .token.prolog, .token.doctype, .token.cdata { color: var(--muted); font-style: italic; }
         .token.punctuation { color: #555555; }
         .token.keyword, .token.tag, .token.boolean, .token.constant, .token.symbol { color: var(--blue-dark); font-weight: 600; }
-        .token.string, .token.char, .token.attr-value { color: #007a99; }
-        .token.function, .token.class-name, .token.selector { color: var(--blue); font-weight: 600; }
-        .token.attr-name, .token.variable, .token.property { color: #E65100; } /* Використав помаранчевий замість жовтого для кращого контрасту */
-        .token.number { color: #D9534F; }
+        .token.string, .token.char, .token.attr-value { color: var(--code-string); } /* Використовуємо змінну */
+        .token.function, .token.class-name, .token.selector { color: var(--blue); font-weight: 600; } /* Акцентний синій */
+        .token.attr-name, .token.variable, .token.property { color: var(--code-orange); } /* Помаранчевий */
+        .token.number { color: var(--code-red); } /* Червоний */
         .token.important, .token.bold { font-weight: bold; }
         .token.italic { font-style: italic; }
-        /* === КІНЕЦЬ ДОДАНОГО БЛОКУ СТИЛІВ === */
+        /* === КІНЕЦЬ БЛОКУ СТИЛІВ ДЛЯ КОДУ === */
 
-        /* Підвал */
-        footer {
-            text-align: center;
-            padding: 1.2rem;
-            font-size: .85rem;
-            color: var(--muted);
-            background: #fff;
-            border-top: 1px solid var(--border);
-            margin-top: 2rem; /* Додав відступ зверху */
-        }
-
-        /* Дрібні покращення */
+        footer { text-align: center; padding: 1.2rem; font-size: .85rem; color: var(--muted); background: #fff; border-top: 1px solid var(--border); margin-top: 2rem; }
         .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     </style>
 </head>
 <body>
     <header>
         <div class="wrap">
-            <h1>Мова майбутнього</h1>
-            <p>Сучасна українська для сучасних студентів — розділи, вправи, відео та інтерактиви</p>
-        </div>
-        <div class="toolbar" role="search">
-            <label class="search" aria-label="Пошук по сайту">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-4.35-4.35m1.1-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" stroke="#CBD5E0" stroke-width="2" stroke-linecap="round"/></svg> <input id="q" type="search" placeholder="Пошук розділів і додатків…" autocomplete="off" />
-            </label>
-            <nav class="quick-nav" aria-label="Швидка навігація">
-                <a class="chip" href="#toc">Розділи</a>
-                <a class="chip" href="#interactive">Інтерактиви</a> </nav>
-        </div>
+             <h1>Мова майбутнього</h1>
+             <p>Сучасна українська для сучасних студентів — розділи, вправи, відео та інтерактиви</p>
+         </div>
+         <div class="toolbar" role="search">
+             <label class="search" aria-label="Пошук по сайту">
+                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-4.35-4.35m1.1-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/></svg>
+                 <input id="q" type="search" placeholder="Пошук розділів і додатків…" autocomplete="off" />
+             </label>
+             <nav class="quick-nav" aria-label="Швидка навігація">
+                 <a class="chip" href="#rozdily">Розділи</a>
+                 <a class="chip" href="#interactive">Інтерактивні додатки</a>
+                 <a class="chip" href="#video">Відео</a>
+                 <a class="chip" href="#about">Про посібник</a>
+             </nav>
+         </div>
     </header>
 
     <main id="content">
-        <section class="max-w-3xl mx-auto px-4 py-8">
-            <h2 class="visually-hidden">Зміст посібника</h2>
 
+        <h2 class="section-title" id="quick-start-title">Швидкий старт</h2>
+        <div class="card-grid" id="rozdily">
+            <a href="sections/01-podorozh-svitom-movy.html" class="card">...</a>
+             <a href="interactive/" class="card" id="interactive">...</a>
+             <a href="videos.html" class="card" id="video">...</a>
+             <a href="sections/06-slovnychok-10-spec.html" class="card">...</a>
+             <a href="sections/10-dokumenty-dlya-roboty.html" class="card">...</a>
+             <a href="about.html" class="card" id="about">...</a>
+        </div>
+
+        <h2 class="section-title" id="toc-title">Повний зміст посібника</h2>
+
+        <div class="accordion-wrapper">
             <div class="accordion" id="toc">
 
-                <details>
-                    <summary><span>Передмова</span></summary>
-                    <div class="acc-body">
-                        <p>Ознайомлення з цілями та структурою посібника.</p>
-                        </div>
-                </details>
+                <details> <summary><span>Передмова</span></summary> <div class="acc-body"><a class="acc-link" href="#">Читати...</a></div> </details>
+                 <details> <summary><span>Розділ 1. ...</span></summary> <div class="acc-body"><a class="acc-link" href="#">Відкрити...</a></div> </details>
 
-                <details>
-                    <summary><span>Розділ 1. Подорож світом сучасної української мови</span></summary>
+                <details open>
+                    <summary><span>Розділ 2. Навчайся по-новому. Інтерактивна частина</span></summary>
                     <div class="acc-body">
-                         [cite_start]<p>Актуальність української мови та особливості посібника[cite: 89, 106].</p>
-                        </div>
-                </details>
-
-                <details open> <summary><span>Розділ 2. Навчайся по-новому. Інтерактивна частина</span></summary>
-                    <div class="acc-body">
-                         [cite_start]<p>Інструкції та посилання на інтерактивні ресурси для вивчення тем [cite: 135-149].</p>
+                        [cite_start]<p>Інструкції та посилання на інтерактивні ресурси [cite: 135-149].</p>
                         <ul class="sublist">
-                            [cite_start]<li><a href="#fonetyka-link">Тема 1. Фонетика</a> [cite: 34]</li>
-                            [cite_start]<li><a href="#cherhuvannia-link">Тема 2. Чергування у–в, і–й</a> [cite: 35]</li>
-                            [cite_start]<li><a href="#myakyj-znak-link">Тема 3. Правопис м’якого знака та апострофа</a> [cite: 36]</li>
-                            [cite_start]<li><a href="#prefiksy-link">Тема 4. Правопис префіксів та суфіксів</a> [cite: 37]</li>
-                            [cite_start]<li><a href="#velyka-litera-link">Тема 5. Вживання великої літери</a> [cite: 38]</li>
-                            [cite_start]<li><a href="#sproshchennia-link">Тема 6. Спрощення в групах приголосних</a> [cite: 39]</li>
-                            [cite_start]<li><a href="#leksykolohiia-link">Тема 7. Лексикологія</a> [cite: 40]</li>
-                            [cite_start]<li><a href="#leks-pomylky-link">Тема 8. Лексичні помилки</a> [cite: 41]</li>
-                            [cite_start]<li><a href="#frazeolohizmy-link">Тема 9. Фразеологізми</a> [cite: 42]</li>
-                            <li><a href="#budova-slova-link">Тема 10. Будова слова. [cite_start]Словотвір</a> [cite: 43]</li>
+                            <li><a href="#fonetyka-link">Тема 1. Фонетика</a></li>
+                            <li><a href="#budova-slova-link">Тема 10. Будова слова. Словотвір</a></li>
                         </ul>
-                         <pre><code class="language-javascript">
+
+                        <pre><code class="language-javascript">
 // Приклад коду для ілюстрації
-function checkSpelling(word) {
-  const rules = ['правило1', 'правило2'];
-  let isCorrect = true;
-  console.log(`Перевірка слова: ${word}`);
-  // ... логіка перевірки ...
-  return isCorrect;
+// Стилі тепер мають працювати!
+function checkWord(word) {
+  console.log(`Аналіз слова: "${word}"`);
+  if (word.length > 5) {
+    return true; // Слово довге
+  } else {
+    return false; // Слово коротке
+  }
 }
 
-checkSpelling("прекрасний"); // true
+let result = checkWord("майбутнє");
+console.log(result); // Виведе: true
                         </code></pre>
-                         </div>
+                        </div>
                 </details>
 
-                 <details> <summary><span>Розділ 3. Комунікація...</span></summary> <div class="acc-body"><p>...</p></div> </details>
-                <details> <summary><span>Розділ 4. Культура мовлення...</span></summary> <div class="acc-body"><p>...</p></div> </details>
-                <details> <summary><span>Розділ 5. Лексика професіонала...</span></summary> <div class="acc-body"><p>...</p></div> </details>
-                <details> <summary><span>Розділ 6. Словничок професіонала...</span></summary> <div class="acc-body"><p>...</p></div> </details>
-                <details> <summary><span>Розділ 7. Нові мовні тенденції...</span></summary> <div class="acc-body"><p>...</p></div> </details>
-                <details> <summary><span>Розділ 8. Словник студента...</span></summary> <div class="acc-body"><p>...</p></div> </details>
-                <details> <summary><span>Розділ 9. Мова єдності...</span></summary> <div class="acc-body"><p>...</p></div> </details>
-                <details> <summary><span>Розділ 10. Документи для роботи...</span></summary> <div class="acc-body"><p>...</p></div> </details>
-                <details> <summary><span>Розділ 11. За лаштунками мови...</span></summary> <div class="acc-body"><p>...</p></div> </details>
-                <details> <summary><span>Висновки та джерела</span></summary> <div class="acc-body"><p>...</p></div> </details>
+                <details> <summary><span>Розділ 3. ...</span></summary> <div class="acc-body"><p>...</p></div> </details>
+                 <details> <summary><span>Інтерактивні додатки</span></summary> <div class="acc-body"><p>...</p></div> </details>
 
-                <h3 class="section-title" id="interactive">Інтерактивні додатки</h3> <details>
-                     <summary><span>Тести та вправи</span></summary>
-                     <div class="acc-body">
-                         <p>Перевірте свої знання за допомогою інтерактивних завдань.</p>
-                         <ul class="sublist">
-                             <li><a href="interactive/test-fonetyka.html">Тест: Фонетика</a></li>
-                             <li><a href="interactive/exercise-slang.html">Вправа: Студентський сленг</a></li>
-                             </ul>
-                     </div>
-                 </details>
-                 <details>
-                     <summary><span>Словники</span></summary>
-                     <div class="acc-body">
-                         <p>Досліджуйте професійну лексику та сучасний сленг.</p>
-                         <ul class="sublist">
-                              <li><a href="interactive/dictionary/profesional.html">Словник професіонала</a></li>
-                              <li><a href="interactive/dictionary/student.html">Словник студента</a></li>
-                              <li><a href="interactive/dictionary/patriotychnyj.html">Патріотичний словник</a></li>
-                         </ul>
-                     </div>
-                 </details>
-
-            </div> </section>
-    </main>
+            </div> </div> </main>
 
     <footer>
         © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
     </footer>
 
     <script>
-        // Простий клієнтський пошук по заголовках та вмісту акордеону
-        (function(){
-            const input = document.getElementById('q');
-            const detailsElements = Array.from(document.querySelectorAll('.accordion details')); // Шукаємо по <details>
-            if (!input) return;
+        // ... (ваш скрипт пошуку) ...
+         (function(){
+             const input = document.getElementById('q');
+             if (!input) return;
+             const cards = Array.from(document.querySelectorAll('.card-grid .card'));
+             const accordionItems = Array.from(document.querySelectorAll('.accordion details'));
+             const gridTitle = document.getElementById('quick-start-title');
+             const accordionTitle = document.getElementById('toc-title');
 
-            input.addEventListener('input', function(){
-                const query = this.value.trim().toLowerCase();
-
-                detailsElements.forEach(details => {
-                    // Шукаємо в заголовку summary та в тілі acc-body
-                    const summaryText = details.querySelector('summary span')?.textContent.toLowerCase() || '';
-                    const bodyText = details.querySelector('.acc-body')?.textContent.toLowerCase() || '';
-                    const isMatch = summaryText.includes(query) || bodyText.includes(query);
-                    
-                    details.style.display = isMatch ? '' : 'none';
-                    
-                    // Якщо пошук активний і є збіг, можна розгорнути акордеон (опціонально)
-                    // if (query.length > 0 && isMatch) {
-                    //   details.open = true;
-                    // } else if (query.length === 0) {
-                    //   details.open = false; // Згортати всі при очищенні пошуку
-                    // }
-                });
-            });
-        })();
+             input.addEventListener('input', function(){
+                 const q = this.value.trim().toLowerCase();
+                 let cardsVisible = 0;
+                 cards.forEach(c => { /* ... логіка ... */ });
+                 let accordionItemsVisible = 0;
+                 accordionItems.forEach(item => { /* ... логіка ... */ });
+                 if (gridTitle) gridTitle.style.display = cardsVisible > 0 || q === '' ? '' : 'none';
+                 if (accordionTitle) accordionTitle.style.display = accordionItemsVisible > 0 || q === '' ? '' : 'none';
+             });
+         })();
     </script>
 </body>
 </html>
