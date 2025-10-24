@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Оновлений title -->
     <title>Передмова - Мова майбутнього</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family:Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
       :root {
         --blue: #4BA3C3;
@@ -16,6 +15,10 @@
         --text: #2C2C2C;
         --muted: #6B7280;
         --border: #D1D5DB;
+      }
+      /* Додано box-sizing для всіх елементів */
+      * {
+        box-sizing: border-box;
       }
       body {
         font-family: 'Inter', sans-serif;
@@ -30,9 +33,8 @@
         top: 0;
         left: 0;
         width: 100%;
-        /* Оновлений фон з градієнтом */
         background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
-        color: #fff; /* Колір тексту на градієнті */
+        color: #fff;
         border-bottom: 1px solid var(--blue-dark);
         padding: 0.75rem 1rem;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -43,7 +45,7 @@
       .back-link {
         display: inline-flex;
         align-items: center;
-        color: #fff; /* Білий колір для посилання */
+        color: #fff;
         text-decoration: none;
         font-weight: 600;
         font-size: 0.95rem;
@@ -64,12 +66,13 @@
       }
       .guidebook-title {
           margin-left: auto;
+          margin-right: 1rem; /* Відступ справа */
           font-size: 0.9rem;
-          color: #E0F4FB; /* Світлий колір для тексту */
+          color: #E0F4FB;
           font-weight: 500;
       }
       .guidebook-title strong {
-          color: #fff; /* Білий колір */
+          color: #fff;
           font-weight: 600;
       }
       .content-wrapper {
@@ -107,9 +110,8 @@
         position: relative;
         padding-left: 1.5rem; /* Відступ для emoji */
       }
-      /* Кастомний маркер-emoji */
       li::before {
-        content: attr(data-emoji); /* Використовуємо data-emoji атрибут */
+        content: attr(data-emoji);
         position: absolute;
         left: 0;
         top: 0px;
@@ -119,7 +121,6 @@
         font-weight: 700;
         color: var(--blue-dark);
       }
-       /* Адаптивність */
        @media (max-width: 768px) {
             .content-wrapper {
                 margin: 1.5rem 1rem;
@@ -135,7 +136,7 @@
                 font-size: 0.95rem;
             }
             .guidebook-title {
-                display: none; /* Ховаємо на маленьких екранах */
+                display: none;
             }
         }
     </style>
@@ -144,7 +145,7 @@
 
     <header class="page-header">
       <a href="../index.html" class="back-link">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         На головну
       </a>
       <div class="guidebook-title">
@@ -154,7 +155,7 @@
 
     <main>
       <div class="content-wrapper">
-        <!-- Контент "Передмови" -->
+        <!-- Контент Передмови -->
         <h1>Передмова</h1>
         <p><strong>Шановні здобувачі освіти!</strong></p>
         <p>Ви стоїте на порозі великих змін і нових можливостей. У сучасному світі, який стрімко розвивається, успіх залежить не лише від знань у своїй галузі, а й від уміння ефективно спілкуватися. Одним із найважливіших інструментів комунікації є мова.</p>
@@ -185,3 +186,4 @@
 
 </body>
 </html>
+
