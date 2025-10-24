@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Розділ 3. Комунікація</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #4BA3C3;
+      --blue-dark: #1E3A5F;
+      --gray-bg: #F5F7FA;
+      --text: #2C2C2C;
+      --muted: #6B7280;
+      --border: #D1D5DB;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--gray-bg);
+      color: var(--text);
+      line-height: 1.7;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-nav {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: opacity 0.2s ease;
+    }
+
+    .back-link:hover {
+      opacity: 0.85;
+    }
+
+    .back-link svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .guidebook-title {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-left: auto;
+      margin-right: 1rem;
+    }
+    
+    .guidebook-title strong {
+      font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+      .guidebook-title {
+        display: none;
+      }
+      .back-link {
+        margin-right: auto;
+      }
+    }
+
+    .main-content {
+      flex-grow: 1;
+      max-width: 900px;
+      width: 100%;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+
+    .content-wrapper {
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2rem 2.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    
+    @media (max-width: 640px) {
+      .content-wrapper {
+        padding: 1.5rem;
+      }
+    }
+
+    .content-wrapper h1 {
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem);
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-top: 0;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .content-wrapper h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--blue-dark);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--blue);
+      padding-bottom: 0.5rem;
+    }
+    
+    .content-wrapper p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+
+    .content-wrapper ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .content-wrapper li {
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    .content-wrapper strong {
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    /* Використовуємо той самий стиль кнопок, що й у Розділі 2 */
+    .interactive-links {
+      list-style-type: none;
+      padding-left: 0;
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    
+    .interactive-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background-color: #fff;
+      border: 1px solid var(--border);
+      padding: 0.9rem 1.2rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      color: var(--blue-dark);
+      font-weight: 600;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+    }
+    
+    .interactive-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+    
+    .interactive-link svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      color: var(--blue);
+    }
+    
+    .interactive-link .arrow-icon {
+      margin-left: auto;
+      color: var(--muted);
+      transition: color 0.2s ease;
+    }
+    
+    .interactive-link:hover .arrow-icon {
+      color: var(--blue);
+    }
+    
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      background: #fff;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <nav class="header-nav">
+      <a href="../index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        На головну
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+      
+      <h1>Розділ 3. Комунікація. Мистецтво мови для сучасних студентів</h1>
+      
+      <p>Сучасна комунікація — це більше, ніж просто обмін інформацією; це вміння доносити свої думки, висловлювати емоції, підтримувати інших та створювати власний образ. У сьогоднішньому глобалізованому світі мова стає одним із найважливіших інструментів для побудови взаєморозуміння та реалізації особистих і професійних цілей.</p>
+      <p>Цей розділ спрямований на формування навичок, які дозволять вам почуватися впевнено в спілкуванні як у реальному житті, так і в цифровому середовищі.</p>
+
+      <h2>Підрозділи</h2>
+      
+      <!-- Нове меню, що посилається на підсторінки -->
+      <ul class="interactive-links">
+        <li>
+          <a href="03-01-samoprezentatsiia.html" class="interactive-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            3.1. Мова і самопрезентація
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+          <a href="03-02-emotsiinyi-intelekt.html" class="interactive-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            3.2. Емоційний інтелект і мова
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+          <a href="03-03-tsyfrova-etyka.html" class="interactive-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            3.3. Цифрова етика й мовлення в інтернеті
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+          <a href="03-04-praktykum.html" class="interactive-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            3.4. Практикум розмовної мови
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </main>
+
+  <footer class="page-header">
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+</body>
+</html>
+
