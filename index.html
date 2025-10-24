@@ -1,72 +1,426 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Мова майбутнього — інтерактивний посібник</title>
-  <meta name="description" content="Інтерактивний посібник «Мова майбутнього»: сучасна українська мова, комунікація, культура мовлення, лексика, цікаві факти та навчальні додатки.">
-  <meta name="theme-color" content="#009846">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Інтерактивний посібник «Мова майбутнього»: сучасна українська мова для студентів. Розділи, інтерактивні додатки, відео та корисні матеріали." />
+  <meta name="theme-color" content="#1E3A5F" />
+  <meta property="og:title" content="Мова майбутнього — інтерактивний посібник" />
+  <meta property="og:description" content="Сучасна українська для сучасних студентів: модулі, вправи, словники, тести та відео." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --blue: #4BA3C3;      /* акцент з обкладинки */
+      --blue-dark: #1E3A5F; /* темний синій */
+      --sky: #70B7E6;       /* небесний */
+      --gray-bg: #F5F7FA;   /* світлий фон */
+      --text: #2C2C2C;
+      --muted: #6B7280;
+      --border: #D1D5DB;
+      --card-shadow: 0 10px 22px rgba(0,0,0,0.08);
+    }
+
+    html, body { height: 100%; }
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f9fafb;
-      color: #152731;
+      background-color: var(--gray-bg);
+      color: var(--text);
+      line-height: 1.7;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+
+    /* Шапка */
     header {
-      background-color: #009846;
-      color: white;
-      padding: 1.5rem 1rem;
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff;
       text-align: center;
+      padding: 2.25rem 1rem 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    header .wrap { max-width: 1100px; margin: 0 auto; }
+    header h1 {
+      font-size: clamp(1.5rem, 2.2vw + 1rem, 2.25rem);
+      font-weight: 700;
+      margin: 0 0 .35rem;
+    }
+    header p {
+      margin: 0;
+      font-size: 1rem;
+      color: #E0F4FB;
+    }
+
+    /* Пошук та навігація */
+    .toolbar {
+      max-width: 1100px;
+      margin: 1rem auto 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .75rem;
+      padding: 0 1rem 1.25rem;
+    }
+    .search {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: .75rem;
+      padding: .65rem .9rem;
+      display: flex;
+      gap: .6rem;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+    }
+    .search input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: .98rem;
+      background: transparent;
+      color: var(--text);
+    }
+    .quick-nav {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+    .chip {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--blue-dark);
+      border-radius: 999px;
+      padding: .5rem .8rem;
+      font-size: .88rem;
+      text-decoration: none;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .chip:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.06); }
+
+    /* Сітка карток */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.25rem 1rem 2.5rem;
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
     .card {
-      background: white;
+      background: #fff;
       border-radius: 1rem;
-      padding: 1.5rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      padding: 1.3rem 1.3rem 1.15rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      min-height: 160px;
     }
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+    .card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow); border-color: #cdd3da; }
+    .eyebrow { color: var(--blue-dark); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+    .card h2 { font-size: 1.12rem; color: var(--blue-dark); margin: 0; }
+    .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+    .pill { margin-top: auto; align-self: flex-start; background: var(--blue); color: #fff; border-radius: .6rem; padding: .35rem .6rem; font-size: .8rem; }
+
+    /* Розділювач секцій */
+    .section-title {
+      grid-column: 1 / -1;
+      margin-top: .75rem;
+      color: var(--blue-dark);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
     }
+    .section-title:before { content: ''; display: inline-block; width: 18px; height: 18px; border-radius: 4px; background: linear-gradient(135deg, var(--blue-dark), var(--blue)); }
+
+    /* Підвал */
+    footer {
+      text-align: center;
+      padding: 1.2rem;
+      font-size: .85rem;
+      color: var(--muted);
+      background: #fff;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Дрібні покращення */
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   </style>
 </head>
 <body>
-
   <header>
-    <h1 class="text-2xl font-bold">Мова майбутнього</h1>
-    <p class="text-sm mt-1 text-yellow-200">Інтерактивний посібник для студентів коледжу</p>
+    <div class="wrap">
+      <h1>Мова майбутнього</h1>
+      <p>Сучасна українська для сучасних студентів — розділи, вправи, відео та інтерактиви</p>
+    </div>
+    <div class="toolbar" role="search">
+      <label class="search" aria-label="Пошук по сайту">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-4.35-4.35m1.1-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" stroke="#E0F4FB" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="q" type="search" placeholder="Пошук розділів і додатків…" autocomplete="off" />
+      </label>
+      <nav class="quick-nav" aria-label="Швидка навігація">
+        <a class="chip" href="#rozdily">Розділи</a>
+        <a class="chip" href="#interactive">Інтерактивні додатки</a>
+        <a class="chip" href="#video">Відео</a>
+        <a class="chip" href="#about">Про посібник</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 py-10 grid gap-6 md:grid-cols-2">
-    <a href="modules.html" class="card block">
-      <h2 class="text-xl font-semibold text-[#009846]">Розділи посібника</h2>
-      <p class="text-gray-600 mt-2">Ознайомтеся з тематичними модулями, що охоплюють комунікацію, культуру мовлення, фахову лексику та інші напрями сучасної української.</p>
+  <main id="content">
+    <!-- РОЗДІЛИ ПОСІБНИКА -->
+    <div id="rozdily" class="section-title">Розділи посібника</div>
+
+    <a class="card" href="sections/peredmova.html">
+      <span class="eyebrow">Вступ</span>
+      <h2>Передмова</h2>
+      <p>Навіщо посібник створено, як ним користуватися та чого ви навчитеся.</p>
+      <span class="pill">читати</span>
     </a>
 
-    <a href="interactive/" class="card block">
-      <h2 class="text-xl font-semibold text-[#009846]">Інтерактивні додатки</h2>
-      <p class="text-gray-600 mt-2">Вправи, словники, квести та тести для практики й закріплення матеріалу.</p>
+    <a class="card" href="sections/01-podorozh-svitom-movy.html">
+      <span class="eyebrow">Розділ 1</span>
+      <h2>Подорож світом сучасної української мови</h2>
+      <p>Мета й завдання, актуальність, особливості та цільова аудиторія.</p>
+      <span class="pill">читати</span>
     </a>
 
-    <a href="videos.html" class="card block">
-      <h2 class="text-xl font-semibold text-[#009846]">Відеоматеріали</h2>
-      <p class="text-gray-600 mt-2">Добірка відео з YouTube-каналу <strong>МоваЛайф</strong> для доповнення тем посібника.</p>
+    <a class="card" href="sections/02-interactive.html">
+      <span class="eyebrow">Розділ 2</span>
+      <h2>Навчайся по-новому. Інтерактивна частина</h2>
+      <p>Як користуватися інтерактивами, послідовність дій, тести й форми зворотного зв’язку.</p>
+      <span class="pill">читати</span>
     </a>
 
-    <a href="about.html" class="card block">
-      <h2 class="text-xl font-semibold text-[#009846]">Про посібник</h2>
-      <p class="text-gray-600 mt-2">Ідея, команда укладачів, структура та призначення електронного ресурсу.</p>
+    <!-- Теми розділу 2 як окремі підсторінки -->
+    <a class="card" href="sections/02-01-fonetyka.html">
+      <span class="eyebrow">Тема 1</span>
+      <h2>Фонетика</h2>
+      <p>Звукова система мови, наголос, інтонація, орфоепія та практикум.</p>
+      <span class="pill">тема</span>
+    </a>
+
+    <a class="card" href="sections/02-02-cherhuvannia-u-v-i-y.html">
+      <span class="eyebrow">Тема 2</span>
+      <h2>Чергування у–в, і–й</h2>
+      <p>Милозвучність і правила добору варіантів у контексті.</p>
+      <span class="pill">тема</span>
+    </a>
+
+    <a class="card" href="sections/02-03-myakyj-znak-apostrof.html">
+      <span class="eyebrow">Тема 3</span>
+      <h2>Правопис м’якого знака та апострофа</h2>
+      <p>Функції, випадки вживання, типові помилки та вправи.</p>
+      <span class="pill">тема</span>
+    </a>
+
+    <a class="card" href="sections/02-04-prefiksy-sufiksy.html">
+      <span class="eyebrow">Тема 4</span>
+      <h2>Правопис префіксів та суфіксів</h2>
+      <p>Морфеміка, словотвірні моделі та правописні норми.</p>
+      <span class="pill">тема</span>
+    </a>
+
+    <a class="card" href="sections/02-05-velyka-litera.html">
+      <span class="eyebrow">Тема 5</span>
+      <h2>Вживання великої літери</h2>
+      <p>Власні назви, звертання, абревіатури, свята, культурні об’єкти.</p>
+      <span class="pill">тема</span>
+    </a>
+
+    <a class="card" href="sections/02-06-sproshchennia-pryholosnyh.html">
+      <span class="eyebrow">Тема 6</span>
+      <h2>Спрощення в групах приголосних</h2>
+      <p>Коли спрощення відбувається у вимові/на письмі і як уникати помилок.</p>
+      <span class="pill">тема</span>
+    </a>
+
+    <a class="card" href="sections/02-07-leksykolohiia.html">
+      <span class="eyebrow">Тема 7</span>
+      <h2>Лексикологія</h2>
+      <p>Омоніми, синоніми, антоніми, стилістичні шари та практикум.</p>
+      <span class="pill">тема</span>
+    </a>
+
+    <a class="card" href="sections/02-08-leksychni-pomylky.html">
+      <span class="eyebrow">Тема 8</span>
+      <h2>Лексичні помилки</h2>
+      <p>Типи помилок, причини, способи виявлення й виправлення.</p>
+      <span class="pill">тема</span>
+    </a>
+
+    <a class="card" href="sections/02-09-frazeolohizmy.html">
+      <span class="eyebrow">Тема 9</span>
+      <h2>Фразеологізми</h2>
+      <p>Сталі звороти, значення, доречність і виразність мовлення.</p>
+      <span class="pill">тема</span>
+    </a>
+
+    <a class="card" href="sections/02-10-budova-slova.html">
+      <span class="eyebrow">Тема 10</span>
+      <h2>Будова слова. Словотвір</h2>
+      <p>Корінь, префікс, суфікс, закінчення та способи словотвору.</p>
+      <span class="pill">тема</span>
+    </a>
+
+    <a class="card" href="sections/03-komunikatsiya.html">
+      <span class="eyebrow">Розділ 3</span>
+      <h2>Комунікація. Мистецтво мови</h2>
+      <p>Самопрезентація, емоційний інтелект, цифрова етика, практикум.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <a class="card" href="sections/04-kultura-movlennia.html">
+      <span class="eyebrow">Розділ 4</span>
+      <h2>Культура мовлення</h2>
+      <p>Етикет, вимова, інтонація, лексична доречність і норми.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <a class="card" href="sections/05-leksyka-profesionala.html">
+      <span class="eyebrow">Розділ 5</span>
+      <h2>Лексика професіонала</h2>
+      <p>Як говорити мовою своєї галузі: приклади, шаблони, кейси.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <a class="card" href="sections/06-slovnychok-10-spec.html">
+      <span class="eyebrow">Розділ 6</span>
+      <h2>Словничок професіонала: 10 спеціальностей</h2>
+      <p>Ключові терміни та фрази, адаптовані під популярні спеціальності.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <a class="card" href="sections/07-novi-movni-tendenciyi.html">
+      <span class="eyebrow">Розділ 7</span>
+      <h2>Нові мовні тенденції та сленг</h2>
+      <p>Актуальні форми, скорочення, цифрові терміни та їх вплив.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <a class="card" href="sections/08-slovnyk-suchasnoho-studenta.html">
+      <span class="eyebrow">Розділ 8</span>
+      <h2>Словник сучасного студента</h2>
+      <p>Мовний портрет молодого покоління й приклади вживання.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <a class="card" href="sections/09-mova-yednosti.html">
+      <span class="eyebrow">Розділ 9</span>
+      <h2>Мова єдності</h2>
+      <p>Сучасний український сленг як соціальний клей і культурний код.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <a class="card" href="sections/10-dokumenty-dlya-roboty.html">
+      <span class="eyebrow">Розділ 10</span>
+      <h2>Документи для роботи мрії</h2>
+      <p>Резюме, автобіографія, заява: структура, зразки, поради.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <a class="card" href="sections/11-fakty-pro-ukrainsku.html">
+      <span class="eyebrow">Розділ 11</span>
+      <h2>За лаштунками мови</h2>
+      <p>Несподівані факти про українську: історія, унікальності, цікавинki.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <a class="card" href="sections/vysnovky.html">
+      <span class="eyebrow">Фініш</span>
+      <h2>Висновки та мотивація</h2>
+      <p>План подальшого розвитку та самостійної роботи.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <a class="card" href="sections/dzherela.html">
+      <span class="eyebrow">Довідка</span>
+      <h2>Перелік використаних джерел</h2>
+      <p>Рекомендована література, словники, онлайн-ресурси.</p>
+      <span class="pill">читати</span>
+    </a>
+
+    <!-- ІНТЕРАКТИВНІ ДОДАТКИ -->
+    <div id="interactive" class="section-title">Інтерактивні додатки</div>
+
+    <a class="card" href="interactive/">
+      <span class="eyebrow">Портал</span>
+      <h2>Інтерактиви: головна</h2>
+      <p>Словники з пошуком, вправи з перевіркою, квести та тести у Google Формах.</p>
+      <span class="pill">відкрити</span>
+    </a>
+
+    <a class="card" href="interactive/dictionary/">
+      <span class="eyebrow">Словники</span>
+      <h2>Довідник термінів</h2>
+      <p>Алфавітний і тематичний перегляд, приклади вживання, аудіо (за наявності).</p>
+      <span class="pill">відкрити</span>
+    </a>
+
+    <a class="card" href="interactive/exercises/">
+      <span class="eyebrow">Вправи</span>
+      <h2>Практичні завдання</h2>
+      <p>Автоперевірка, підказки, рівні складності, підсумкові тести.</p>
+      <span class="pill">відкрити</span>
+    </a>
+
+    <a class="card" href="interactive/quests/">
+      <span class="eyebrow">Квести</span>
+      <h2>Ігрові сценарії</h2>
+      <p>Короткі сюжетні завдання з QR-кодами, таймером і прогресом.</p>
+      <span class="pill">відкрити</span>
+    </a>
+
+    <!-- ВІДЕО ТА ПРО ПОСІБНИК -->
+    <div id="video" class="section-title">Відеоматеріали</div>
+
+    <a class="card" href="videos.html">
+      <span class="eyebrow">YouTube</span>
+      <h2>МоваЛайф — добірка відео</h2>
+      <p>Пояснення складних моментів у динамічному форматі, приклади та розбори.</p>
+      <span class="pill">дивитися</span>
+    </a>
+
+    <div id="about" class="section-title">Про посібник</div>
+
+    <a class="card" href="about.html">
+      <span class="eyebrow">Ідея та команда</span>
+      <h2>Проєкт «Мова майбутнього»</h2>
+      <p>Мета, структура, укладачі, рецензент, рекомендації циклової комісії.</p>
+      <span class="pill">читати</span>
     </a>
   </main>
 
-  <footer class="text-center text-sm text-gray-500 py-6">
-    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ» · Проєкт <strong>Мова майбутнього</strong>
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
   </footer>
 
+  <script>
+    // Простий клієнтський пошук по заголовках карток
+    (function(){
+      const input = document.getElementById('q');
+      const cards = Array.from(document.querySelectorAll('.card'));
+      if (!input) return;
+      input.addEventListener('input', function(){
+        const q = this.value.trim().toLowerCase();
+        cards.forEach(c => {
+          const t = (c.querySelector('h2')?.textContent + ' ' + c.querySelector('p')?.textContent).toLowerCase();
+          c.style.display = t.includes(q) ? '' : 'none';
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
