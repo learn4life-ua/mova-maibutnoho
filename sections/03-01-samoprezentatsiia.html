@@ -6,7 +6,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <!-- Новий Title -->
   <title>3.1. Мова і самопрезентація</title>
   <style>
     /* Всі стилі з шаблону скопійовано */
@@ -77,6 +76,8 @@
     .content-wrapper ul { padding-left: 1.5rem; margin-bottom: 1rem; }
     .content-wrapper li { margin-bottom: 0.5rem; font-size: 1.05rem; }
     .content-wrapper strong { font-weight: 600; color: var(--text); }
+    
+    /* СТИЛІ ДЛЯ ПІДВАЛУ */
     footer {
       text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
       color: var(--muted); background: #fff; border-top: 1px solid var(--border);
@@ -88,13 +89,13 @@
 
   <header class="page-header">
     <nav class="header-nav">
-      <!-- Посилання "На головну" тепер веде на ../index.html, а можна додати посилання на "Розділ 3" -->
-      <a href="../index.html" class="back-link">
+      <!-- ВИПРАВЛЕНО: Посилання "Назад" тепер веде на меню Розділу 3 -->
+      <a href="03-komunikatsiia.html" class="back-link">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M19 12H5"></path>
           <path d="M12 19l-7-7 7-7"></path>
         </svg>
-        На головну
+        Назад до Розділу 3
       </a>
       <div class="guidebook-title">
         Посібник: <strong>Мова майбутнього</strong>
@@ -156,9 +157,11 @@
     </div>
   </main>
 
-  <footer class="page-header">
+  <!-- ВИПРАВЛЕНО: прибрано клас page-header -->
+  <footer>
     © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
   </footer>
 
 </body>
 </html>
+
