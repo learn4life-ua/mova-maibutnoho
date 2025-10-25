@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Перелік використаних та рекомендованих джерел</title>
+  <style>
+    /* ... (всі стилі з шаблону) ... */
+    * {
+      box-sizing: border-box;
+    }
+    :root {
+      --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
+      --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
+      color: var(--text); line-height: 1.7; margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-nav {
+      max-width: 900px; margin: 0 auto; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #fff; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; transition: opacity 0.2s ease;
+    }
+    .back-link:hover { opacity: 0.85; }
+    .back-link svg { width: 20px; height: 20px; }
+    .guidebook-title {
+      font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem;
+    }
+    .guidebook-title strong { font-weight: 600; }
+    @media (max-width: 640px) {
+      .guidebook-title { display: none; }
+      .back-link { margin-right: auto; }
+    }
+    .main-content {
+      flex-grow: 1; max-width: 900px; width: 100%;
+      margin: 1.5rem auto; padding: 0 1rem;
+    }
+    .content-wrapper {
+      background: #fff; border-radius: 1rem; padding: 2rem 2.5rem;
+      border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 640px) {
+      .content-wrapper { padding: 1.5rem; }
+    }
+    .content-wrapper h1 {
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
+      color: var(--blue-dark); margin-top: 0; margin-bottom: 1.5rem; line-height: 1.3;
+    }
+    .content-wrapper h2 {
+        font-size: 1.5rem; font-weight: 600; color: var(--blue-dark);
+        margin-top: 2rem; margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+    .content-wrapper p { /* Стиль для посилань */
+      margin-top: 0; margin-bottom: 1rem; font-size: 1.05rem;
+    }
+     .content-wrapper a { /* Стиль для посилань */
+        color: var(--blue);
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+     .content-wrapper a:hover {
+        color: var(--blue-dark);
+        text-decoration: underline;
+    }
+    .content-wrapper ul { padding-left: 1.5rem; margin-bottom: 1rem; list-style: disc; }
+    .content-wrapper li { margin-bottom: 0.5rem; font-size: 1.05rem; }
+    .content-wrapper strong { font-weight: 600; color: var(--text); }
+
+    footer {
+      text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
+      color: var(--muted); background: #fff; border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <nav class="header-nav">
+      <!-- Посилання "Назад на Головну" -->
+      <a href="../index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        На головну
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+
+      <h1>Перелік використаних та рекомендованих джерел</h1>
+
+      <h2>Основна література</h2>
+      <ul>
+        <li>Авраменко О. Українська мова (рівень стандарту): підручник для 10 кл. закладів загальної середньої освіти. – Київ: Грамота, 2018. – 240 с.</li>
+        <li>Авраменко О. Українська мова (рівень стандарту): підручник для 11 кл. закладів загальної середньої освіти. – Київ: Грамота, 2019. – 256 с.</li>
+        <li>Ющук І.П. Українська мова (рівень стандарту): підручник для 10 кл. закладів загальної середньої освіти. – Тернопіль: Навчальна книга – Богдан, 2018. – 272 с.</li>
+      </ul>
+
+      <h2>Додаткова література</h2>
+      <ul>
+        <li>Голуб Н.Б., Новосьолова В.І. Українська мова (рівень стандарту): підручник для 10 класу закладів загальної середньої освіти. – Київ: Педагогічна думка, 2018. – 224 с.</li>
+        <li>Зубков М. Норми й культура української мови. – Харків: Школа, 2023. – 320 с.</li>
+      </ul>
+
+      <h2>Інформаційні ресурси</h2>
+      <ul>
+        <li>Словник української мови онлайн [Електронний ресурс]. – Режим доступу: <a href="https://slovnyk.ua" target="_blank" rel="noopener noreferrer">https://slovnyk.ua</a> (дата звернення: 17.06.2024).</li>
+        <li>Словотвір – Майданчик для української термінології [Електронний ресурс]. – Режим доступу: <a href="https://slovotvir.org.ua/" target="_blank" rel="noopener noreferrer">https://slovotvir.org.ua/</a> (дата звернення: 17.06.2024).</li>
+      </ul>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+</body>
+</html>
