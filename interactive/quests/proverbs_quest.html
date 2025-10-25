@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="uk" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Квест «Збери мудрість» — Мова майбутнього</title>
+  <meta name="description" content="Пазл із прислів’їв і фразеологізмів: складай розсипані слова у правильному порядку й дізнавайся пояснення." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* VARIABLES (Збережено для сумісності) */
+    :root{--blue:#2563eb;--blue-dark:#1E3A5F;--gray-bg:#F5F7FA;--text:#1f2937;--ok:#16a34a;--warn:#ef4444}
+    html,body{height:100%}
+    body{font-family:Inter,system-ui,Arial,sans-serif;background:var(--gray-bg);color:var(--text)}
+    
+    /* CORE COMPONENTS */
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:1rem;box-shadow:0 10px 22px rgba(0,0,0,.08)}
+    .chip{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .7rem;border-radius:999px;border:1px solid #e5e7eb;background:#fff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.8rem 1.1rem;border-radius:.9rem;border:1px solid transparent;font-weight:600;letter-spacing:.01em;transition:transform .12s,box-shadow .12s,filter .12s}
+    .btn:focus{outline:2px solid transparent;outline-offset:2px;box-shadow:0 0 0 3px rgba(37,99,235,.35)}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--blue);color:#fff;box-shadow:0 6px 16px rgba(37,99,235,.25)}
+    .btn-primary:hover{filter:brightness(1.05)}
+    .btn-dark{background:#0f172a;color:#fff;box-shadow:0 6px 16px rgba(15,23,42,.3)}
+    .btn-dark:hover{filter:brightness(1.05)}
+    .btn:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+    
+    /* GAME TOKENS */
+    .token{user-select:none;cursor:pointer;border-radius:.7rem;border:1px solid #e5e7eb;background:#f9fafb;padding:.45rem .7rem;transition:.12s}
+    .token:hover{transform:translateY(-1px); background-color: #f3f4f6;}
+    .token.lock{background:#e5f7ef;border-color:#cceadf;cursor:default}
+    .token.bad{background:#fff1f2;border-color:#fecaca; animation: shake 0.3s;}
+    .token.first{background:#dbeafe;border-color:#60a5fa;font-weight:600}
+
+    /* Анімація хитання для неправильної відповіді */
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-5px); }
+      40% { transform: translateX(5px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+  
+  <!-- ХЕДЕР З ФЛЕШ-КАРТОК -->
+  <header class="bg-gradient-to-r from-[#1E3A5F] to-[#4BA3C3] text-white p-4 shadow-xl sticky top-0 z-50">
+    <nav class="max-w-4xl mx-auto flex justify-between items-center">
+      <!-- Кнопка "На головну" з іконкою SVG -->
+      <a href="https://learn4life-ua.github.io/mova-maibutnoho" class="inline-flex items-center gap-2 text-white no-underline font-semibold text-sm sm:text-base hover:opacity-85 transition-opacity">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        На головну
+      </a>
+      <!-- Заголовок посібника -->
+      <div class="text-xs sm:text-sm opacity-80 hidden sm:block">
+        Посібник: <strong class="text-white">Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-8 flex-grow">
+    <!-- Заголовок квесту перенесено в основний контейнер для візуального ефекту -->
+    <h1 class="text-[clamp(1.8rem,3vw+1rem,2.5rem)] font-extrabold text-[#1E3A5F] mb-4 tracking-tight text-center">
+        Квест «Збери мудрість»
+    </h1>
+    <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-6 text-center">
+        Склади розсипані слова у правильному порядку. Після розв’язання — коротке пояснення.
+    </p>
+
+    <section class="card p-4 md:p-6 mb-6">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="chip"><b>Рівень:</b> <span id="levelChip">0 / 10</span></span>
+          <span class="chip"><b>Спроби:</b> <span id="triesChip">0</span></span>
+          <span class="chip"><b>Очки:</b> <span id="scoreChip">0</span></span>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="shuffleBtn" class="btn bg-gray-200 hover:bg-gray-300 text-gray-800" title="Перемішати слова">🔀 Перемішати</button>
+          <button id="hintBtn" class="btn bg-yellow-400 hover:bg-yellow-500 text-gray-800" title="Підказка (після 2 помилок)" disabled>💡 Підказка</button>
+          <button id="restartBtn" class="btn bg-red-500 hover:bg-red-600 text-white" title="Почати спочатку">⟲ Почати заново</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card p-4 md:p-6" id="taskArea" aria-live="polite">
+      <h2 class="text-xl font-semibold text-gray-700">Збери вислів</h2>
+      <div class="mt-4">
+        <p class="text-sm text-gray-500 mb-2">Натисни на слова, щоб зібрати вислів:</p>
+        <div id="pool" class="flex flex-wrap gap-2 min-h-[50px] p-2 bg-gray-50 rounded-lg border border-gray-200"></div>
+      </div>
+
+      <div class="mt-4">
+        <p class="text-sm text-gray-500 mb-2">Зібраний вислів:</p>
+        <div id="assembled" class="flex flex-wrap gap-2 p-3 rounded-lg bg-white border-2 border-dashed border-blue-300 min-h-[56px]"></div>
+      </div>
+
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        <button id="checkBtn" class="btn btn-primary">✔ Перевірити</button>
+        <button id="nextBtn" class="btn btn-dark" disabled>→ Далі</button>
+      </div>
+
+      <div id="feedback" class="mt-3 hidden p-3 rounded-lg text-sm transition-all duration-300"></div>
+      <div id="explain" class="mt-3 hidden p-3 rounded-lg bg-blue-50 border border-blue-200 text-blue-900 text-sm"></div>
+    </section>
+  </main>
+
+  <!-- ФУТЕР З ФЛЕШ-КАРТОК -->
+  <footer class="text-center p-6 mt-auto text-xs text-gray-500 bg-white border-t border-gray-200">
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+  <script>
+    const LEVELS = [
+      { text:'Велика риба малу ковтає', explain:'Про несправедливість, коли сильні пригнічують слабших.' },
+      { text:'Сім раз відміряй один раз відріж', explain:'Перш ніж діяти, добре все обдумай, щоб уникнути помилок.' },
+      { text:'На городі бузина а в Києві дядько', explain:'Про недоречні, не пов’язані між собою речі або розмову ні про що.' },
+      { text:'Язик до Києва доведе', explain:'Якщо питати дорогу, то можна дістатися куди завгодно. Про необхідність спілкування.' },
+      { text:'Не кажи гоп поки не перескочиш', explain:'Не варто хвалитися успіхом до того, як він стався.' },
+      { text:'Під лежачий камінь вода не тече', explain:'Успіх приходить до того, хто діє, а не сидить склавши руки.' },
+      { text:'Без труда нема плода', explain:'Нічого не дається легко, для результату потрібні зусилля.' },
+      { text:'Слово не горобець вилетить не спіймаєш', explain:'Про важливість обдумувати свої слова, бо сказане не можна повернути.' },
+      { text:'Куй залізо поки гаряче', explain:'Треба діяти одразу, використовуючи сприятливий момент.' },
+      { text:'Правда як олія завжди нагору спливе', explain:'Про те, що приховувати правду марно, вона завжди розкриється.' }
+    ];
+
+    let currentLevelIndex = 0;
+    let score = 0;
+    let tries = 0;
+    let canCheck = true; // Запобігає подвійному натисканню перевірки
+    let hintUsed = false;
+
+    const levelChip = document.getElementById('levelChip');
+    const triesChip = document.getElementById('triesChip');
+    const scoreChip = document.getElementById('scoreChip');
+    const poolEl = document.getElementById('pool');
+    const asmEl = document.getElementById('assembled');
+    const checkBtn = document.getElementById('checkBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+    const hintBtn = document.getElementById('hintBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const feedbackEl = document.getElementById('feedback');
+    const explainEl = document.getElementById('explain');
+
+    const HINT_AFTER_TRIES = 2; // Кількість спроб для активації підказки
+
+    // --- Утиліти ---
+    function tokenise(s){ return s.split(/\s+/).filter(Boolean); }
+    function shuffle(a){ for(let j=a.length-1;j>0;j--){ const k=Math.floor(Math.random()*(j+1)); [a[j],a[k]]=[a[k],a[j]]; } return a; }
+    
+    // --- Оновлення UI ---
+    function updateStats() {
+      levelChip.textContent = `${currentLevelIndex + 1} / ${LEVELS.length}`;
+      triesChip.textContent = tries;
+      scoreChip.textContent = score;
+
+      // Логіка активації підказки
+      if (tries >= HINT_AFTER_TRIES) {
+        hintBtn.disabled = false;
+        hintBtn.classList.remove('bg-gray-400', 'text-gray-500');
+        hintBtn.classList.add('bg-yellow-400', 'hover:bg-yellow-500', 'text-gray-800');
+      } else {
+        hintBtn.disabled = true;
+        hintBtn.classList.add('bg-gray-400', 'text-gray-500');
+        hintBtn.classList.remove('bg-yellow-400', 'hover:bg-yellow-500', 'text-gray-800');
+      }
+    }
+
+    function makeChip(word) {
+      const d = document.createElement('button');
+      d.className = 'token';
+      d.textContent = word;
+      d.dataset.word = word; // Зберігаємо слово у дата-атрибуті
+
+      // Додаємо клас для першого слова (якщо воно починається з великої літери)
+      if (/^[А-ЯЇІЄ]/.test(word)) {
+        d.classList.add('first');
+      }
+
+      // Переміщення слова між pool та assembled
+      d.onclick = () => { 
+        if (!canCheck) return; // Блокуємо, якщо відповідь вже перевірена
+        
+        // Очищаємо всі класи помилок при кліку
+        Array.from(asmEl.children).forEach(token => token.classList.remove('bad'));
+
+        if (d.parentElement === poolEl) {
+          asmEl.appendChild(d);
+        } else {
+          // Щоб повернути слово на правильне місце в pool, 
+          // тимчасово переміщуємо його в пам'ять і знаходимо правильне місце
+          // (Сортуємо лексикографічно для повернення)
+          const sibling = Array.from(poolEl.children).find(
+            (el) => el.textContent.localeCompare(d.textContent) > 0
+          );
+          if (sibling) {
+            poolEl.insertBefore(d, sibling);
+          } else {
+            poolEl.appendChild(d);
+          }
+        }
+        checkBtn.disabled = asmEl.children.length === 0; // Блокуємо кнопку, якщо поле порожнє
+      };
+      return d;
+    }
+
+    // --- Логіка гри ---
+    function drawLevel() {
+      if (currentLevelIndex >= LEVELS.length) {
+        showFinalScore();
+        return;
+      }
+      
+      canCheck = true;
+      hintUsed = false;
+      const { text } = LEVELS[currentLevelIndex];
+      const words = tokenise(text);
+      const mixed = shuffle([...words]);
+      
+      poolEl.innerHTML = '';
+      asmEl.innerHTML = '';
+      feedbackEl.classList.add('hidden');
+      explainEl.classList.add('hidden');
+      nextBtn.disabled = true;
+      checkBtn.disabled = true;
+      
+      // Створюємо фішки
+      mixed.forEach(w => poolEl.appendChild(makeChip(w)));
+
+      updateStats();
+    }
+
+    function checkAnswer() {
+      if (!canCheck) return;
+      
+      const userWords = Array.from(asmEl.children).map(c => c.textContent);
+      const correctWords = tokenise(LEVELS[currentLevelIndex].text);
+      const userSentence = userWords.join(' ');
+      const correctSentence = correctWords.join(' ');
+
+      // Скидання класів помилок
+      Array.from(asmEl.children).forEach(token => token.classList.remove('bad'));
+
+      if (userSentence.trim() === correctSentence.trim()) {
+        // --- Правильна відповідь ---
+        canCheck = false;
+        
+        // Фіксуємо слова, додаючи клас lock
+        Array.from(asmEl.children).forEach(token => {
+          token.classList.add('lock');
+          token.classList.remove('bad');
+          token.onclick = null; // Вимикаємо клік
+        });
+
+        // Відображення відгуку
+        feedbackEl.innerHTML = `✅ **Супер!** Ви склали вислів правильно. (+${hintUsed ? 5 : 10} очок)`;
+        feedbackEl.classList.remove('hidden', 'bg-red-50', 'text-red-900', 'border-red-200');
+        feedbackEl.classList.add('bg-green-50', 'text-green-900', 'border', 'border-green-200', 'block');
+        
+        // Відображення пояснення
+        explainEl.innerHTML = `**Пояснення:** ${LEVELS[currentLevelIndex].explain}`;
+        explainEl.classList.remove('hidden');
+
+        // Оновлення рахунку
+        score += hintUsed ? 5 : 10;
+        tries = 0; // Скидаємо спроби
+        updateStats();
+
+        nextBtn.disabled = false;
+        checkBtn.disabled = true;
+
+      } else {
+        // --- Неправильна відповідь ---
+        tries++;
+        updateStats();
+
+        // Відображення відгуку про помилку
+        feedbackEl.innerHTML = `❌ **Помилка!** Спробуйте ще раз або використайте підказку.`;
+        feedbackEl.classList.remove('hidden', 'bg-green-50', 'text-green-900', 'border-green-200');
+        feedbackEl.classList.add('bg-red-50', 'text-red-900', 'border', 'border-red-200', 'block');
+        explainEl.classList.add('hidden');
+
+        // Підсвічуємо неправильні слова червоним
+        Array.from(asmEl.children).forEach((token, index) => {
+          if (token.textContent !== correctWords[index]) {
+            token.classList.add('bad');
+          }
+        });
+
+        // Якщо 5 спроб — показуємо правильну відповідь
+        if (tries >= 5) {
+            showCorrectAnswer();
+        }
+      }
+    }
+
+    function showCorrectAnswer() {
+        canCheck = false;
+        const correctSentence = LEVELS[currentLevelIndex].text;
+
+        feedbackEl.innerHTML = `💡 **Відповідь:** Правильний вислів: *${correctSentence}* (Очки не зараховано).`;
+        feedbackEl.classList.remove('bg-red-50', 'text-red-900', 'border-red-200');
+        feedbackEl.classList.add('bg-yellow-100', 'text-yellow-900', 'border-yellow-300');
+
+        explainEl.innerHTML = `**Пояснення:** ${LEVELS[currentLevelIndex].explain}`;
+        explainEl.classList.remove('hidden');
+
+        // Блокуємо робочу область і кнопки перевірки/підказки
+        asmEl.innerHTML = ''; // Очищаємо зібране поле
+        poolEl.innerHTML = ''; // Очищаємо пул
+        nextBtn.disabled = false;
+        checkBtn.disabled = true;
+        hintBtn.disabled = true;
+    }
+    
+    function useHint() {
+        if (hintUsed || tries < HINT_AFTER_TRIES) return;
+        
+        hintUsed = true;
+        score -= 2; // Штраф за підказку
+        updateStats();
+
+        const correctWords = tokenise(LEVELS[currentLevelIndex].text);
+        const currentWords = Array.from(asmEl.children).map(c => c.textContent);
+        
+        // Знаходимо перше слово, яке стоїть неправильно
+        let incorrectToken = null;
+        let correctNextWord = null;
+
+        if (asmEl.children.length === 0) {
+            // Якщо поле порожнє, показуємо перше слово
+            correctNextWord = correctWords[0];
+        } else {
+            // Шукаємо перше неправильне слово, яке стоїть на своєму місці
+            for (let i = 0; i < currentWords.length; i++) {
+                if (currentWords[i] !== correctWords[i]) {
+                    incorrectToken = asmEl.children[i];
+                    correctNextWord = correctWords[i]; // Це слово, яке має бути на цій позиції
+                    break;
+                }
+            }
+            // Якщо всі зібрані слова правильні, показуємо наступне слово
+            if (!incorrectToken && currentWords.length < correctWords.length) {
+                correctNextWord = correctWords[currentWords.length];
+            }
+        }
+        
+        if (correctNextWord) {
+            feedbackEl.innerHTML = `💡 **Підказка:** Наступне (або перше) слово — це **${correctNextWord}**. (Штраф: -2 очки)`;
+            feedbackEl.classList.remove('hidden', 'bg-red-50', 'text-red-900', 'border-red-200');
+            feedbackEl.classList.add('bg-yellow-100', 'text-yellow-900', 'border', 'border-yellow-300', 'block');
+        } else if (asmEl.children.length === correctWords.length) {
+             feedbackEl.innerHTML = `💡 **Підказка:** Ви зібрали всі слова. Натисніть 'Перевірити'!`;
+             feedbackEl.classList.add('bg-yellow-100', 'text-yellow-900', 'border-yellow-300', 'block');
+        }
+
+        hintBtn.disabled = true; // Вимикаємо підказку до наступного рівня
+    }
+
+    function nextLevel() {
+      currentLevelIndex++;
+      if (currentLevelIndex < LEVELS.length) {
+        drawLevel();
+      } else {
+        showFinalScore();
+      }
+    }
+    
+    function showFinalScore() {
+        // Блокуємо ігрову область
+        poolEl.innerHTML = '';
+        asmEl.innerHTML = '';
+        checkBtn.disabled = true;
+        nextBtn.disabled = true;
+        shuffleBtn.disabled = true;
+        hintBtn.disabled = true;
+
+        // Показ фінального результату
+        feedbackEl.classList.remove('hidden', 'bg-red-50', 'text-red-900', 'border-red-200');
+        feedbackEl.classList.add('bg-blue-100', 'text-blue-900', 'border-blue-300', 'block');
+        feedbackEl.innerHTML = `🎉 **Квест завершено!** Ви набрали **${score}** очок. Натисніть 'Почати заново', щоб спробувати ще раз!`;
+
+        explainEl.classList.add('hidden');
+        levelChip.textContent = `10 / 10 (ФІНАЛ)`;
+    }
+
+    function restartGame() {
+        currentLevelIndex = 0;
+        score = 0;
+        tries = 0;
+        shuffleBtn.disabled = false;
+        restartBtn.disabled = false; // Переконатися, що кнопка перезапуску активна
+        drawLevel();
+    }
+
+    // --- Обробники подій ---
+    checkBtn.onclick = checkAnswer;
+    nextBtn.onclick = nextLevel;
+    shuffleBtn.onclick = drawLevel; // Перезапускаємо поточний рівень
+    hintBtn.onclick = useHint;
+    restartBtn.onclick = restartGame;
+
+
+    // Ініціалізація
+    drawLevel();
+  </script>
+</body>
+</html>
