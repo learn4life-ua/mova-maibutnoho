@@ -4,47 +4,47 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Флеш-картки: Патріотичний Сленг | Мова майбутнього</title>
-    <!-- Підключення Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Підключення шрифту Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <!-- Підключення Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Підключення шрифту Inter --><link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     
     <style>
-        /* --- Стилі для флеш-карток --- */
+        /* Налаштування шрифту */
         body {
             font-family: 'Inter', sans-serif;
-            /* --gray-bg: #F5F7FA; (з вашого коду) */
-            background-color: #F5F7FA; 
         }
+
+        /* * --- СТРУКТУРНІ ТА АНІМАЦІЙНІ СТИЛІ FLIP-CARD ---
+         * Це мінімальний CSS, необхідний для 3D-анімації.
+         */
         
-        /* Стилі для самої картки */
+        /* База картки: Висота адаптується до вмісту. */
         .flip-card {
             background-color: transparent;
             width: 100%;
-            height: 350px; /* Висота картки */
+            position: relative;
             perspective: 1000px;
             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            height: 100%;
         }
 
-        /* Ефект при наведенні - легке збільшення */
+        /* Ефект при наведенні (неперевернута картка) */
         .flip-card:not(.flipped):hover {
-             transform: scale(1.03);
-             box-shadow: 0 10px 20px 0 rgba(0,0,0,0.15);
+            transform: scale(1.03);
+            box-shadow: 0 1rem 2rem rgba(0,0,0,0.15);
         }
 
-        /* Внутрішній контейнер, що обертається */
+        /* Внутрішній контейнер, що обертається: Пружиниста анімація */
         .flip-card-inner {
-            position: relative;
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            text-align: center;
             /* Плавна "пружиниста" анімація */
-            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transition: transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             transform-style: preserve-3d;
-            box-shadow: 0 4px 12px 0 rgba(0,0,0,0.1);
-            border-radius: 0.75rem; /* 12px */
         }
 
         /* Стан "перевернутої" картки */
@@ -56,110 +56,72 @@
         .flip-card-front, .flip-card-back {
             position: absolute;
             width: 100%;
-            height: 100%;
+            height: 100%; 
             -webkit-backface-visibility: hidden; /* Для Safari */
             backface-visibility: hidden;
-            border-radius: 0.75rem; /* 12px */
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            overflow-y: auto; /* Прокрутка, якщо текст не вміщується */
+            padding: 1.5rem; /* Єдиний зовнішній відступ */
         }
 
-        /* Стиль передньої сторони - градієнт */
-        .flip-card-front {
-            background: linear-gradient(135deg, #ffffff 25%, #f0f8ff 100%);
-            /* --blue-dark: #1E3A5F; */
-            color: #1E3A5F;
-            border: 1px solid #ffd700;
-        }
-
-        /* Стиль задньої сторони - градієнт */
+        /* Задня сторона повернута на 180 градусів за замовчуванням */
         .flip-card-back {
-            /* --blue-dark: #1E3A5F; --blue: #4BA3C3; */
-            background: linear-gradient(135deg, #1E3A5F 0%, #4BA3C3 100%);
-            color: white;
             transform: rotateY(180deg);
-            border: 1px solid #ffd700;
             /* Вирівнювання тексту нагорі для легшого читання */
             align-items: flex-start; 
+            text-align: left;
         }
-        /* --- Кінець стилів для флеш-карток --- */
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen bg-gray-100 antialiased">
 
-  <!-- 
-    Стандартна шапка (відтворена за допомогою Tailwind)
-    Оригінальні класи: .page-header, .header-nav, .back-link, .guidebook-title
-    CSS: 
-    --blue: #4BA3C3; --blue-dark: #1E3A5F;
-    background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
-  -->
-  <header class="bg-gradient-to-r from-[#1E3A5F] to-[#4BA3C3] text-white p-4 shadow-lg sticky top-0 z-50">
-    <nav class="max-w-4xl mx-auto flex justify-between items-center">
-      <!-- .back-link -->
-      <a href="#" class="inline-flex items-center gap-2 text-white no-underline font-semibold text-sm sm:text-base hover:opacity-85 transition-opacity">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M19 12H5"></path>
-          <path d="M12 19l-7-7 7-7"></path>
-        </svg>
-        На головну
-      </a>
-      <!-- .guidebook-title -->
-      <div class="text-sm opacity-90 hidden sm:block">
-        Посібник: <strong>Мова майбутнього</strong>
-      </div>
-    </nav>
-  </header>
+    <!-- 
+      Шапка з оригінальним синім градієнтом
+    --><header class="bg-gradient-to-r from-[#1E3A5F] to-[#4BA3C3] text-white p-4 shadow-xl sticky top-0 z-50">
+        <nav class="max-w-4xl mx-auto flex justify-between items-center">
+            <!-- Кнопка "На головну" з іконкою SVG -->
+            <a href="https://learn4life-ua.github.io/mova-maibutnoho" class="inline-flex items-center gap-2 text-white no-underline font-semibold text-sm sm:text-base hover:opacity-85 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+                На головну
+            </a>
+            <!-- Заголовок посібника --><div class="text-xs sm:text-sm opacity-80 hidden sm:block">
+                Посібник: <strong class="text-white">Мова майбутнього</strong>
+            </div>
+        </nav>
+    </header>
 
-  <!-- 
-    Стандартний контейнер для основного вмісту 
-    Оригінальні класи: .main-content, .content-wrapper
-  -->
-  <main class="flex-grow w-full max-w-4xl mx-auto my-6 sm:my-8 px-4">
-    <div class="bg-white rounded-2xl p-6 sm:p-8 lg:p-10 shadow-lg border border-gray-200">
+    <!-- Основний вміст --><main class="flex-grow w-full max-w-4xl mx-auto my-6 sm:my-8 px-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl border border-gray-100">
 
-        <!-- Вміст сторінки флеш-карток (замість старого <header>) -->
-        <header class="text-center mb-10">
-            <!-- 
-              Заголовок сторінки (стилізовано під .content-wrapper h1)
-              Оригінал: font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); color: var(--blue-dark);
-            -->
-            <h1 class="text-[clamp(1.6rem,2.5vw+1rem,2.25rem)] font-bold text-[#1E3A5F] mb-4">
-                💙💛 Патріотичний Сленг
-            </h1>
-            <!-- 
-              Опис (стилізовано під .content-wrapper p)
-              Оригінал: font-size: 1.05rem;
-            -->
-            <p class="text-lg text-[#2C2C2C] max-w-3xl mx-auto mb-4">
-                Патріотичний сленг — це слова та вирази, що виникли під впливом сучасних подій. 
-                Вони відображають наш гумор, стійкість і віру в перемогу.
-            </p>
-            <p class="text-md text-gray-600">Натисніть на картку, щоб побачити визначення.</p>
-        </header>
+            <!-- Заголовок сторінки --><header class="text-center mb-10">
+                <h1 class="text-[clamp(1.8rem,3vw+1rem,2.5rem)] font-extrabold text-[#1E3A5F] mb-4 tracking-tight">
+                    💙💛 Патріотичний Сленг
+                </h1>
+                <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-4">
+                    Патріотичний сленг — це слова та вирази, що виникли під впливом сучасних подій. 
+                    Вони відображають наш гумор, стійкість і віру в перемогу.
+                </p>
+                <p class="text-sm text-gray-600 font-semibold uppercase tracking-wider">Натисніть на картку, щоб побачити визначення.</p>
+            </header>
 
-        <!-- Контейнер для карток (без змін) -->
-        <div id="card-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Картки будуть додані сюди за допомогою JavaScript -->
+            <!-- Контейнер для карток (Grid, оптимізований для великих карток) -->
+            <div id="card-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6 items-stretch">
+                <!-- Картки будуть додані сюди за допомогою JavaScript -->
+            </div>
+
         </div>
+    </main>
 
-    </div>
-  </main>
-
-  <!-- 
-    Стандартний підвал (відтворений за допомогою Tailwind)
-    Оригінал: text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
-    color: var(--muted); background: #fff; border-top: 1px solid var(--border);
-  -->
-  <footer class="text-center p-6 mt-auto text-sm text-gray-600 bg-white border-t border-gray-200">
-    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
-  </footer>
+    <!-- Підвал --><footer class="text-center p-6 mt-auto text-xs text-gray-500 bg-white border-t border-gray-200">
+        © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+    </footer>
 
     <script>
-        // Дані для флеш-карток, взяті з вашого тексту
+        // Дані для флеш-карток
         const flashcardsData = [
             {
                 term: "Бавовна",
@@ -223,7 +185,7 @@
             },
             {
                 term: "Незламний",
-                definition: "<strong>Зназначення:</strong> Людина, яка не здається перед труднощами.<br><br><strong>Контекст:</strong> Використовується для опису характеру українців."
+                definition: "<strong>Значення:</strong> Людина, яка не здається перед труднощами.<br><br><strong>Контекст:</strong> Використовується для опису характеру українців."
             },
             {
                 term: "Гонор",
@@ -232,52 +194,61 @@
         ];
 
         const cardContainer = document.getElementById('card-container');
-        let allCards = []; // Масив для зберігання всіх карток
+        const allCards = []; 
 
-        // Створюємо та додаємо кожну картку
-        flashcardsData.forEach(cardData => {
+        /**
+         * Створює DOM-структуру картки та додає її до контейнера.
+         * @param {object} cardData - Об'єкт з терміном та визначенням.
+         */
+        function createCard(cardData) {
             const card = document.createElement('div');
-            card.className = 'flip-card cursor-pointer';
+            // Адаптивна висота та сучасні тіні/заокруглення
+            card.className = 'flip-card cursor-pointer rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out min-h-[20rem]'; // Змінено min-h на [20rem]
 
             const cardInner = document.createElement('div');
-            cardInner.className = 'flip-card-inner';
+            cardInner.className = 'flip-card-inner rounded-xl shadow-xl'; 
 
+            // Передня сторона: Світлий фон (білий/блакитний) з жовтою рамкою
             const cardFront = document.createElement('div');
-            cardFront.className = 'flip-card-front';
-            cardFront.innerHTML = `<h3 class="text-2xl font-bold px-4">${cardData.term}</h3>`;
+            cardFront.className = 'flip-card-front rounded-xl bg-white text-[#1E3A5F] border-4 border-yellow-500 hover:bg-blue-50 transition-colors duration-200';
+            cardFront.innerHTML = `<h3 class="text-2xl sm:text-3xl font-extrabold px-4 leading-snug">${cardData.term}</h3>`;
 
+            // Задня сторона: Темний градієнт (синьо-блакитний) з білим текстом
             const cardBack = document.createElement('div');
-            cardBack.className = 'flip-card-back text-left';
-            cardBack.innerHTML = `<div class="text-sm md:text-base w-full">${cardData.definition}</div>`;
+            cardBack.className = 'flip-card-back rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#4BA3C3] text-white shadow-xl';
+            
+            cardBack.innerHTML = `<div class="text-base sm:text-lg w-full space-y-3">${cardData.definition}</div>`;
 
             cardInner.appendChild(cardFront);
             cardInner.appendChild(cardBack);
             card.appendChild(cardInner);
             cardContainer.appendChild(card);
             
-            allCards.push(card); // Додаємо картку до масиву
+            allCards.push(card); 
 
             // Додаємо обробник події для перевертання
             card.addEventListener('click', () => {
-                // Перевіряємо, чи ця картка вже перевернута
                 const isFlipped = card.classList.contains('flipped');
 
-                // Спочатку "закриваємо" всі інші картки
+                // Закриваємо всі інші картки (фокус)
                 allCards.forEach(c => {
                     if (c !== card) {
                         c.classList.remove('flipped');
                     }
                 });
 
-                // "Відкриваємо" або "закриваємо" натиснуту картку
+                // Перевертаємо або повертаємо назад натиснуту картку
                 if (!isFlipped) {
                     card.classList.add('flipped');
                 } else {
                     card.classList.remove('flipped');
                 }
             });
-        });
+        }
+
+        // Ініціалізація: створюємо всі картки
+        flashcardsData.forEach(createCard);
+
     </script>
 </body>
 </html>
-
