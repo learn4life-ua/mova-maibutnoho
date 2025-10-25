@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Квести | Мова майбутнього</title>
+  <style>
+    /* --- Стандартні стилі шаблону --- */
+    * {
+      box-sizing: border-box;
+    }
+    :root {
+      --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
+      --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
+      color: var(--text); line-height: 1.7; margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-nav {
+      max-width: 900px; margin: 0 auto; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #fff; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; transition: opacity 0.2s ease;
+    }
+    .back-link:hover { opacity: 0.85; }
+    .back-link svg { width: 20px; height: 20px; }
+    .guidebook-title {
+      font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem;
+    }
+    .guidebook-title strong { font-weight: 600; }
+    @media (max-width: 640px) {
+      .guidebook-title { display: none; }
+      .back-link { margin-right: auto; }
+    }
+    .main-content {
+      flex-grow: 1; max-width: 900px; width: 100%;
+      margin: 1.5rem auto; padding: 0 1rem;
+    }
+    .content-wrapper {
+      background: #fff; border-radius: 1rem; padding: 2rem 2.5rem;
+      border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 640px) {
+      .content-wrapper { padding: 1.5rem; }
+    }
+    .content-wrapper h1 { /* Заголовок сторінки */
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
+      color: var(--blue-dark); margin-top: 0; margin-bottom: 1.5rem; line-height: 1.3;
+    }
+     .content-wrapper h2 { /* Підзаголовки */
+        font-size: 1.4rem; font-weight: 600; color: var(--blue-dark);
+        margin-top: 1.8rem; margin-bottom: 0.8rem;
+     }
+     .content-wrapper p {
+      margin-top: 0; margin-bottom: 1rem; font-size: 1.05rem;
+      color: var(--text);
+    }
+     .content-wrapper ul { /* Застосовано до interactive-links */
+        padding-left: 0; /* Прибрали відступ */
+        margin-bottom: 1rem;
+        list-style: none; /* Прибираємо стандартні маркери для списку посилань */
+     }
+      .content-wrapper li {
+        margin-bottom: 0.5rem; /* Змінено на відступ між елементами списку */
+        font-size: 1.05rem; /* Залишено, але основний розмір контролює .interactive-link */
+      }
+    .content-wrapper strong { font-weight: 600; color: var(--text); }
+
+    /* --- Стилі для інтерактивних посилань --- */
+    .interactive-links {
+      list-style-type: none;
+      padding-left: 0;
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1.5rem; /* Відступ зверху для меню */
+    }
+
+    .interactive-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background-color: #fff;
+      border: 1px solid var(--border);
+      padding: 0.9rem 1.2rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      color: var(--blue-dark);
+      font-weight: 600;
+      font-size: 1rem; /* Стандартний розмір шрифту для посилань */
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+    }
+
+    .interactive-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .interactive-link svg {
+      width: 20px; /* Трохи менші іконки */
+      height: 20px;
+      flex-shrink: 0;
+      color: var(--blue);
+    }
+
+    .interactive-link .link-text {
+        flex-grow: 1; /* Дозволяє тексту займати доступний простір */
+    }
+
+
+    .interactive-link .arrow-icon {
+      margin-left: auto;
+      color: var(--muted);
+      transition: color 0.2s ease;
+      width: 18px; /* Розмір стрілки */
+      height: 18px;
+    }
+
+    .interactive-link:hover .arrow-icon {
+      color: var(--blue);
+    }
+    /* --- Кінець стилів для посилань --- */
+
+    footer { /* Стандартний підвал */
+      text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
+      color: var(--muted); background: #fff; border-top: 1px solid var(--border);
+      margin-top: auto; /* Притискає підвал до низу */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Стандартна шапка -->
+  <header class="page-header">
+    <nav class="header-nav">
+      <!-- Посилання "Назад до Порталу Інтерактивів" -->
+      <a href="../index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        Назад до Порталу
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Стандартний контейнер для основного вмісту -->
+  <main class="main-content">
+    <div class="content-wrapper">
+
+      <h1>Мовні квести</h1>
+      <p>Зануртеся у захопливий світ мовних квестів! Цей розділ створений для тих, хто любить виклики та хоче перевірити свої знання української мови в ігровому форматі.</p>
+      <p>Виконуйте завдання, розгадуйте загадки та відкривайте нові рівні мовної майстерності.</p>
+
+      <h2>Оберіть квест:</h2>
+
+      <!-- Список квестів -->
+      <ul class="interactive-links">
+        <li>
+          <a href="#" class="interactive-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <span class="link-text">1. Мовний детектив</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="interactive-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+            <span class="link-text">2. Слово-рятівник</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+         <li>
+          <a href="#" class="interactive-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <span class="link-text">3. Полювання на наголос</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+         <li>
+          <a href="#" class="interactive-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+            <span class="link-text">4. Мовна мапа України</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+         <li>
+          <a href="#" class="interactive-link">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span class="link-text">5. Етикет у дії</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="interactive-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            <span class="link-text">6. Діловий ніндзя</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+           <a href="#" class="interactive-link">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <span class="link-text">7. Кодекс комунікації</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+         <li>
+           <a href="#" class="interactive-link">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span class="link-text">8. Хто сказав?</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="interactive-link">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+            <span class="link-text">9. Знайди помилку у пості</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+           <a href="#" class="interactive-link">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="14" x2="21" y2="3"></line><path d="M21 3L11 13l-3-3L3 15"></path></svg>
+            <span class="link-text">10. Лексичний лабіринт</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+         <li>
+           <a href="#" class="interactive-link">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+            <span class="link-text">11. Мовна Арена (батл)</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+         <li>
+           <a href="#" class="interactive-link">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18M7 15h1m4 0h1m4 0h1M7 20h1m4 0h1m4 0h1M17 15l4 4V3H3v16l4-4 4 4 4-4z"/></svg>
+            <span class="link-text">12. Квест-випускник</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </main>
+
+  <!-- Стандартний підвал -->
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+</body>
+</html>
+
