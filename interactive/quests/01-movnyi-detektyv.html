@@ -9,29 +9,25 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- (ОНОВЛЕНО) Шрифт з шаблону -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* (ОНОВЛЕНО) Змінні з шаблону об'єднані з оригінальними */
+    /* --- ЗМІННІ ТА БАЗОВІ СТИЛІ --- */
     :root {
       --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
       --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
-      /* Змінні, збережені з квесту */
-      --card-shadow:0 10px 22px rgba(0,0,0,.08);
-      --ok:#16a34a;        /* успіх */
-      --warn:#ef4444;      /* помилка */
+      --ok:#16a34a; /* успіх */
+      --warn:#ef4444; /* помилка */
     }
     
-    /* --- (ДОДАНО) Стандартні стилі шаблону --- */
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     html, body { height: 100%; }
     body {
       font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
       color: var(--text); line-height: 1.7; margin: 0;
       display: flex; flex-direction: column;
     }
+    
+    /* СТИЛІ ХЕДЕРА/ФУТЕРА (З АДАПТАЦІЄЮ ПІД ДИЗАЙН ФЛЕШ-КАРТОК) */
     .page-header {
       background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
       color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
@@ -49,13 +45,13 @@
     .back-link:hover { opacity: 0.85; }
     .back-link svg { width: 20px; height: 20px; }
     .guidebook-title {
-      font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem;
+      font-size: 0.9rem; opacity: 0.9;
     }
-    .guidebook-title strong { font-weight: 600; }
     @media (max-width: 640px) {
       .guidebook-title { display: none; }
-      .back-link { margin-right: auto; }
     }
+    
+    /* СТИЛІ ОСНОВНОГО КОНТЕНТУ */
     .main-content {
       flex-grow: 1; max-width: 900px; width: 100%;
       margin: 1.5rem auto; padding: 0 1rem;
@@ -69,56 +65,43 @@
     }
     .content-wrapper h1 { /* Заголовок сторінки */
       font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
-      color: var(--blue-dark); margin-top: 0; margin-bottom: 1rem; line-height: 1.3; /* Зменшено mb з 1.5rem */
+      color: var(--blue-dark); margin-top: 0; margin-bottom: 1rem; line-height: 1.3;
+      text-align: center; /* Центрування для кращого вигляду */
     }
-      .content-wrapper h2 { /* Підзаголовки (стиль для h2 квесту) */
-        font-size: 1.4rem; font-weight: 600; color: var(--blue-dark);
-        margin-top: 1.8rem; margin-bottom: 0.8rem;
-      }
-      .content-wrapper p {
-      margin-top: 0; margin-bottom: 1.5rem; font-size: 1.05rem; /* Збільшено mb до 1.5rem */
+    .content-wrapper p {
+      margin-top: 0; margin-bottom: 1.5rem; font-size: 1.05rem;
       color: var(--text);
     }
-      .content-wrapper ul { 
-        padding-left: 1.5rem; /* Повернено відступ для звичайних списків */
-        margin-bottom: 1rem;
-        list-style: disc; /* Повернено маркери */
-      }
-      .content-wrapper li {
-        margin-bottom: 0.5rem; 
-        font-size: 1.05rem; 
-      }
     .content-wrapper strong { font-weight: 600; color: var(--text); }
-
-    /* (ДОДАНО) Стилі для підвалу, яких не вистачало */
     footer { 
       text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
       color: var(--muted); background: #fff; border-top: 1px solid var(--border);
-      margin-top: auto; /* Притискає підвал до низу */
+      margin-top: auto; 
     }
-    /* --- Кінець стилів шаблону --- */
-
-
-    /* --- Стилі компонентів квесту (Збережено) --- */
-    .chip{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border);background:#fff}
-    .btn{display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1rem;border-radius:.9rem;border:1px solid var(--border);transition:.15s}
-    .btn:hover{transform:translateY(-1px)}
+    
+    /* --- СТИЛІ КОМПОНЕНТІВ КВЕСТУ --- */
+    .chip{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border);background:#fff; font-size: 0.85rem;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1rem;border-radius:.9rem;border:1px solid var(--border);transition:.15s; font-weight: 600;}
+    .btn:hover{transform:translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.1);}
     .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
     .btn-primary:disabled{opacity:.6}
     .btn-ghost{background:#fff}
-    .tab{padding:.5rem .9rem;border-radius:.7rem;border:1px solid var(--border);background:#fff}
-    .tab-active{border-color:var(--blue);color:var(--blue-dark);font-weight:600}
-    .opt{border:1px solid var(--border);border-radius:.9rem;padding:1rem;background:#fff;cursor:pointer;display:flex;gap:.8rem;align-items:flex-start}
-    .opt:hover{border-color:var(--blue)}
-    .opt.correct{border-color:var(--ok);box-shadow:0 0 0 3px rgba(22,163,74,.15)}
-    .opt.wrong{border-color:var(--warn);box-shadow:0 0 0 3px rgba(239,68,68,.12)}
-    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.85rem; background:#f3f4f6; border:1px solid #e5e7eb; border-bottom-width:2px; padding:.1rem .4rem; border-radius:.4rem}
+    
+    .opt{border:1px solid var(--border);border-radius:.9rem;padding:1rem;background:#fff;cursor:pointer;display:flex;gap:.8rem;align-items:flex-start; transition: all 0.2s;}
+    .opt:hover{border-color:var(--blue); transform: translateY(-1px);}
+    
+    /* СТАТУСИ ВІДПОВІДІ */
+    .opt.correct{border-color:var(--ok);box-shadow:0 0 0 3px rgba(22,163,74,.15); background-color: #f7fffb;}
+    .opt.wrong{border-color:var(--warn);box-shadow:0 0 0 3px rgba(239,68,68,.12); background-color: #fffafa;}
+    
+    .kbd{display:none;} /* ПРИХОВАНО: інтерактивні літери */
+    
+    /* Модальне вікно */
     dialog::backdrop{background:rgba(0,0,0,.45)}
     dialog{border:none;border-radius:1rem;max-width:680px;width:92%;padding:0;box-shadow:0 20px 40px rgba(0,0,0,.2)}
     .modal-body{padding:1.25rem}
     
-    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-    
+    /* Анімація */
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       20%, 60% { transform: translateX(-5px); }
@@ -128,39 +111,31 @@
       animation: shake 0.5s ease-in-out;
     }
 
+    /* Тост-повідомлення */
     #toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translate(-50%, 150%);
-      background: #333;
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease-in-out;
-      z-index: 100;
-      opacity: 0;
+      position: fixed; bottom: 2rem; left: 50%; 
+      transform: translate(-50%, 150%); background: var(--blue-dark);
+      color: white; padding: 0.8rem 1.5rem; border-radius: 999px;
+      font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease-in-out; z-index: 100; opacity: 0;
     }
     #toast.show {
-      transform: translate(-50%, 0);
-      opacity: 1;
+      transform: translate(-50%, 0); opacity: 1;
     }
   </style>
 </head>
 <body class="flex flex-col min-h-screen">
   
-  <!-- (ЗАМІНЕНО) Стандартна шапка з шаблону -->
+  <!-- ХЕДЕР (ДИЗАЙН ФЛЕШ-КАРТОК) -->
   <header class="page-header">
     <nav class="header-nav">
-      <!-- (ОНОВЛЕНО) Посилання веде на index.html (список квестів) -->
-      <a href="index.html" class="back-link">
+      <!-- Посилання "На головну" з вашим URL -->
+      <a href="https://learn4life-ua.github.io/mova-maibutnoho" class="back-link">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M19 12H5"></path>
           <path d="M12 19l-7-7 7-7"></path>
         </svg>
-        До списку квестів
+        На головну
       </a>
       <div class="guidebook-title">
         Посібник: <strong>Мова майбутнього</strong>
@@ -168,45 +143,40 @@
     </nav>
   </header>
 
-  <!-- (ЗАМІНЕНО) Стандартний контейнер для основного вмісту з шаблону -->
+  <!-- ОСНОВНИЙ КОНТЕНТ -->
   <main class="main-content">
     <div class="content-wrapper">
 
-      <!-- (ПЕРЕНЕСЕНО) Заголовок і опис квесту з оригінальної шапки -->
+      <!-- ЗАГОЛОВОК КВЕСТУ -->
       <h1>Квест «Мовний детектив»</h1>
-      <p>Викривай кальки, русизми та неточності. Вибирай правильні відповідники — і збирай бейджі.</p>
+      <p class="text-center max-w-lg mx-auto mb-6">Викривай кальки, русизми та неточності. Вибирай правильні відповідники — і збирай бейджі.</p>
 
-      <!-- (ЗМІНЕНО) Панель керування. Клас "card" і відступи (p-4) видалено -->
+      <!-- ПАНЕЛЬ КЕРУВАННЯ ТА СТАТИСТИКА -->
       <section class="mb-6">
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div class="flex flex-wrap items-center gap-3">
-            <span class="chip" title="Кількість завдань"><span class="font-semibold" id="totalCount">—</span> завдань</span>
+            <span class="chip" title="Кількість завдань"><strong id="totalCount">—</strong> завдань</span>
             <span class="chip" title="Рівень складності"><span id="levelLabel">Середній</span></span>
-            <span class="chip" title="Прогрес"><span id="progressChip">0 / 0</span></span>
+            <!-- ЧІП ПРОГРЕСУ ВИДАЛЕНО -->
           </div>
           <div class="flex flex-wrap items-center gap-2">
-            <label class="flex items-center gap-2 text-sm"><input id="shuffleToggle" type="checkbox" class="h-4 w-4"> Перемішати</label>
-            <label class="flex items-center gap-2 text-sm"><input id="timedToggle" type="checkbox" class="h-4 w-4"> Таймер 60с/завд.</label>
-            <button id="restartBtn" class="btn" title="Почати заново"><span class="mdi">⟲</span> Почати заново</button>
+            <label class="flex items-center gap-2 text-sm text-[var(--text)]"><input id="shuffleToggle" type="checkbox" class="h-4 w-4"> Перемішати</label>
+            <label class="flex items-center gap-2 text-sm text-[var(--text)]"><input id="timedToggle" type="checkbox" class="h-4 w-4"> Таймер 60с/завд.</label>
+            <button id="restartBtn" class="btn bg-gray-100 hover:bg-gray-200" title="Почати заново"><span class="mdi">⟲</span> Почати заново</button>
           </div>
         </div>
-        <div class="mt-4">
-          <div class="w-full bg-gray-200 rounded-full h-3">
-            <div id="progressBar" class="h-3 rounded-full bg-[var(--blue)]" style="width:0%"></div>
-          </div>
-        </div>
+        <!-- ПРОГРЕС БАР ВИДАЛЕНО -->
       </section>
 
-      <!-- (ЗМІНЕНО) Область завдання. Клас "card" і відступи (p-4) видалено -->
+      <!-- ОБЛАСТЬ ЗАВДАННЯ -->
       <section id="taskArea" aria-live="polite">
         <div class="flex items-start justify-between gap-4">
           <div>
             <div class="text-sm text-[var(--muted)]" id="taskCounter">Завдання 1/—</div>
-            <!-- (ОНОВЛЕНО) Використовуємо <h2> для семантичної відповідності стилям шаблону -->
             <h2 class="text-xl md:text-2xl font-semibold mt-1">Викрий помилку та обери правильний варіант</h2>
           </div>
           <div class="text-right">
-            <div id="timerBox" class="hidden text-sm"><span class="font-semibold">Таймер:</span> <span id="timer">60</span> с</div>
+            <div id="timerBox" class="hidden text-base font-semibold text-red-500"><span id="timer">60</span> с</div>
           </div>
         </div>
 
@@ -217,32 +187,32 @@
         <div class="mt-4 grid gap-3" id="optionsBox" role="group" aria-label="Варіанти відповіді"></div>
 
         <div class="mt-4 flex flex-wrap items-center gap-2">
-          <button id="hintBtn" class="btn" title="Показати підказку (H)"><span class="mdi">💡</span> Підказка</button>
+          <!-- КНОПКА ПІДКАЗКИ ВИДАЛЕНА -->
           <button id="checkBtn" class="btn btn-primary" title="Перевірити відповідь (Enter)"><span class="mdi">✔</span> Перевірити</button>
-          <button id="nextBtn" class="btn" title="Наступне завдання (N)" disabled><span class="mdi">→</span> Далі</button>
-          <button id="skipBtn" class="btn" title="Пропустити завдання (S)">Пропустити</button>
+          <button id="nextBtn" class="btn bg-gray-100 hover:bg-gray-200" title="Наступне завдання (N)" disabled><span class="mdi">→</span> Далі</button>
+          <button id="skipBtn" class="btn bg-gray-100 hover:bg-gray-200" title="Пропустити завдання (S)">Пропустити</button>
         </div>
 
-        <div id="hintBox" class="mt-3 hidden text-sm bg-blue-50 border border-blue-200 text-blue-900 rounded-lg p-3"></div>
+        <!-- БЛОК ПІДКАЗКИ ВИДАЛЕНО -->
         <div id="explainBox" class="mt-3 hidden text-sm bg-green-50 border border-green-200 text-green-900 rounded-lg p-3"></div>
       </section>
 
       <!-- Підвал сторінки квесту -->
-      <section class="text-sm text-[var(--muted)] mt-4 flex items-center justify-between">
-        <div>Натисніть <span class="kbd">H</span> — підказка, <span class="kbd">Enter</span> — перевірити, <span class="kbd">N</span> — далі, <span class="kbd">S</span> — пропустити.</div>
-        <a class="underline hover:text-[var(--blue)]" href="#" id="saveLink">Зберегти прогрес</a>
+      <section class="text-sm text-[var(--muted)] mt-4 flex items-center justify-between border-t border-[var(--border)] pt-4">
+        <!-- КЛАВІШІ ШВИДКОГО ДОСТУПУ ОНОВЛЕНО -->
+        <div>Натисніть <span class="kbd">Enter</span> — перевірити, <span class="kbd">N</span> — далі, <span class="kbd">S</span> — пропустити.</div>
+        <!-- КНОПКА ЗБЕРЕЖЕННЯ ПРОГРЕСУ ВИДАЛЕНА -->
       </section>
 
-    <!-- (ЗАМІНЕНО) Закриваючі теги для нової структури -->
     </div>
   </main>
 
-  <!-- (ЗАМІНЕНО) Стандартний підвал з шаблону -->
+  <!-- ФУТЕР (ДИЗАЙН ФЛЕШ-КАРТОК) -->
   <footer>
     © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
   </footer>
 
-  <!-- Модал результатів (Залишено без змін) -->
+  <!-- Модал результатів -->
   <dialog id="resultModal">
     <div class="bg-[var(--blue-dark)] text-white rounded-t-[1rem] p-5">
       <h3 class="text-xl font-semibold">Результат квесту</h3>
@@ -255,20 +225,20 @@
           <span class="chip"><strong>Неправильних:</strong> <span id="resWrong">0</span></span>
           <span class="chip"><strong>Час:</strong> <span id="resTime">—</span></span>
         </div>
-        <div class="mt-2" id="badgeBox"></div>
+        <div class="mt-2 grid md:grid-cols-2 gap-3" id="badgeBox"></div>
         <div class="mt-2 text-sm text-[var(--muted)]" id="resTip"></div>
       </div>
       <div class="flex items-center justify-end gap-2 mt-4 p-3 border-t">
-        <button class="btn" id="closeModalBtn">Гаразд</button>
+        <button class="btn bg-gray-100 hover:bg-gray-200" id="closeModalBtn">Гаразд</button>
         <button class="btn btn-primary" id="restartModalBtn">Пройти ще раз</button>
       </div>
     </div>
   </dialog>
 
-  <!-- Елемент для спливаючих повідомлень (Залишено без змін) -->
+  <!-- Елемент для спливаючих повідомлень -->
   <div id="toast" role="status" aria-live="polite"></div>
 
-  <!-- Скрипт квесту (Залишено без змін) -->
+  <!-- Скрипт квесту -->
   <script>
     /**
      * ДАНІ КВЕСТУ
@@ -352,27 +322,21 @@
     let tasks = JSON.parse(JSON.stringify(TASKS_BASE));
     let idx = 0;
     let right = 0; let wrong = 0; let startedAt = null; let perTaskTimer = null; let leftSec = 60;
-    const stateKey = 'mf-quest-detektiv-v1';
-
+    
     // Елементи
     const totalCountEl = document.getElementById('totalCount');
-    const progressChipEl = document.getElementById('progressChip');
-    const progressBarEl = document.getElementById('progressBar');
     const taskCounterEl = document.getElementById('taskCounter');
     const promptTextEl = document.getElementById('promptText');
     const optionsBoxEl = document.getElementById('optionsBox');
-    const hintBtn = document.getElementById('hintBtn');
     const checkBtn = document.getElementById('checkBtn');
     const nextBtn = document.getElementById('nextBtn');
     const skipBtn = document.getElementById('skipBtn');
-    const hintBox = document.getElementById('hintBox');
     const explainBox = document.getElementById('explainBox');
     const shuffleToggle = document.getElementById('shuffleToggle');
     const timedToggle = document.getElementById('timedToggle');
     const timerEl = document.getElementById('timer');
     const timerBox = document.getElementById('timerBox');
     const restartBtn = document.getElementById('restartBtn');
-    const saveLink = document.getElementById('saveLink');
 
     const resultModal = document.getElementById('resultModal');
     const resRight = document.getElementById('resRight');
@@ -408,23 +372,6 @@
     }
 
 
-    function saveState(){
-      const state = {idx,right,wrong,tasks,startedAt: startedAt?.valueOf?.()||Date.now(), timed: timedToggle.checked, shuffle: shuffleToggle.checked};
-      localStorage.setItem(stateKey, JSON.stringify(state));
-    }
-    function loadState(){
-      const raw = localStorage.getItem(stateKey);
-      if(!raw) return false;
-      try{
-        const s = JSON.parse(raw);
-        if(!s || !Array.isArray(s.tasks)) return false;
-        tasks = s.tasks; idx = s.idx||0; right = s.right||0; wrong = s.wrong||0; startedAt = new Date(s.startedAt||Date.now());
-        timedToggle.checked = !!s.timed; timerBox.classList.toggle('hidden', !timedToggle.checked);
-        shuffleToggle.checked = !!s.shuffle; // Відновлюємо стан чекбокса перемішування
-        return true;
-      }catch(e){ return false; }
-    }
-
     function resetAll(forceShuffle = false){
         tasks = JSON.parse(JSON.stringify(TASKS_BASE));
         if (shuffleToggle.checked || forceShuffle) {
@@ -433,7 +380,7 @@
         idx = 0; right = 0; wrong = 0; startedAt = new Date();
         clearInterval(perTaskTimer); leftSec = 60; timerEl.textContent = leftSec;
         timerBox.classList.toggle('hidden', !timedToggle.checked);
-        render(); saveState();
+        render();
     }
 
 
@@ -443,6 +390,12 @@
       leftSec = 60; timerEl.textContent = leftSec;
       perTaskTimer = setInterval(()=>{
         leftSec--; timerEl.textContent = leftSec;
+        if(leftSec<=10){ // Підсвічуємо червоним, коли залишається 10 секунд
+             timerBox.classList.add('text-red-500');
+        } else {
+             timerBox.classList.remove('text-red-500');
+        }
+        
         if(leftSec<=0){
           clearInterval(perTaskTimer);
           lockOptions();
@@ -455,22 +408,17 @@
       optionsBoxEl.querySelectorAll('button.opt').forEach(b=>b.disabled=true);
       checkBtn.disabled = true;
       skipBtn.disabled = true; // Блокуємо і пропуск
-      hintBtn.disabled = true; // Блокуємо і підказку
     }
     function unlockOptions(){
       optionsBoxEl.querySelectorAll('button.opt').forEach(b=>b.disabled=false);
       checkBtn.disabled = false;
       skipBtn.disabled = false; // Розблокуємо
-      hintBtn.disabled = false; // Розблокуємо
     }
 
     function render(){
       totalCountEl.textContent = tasks.length;
-      progressChipEl.textContent = `${idx}/${tasks.length}`;
-      progressBarEl.style.width = `${(idx/tasks.length)*100}%`;
       taskCounterEl.textContent = `Завдання ${Math.min(idx+1,tasks.length)}/${tasks.length}`;
 
-      hintBox.classList.add('hidden'); hintBox.textContent='';
       explainBox.classList.add('hidden'); explainBox.textContent='';
       nextBtn.disabled = true;
 
@@ -480,17 +428,26 @@
       }
 
       const t = tasks[idx];
-      // (ОНОВЛЕНО) Стилізація жирного тексту тепер покладається на Tailwind-класи, а не на стилі шаблону для <p>
-      promptTextEl.innerHTML = t.prompt.replace(/\*(.*?)\*/g,'<strong class="text-[var(--blue)] font-semibold">$1</strong>'); 
+      // (ОНОВЛЕНО) Стилізація жирного тексту
+      promptTextEl.innerHTML = t.prompt.replace(/\*(.*?)\*/g,'<strong class="text-[var(--blue-dark)] font-extrabold">$1</strong>'); 
       optionsBoxEl.innerHTML = '';
-      t.options.forEach((opt,i)=>{
+      
+      // Перемішуємо варіанти відповіді перед рендерингом для додаткової складності
+      let optionIndices = Array.from(t.options.keys());
+      if(shuffleToggle.checked) {
+          shuffle(optionIndices);
+      }
+      
+      optionIndices.forEach((originalIndex, i)=>{
+        const opt = t.options[originalIndex];
         const btn = document.createElement('button');
         btn.className = 'opt text-left';
         btn.type='button';
-        btn.setAttribute('data-i', i);
-        btn.innerHTML = `<span class="kbd">${String.fromCharCode(65+i)}</span> <span>${opt}</span>`;
+        btn.setAttribute('data-i', originalIndex); // Зберігаємо індекс правильної відповіді
+        // КЛАВІШІ (A, B, C...) ВИДАЛЕНО
+        btn.innerHTML = `<span>${opt}</span>`;
         btn.setAttribute('aria-label', `Варіант ${String.fromCharCode(65+i)}: ${opt}`);
-        btn.addEventListener('click', ()=>selectOption(i));
+        btn.addEventListener('click', ()=>selectOption(originalIndex)); // Використовуємо оригінальний індекс
         optionsBoxEl.appendChild(btn);
       });
       unlockOptions(); // Розблоковуємо кнопки для нового завдання
@@ -501,6 +458,7 @@
     function selectOption(i){
       chosen = i;
       optionsBoxEl.querySelectorAll('.opt').forEach(b=>b.classList.remove('ring-2','ring-[var(--blue)]'));
+      // Використовуємо data-i для пошуку, оскільки DOM-порядок може бути іншим
       const current = optionsBoxEl.querySelector(`.opt[data-i="${i}"]`);
       current.classList.add('ring-2','ring-[var(--blue)]');
     }
@@ -518,6 +476,7 @@
             if (i === correct) {
                 b.classList.add('correct'); 
             }
+            // Випадок: обрано неправильний варіант
             if (chosen !== null && i === chosen && !isCorrectAnswer) {
                 b.classList.add('wrong');
             }
@@ -533,26 +492,19 @@
             explainBox.textContent = t.explain + (dueToTimer ? ' (Час вичерпано.)' : '');
         }
 
-        hintBox.classList.add('hidden');
         explainBox.classList.remove('hidden');
 
         nextBtn.disabled = false;
         lockOptions(); 
-        saveState();
     }
 
 
     // Обробники
-    hintBtn.addEventListener('click', ()=>{
-      const t = tasks[idx];
-      hintBox.classList.remove('hidden');
-      hintBox.textContent = t.hint;
-    });
-
     checkBtn.addEventListener('click', ()=>{
       if (chosen === null) {
         optionsBoxEl.classList.add('shake');
         setTimeout(() => optionsBoxEl.classList.remove('shake'), 500);
+        showToast('Оберіть варіант відповіді!');
         return; 
       }
       clearInterval(perTaskTimer); 
@@ -561,22 +513,17 @@
 
 
     nextBtn.addEventListener('click', ()=>{
-      idx++; chosen=null; render(); saveState();
+      idx++; chosen=null; render();
     });
 
     skipBtn.addEventListener('click', ()=>{
         clearInterval(perTaskTimer); 
-        idx++; chosen=null; render(); saveState();
+        idx++; chosen=null; render();
     });
 
 
-    restartBtn.addEventListener('click', ()=>{ localStorage.removeItem(stateKey); resetAll(); });
+    restartBtn.addEventListener('click', ()=>{ resetAll(); });
 
-    saveLink.addEventListener('click', (e)=>{ 
-      e.preventDefault(); 
-      saveState(); 
-      showToast('Прогрес збережено.'); 
-    });
 
     // Клавіші швидкого доступу
     window.addEventListener('keydown', (e)=>{
@@ -584,19 +531,26 @@
       if(['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)) return;
 
       const k = e.key.toLowerCase();
-      if(k === 'h' && !hintBtn.disabled){ hintBtn.click(); e.preventDefault(); }
-      if(k === 'enter' && !checkBtn.disabled){ checkBtn.click(); e.preventDefault(); }
-      if(k === 'n' && !nextBtn.disabled){ nextBtn.click(); e.preventDefault(); }
-      if(k === 's' && !skipBtn.disabled){ skipBtn.click(); e.preventDefault(); }
-
-      if(k >= 'a' && k <= 'z' && !checkBtn.disabled){ 
-        const i = k.charCodeAt(0) - 97; // a->0
-        const btn = optionsBoxEl.querySelector(`.opt[data-i="${i}"]`);
-        if(btn && !btn.disabled) {
-            selectOption(i);
-            e.preventDefault();
+      
+      // Обробка вибору варіантів (A, B, C...)
+      if(k >= 'a' && k <= 'j' && !checkBtn.disabled){ // Дозволяємо до 10 варіантів (A-J)
+        const charCode = k.charCodeAt(0);
+        // Знаходимо кнопку за її порядковим номером (0 для A, 1 для B і т.д. у поточному відображенні)
+        const targetOption = optionsBoxEl.children[charCode - 97]; 
+        
+        if(targetOption) {
+            const originalIndex = Number(targetOption.getAttribute('data-i'));
+            if(!targetOption.disabled) {
+                selectOption(originalIndex);
+                e.preventDefault();
+            }
         }
       }
+
+      // Обробка ігрових кнопок
+      if(e.key === 'Enter' && !checkBtn.disabled){ checkBtn.click(); e.preventDefault(); }
+      if(k === 'n' && !nextBtn.disabled){ nextBtn.click(); e.preventDefault(); }
+      if(k === 's' && !skipBtn.disabled){ skipBtn.click(); e.preventDefault(); }
     });
 
 
@@ -622,10 +576,11 @@
     }
 
     closeModalBtn.addEventListener('click', ()=>{ resultModal.close(); });
-    restartModalBtn.addEventListener('click', ()=>{ resultModal.close(); localStorage.removeItem(stateKey); resetAll(); });
+    restartModalBtn.addEventListener('click', ()=>{ resultModal.close(); resetAll(); });
 
     // Старт
     (function init(){
+        // У цьому режимі (без збереження) просто запускаємо resetAll при старті.
         shuffleToggle.addEventListener('change', () => {
             resetAll(shuffleToggle.checked);
         });
@@ -633,27 +588,15 @@
         timedToggle.addEventListener('change', () => {
             timerBox.classList.toggle('hidden', !timedToggle.checked);
             if (timedToggle.checked && idx < tasks.length && checkBtn.disabled === false) {
-                startPerTaskTimer();
+                 startPerTaskTimer();
             } else {
-                clearInterval(perTaskTimer);
+                 clearInterval(perTaskTimer);
+                 timerBox.classList.remove('text-red-500'); // Прибираємо червоний, якщо вимкнули
             }
-              saveState(); 
         });
 
-
-        const restored = loadState();
-        if(!restored){
-            resetAll(shuffleToggle.checked); 
-        } else {
-            render(); 
-            if (timedToggle.checked && idx < tasks.length && checkBtn.disabled === false) {
-                 startPerTaskTimer();
-            }
-        }
+        resetAll(shuffleToggle.checked); 
     })();
   </script>
 </body>
 </html>
-
-
-
