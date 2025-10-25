@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Відеоматеріали | Мова майбутнього</title>
+  <style>
+    /* --- Стандартні стилі шаблону --- */
+    * {
+      box-sizing: border-box;
+    }
+    :root {
+      --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
+      --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
+      color: var(--text); line-height: 1.7; margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-nav {
+      max-width: 900px; margin: 0 auto; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #fff; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; transition: opacity 0.2s ease;
+    }
+    .back-link:hover { opacity: 0.85; }
+    .back-link svg { width: 20px; height: 20px; }
+    .guidebook-title {
+      font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem;
+    }
+    .guidebook-title strong { font-weight: 600; }
+    @media (max-width: 640px) {
+      .guidebook-title { display: none; }
+      .back-link { margin-right: auto; }
+    }
+    .main-content {
+      flex-grow: 1; max-width: 900px; width: 100%;
+      margin: 1.5rem auto; padding: 0 1rem;
+    }
+    .content-wrapper {
+      background: #fff; border-radius: 1rem; padding: 2rem 2.5rem;
+      border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 640px) {
+      .content-wrapper { padding: 1.5rem; }
+    }
+    .content-wrapper h1 { /* Заголовок сторінки */
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
+      color: var(--blue-dark); margin-top: 0; margin-bottom: 1.5rem; line-height: 1.3;
+      text-align: center; /* Центруємо лише головний заголовок */
+    }
+     .content-wrapper h2 { /* Підзаголовки */
+        font-size: 1.4rem; font-weight: 600; color: var(--blue-dark);
+        margin-top: 1.8rem; margin-bottom: 0.8rem;
+     }
+     .content-wrapper p {
+      margin-top: 0; margin-bottom: 1rem; font-size: 1.05rem;
+      color: var(--text);
+    }
+     .content-wrapper ul {
+        padding-left: 1.5rem; margin-bottom: 1rem; list-style: disc;
+     }
+      .content-wrapper li {
+        margin-bottom: 0.5rem; font-size: 1.05rem;
+      }
+    .content-wrapper strong { font-weight: 600; color: var(--text); }
+
+    /* --- Специфічні стилі для цієї сторінки --- */
+    .button-container {
+      text-align: center; /* Центруємо кнопку */
+      margin-top: 2rem; /* Додаємо відступ зверху */
+    }
+    /* Стиль для кнопки YouTube */
+     .youtube-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: linear-gradient(90deg, #FF0000 0%, #cc0000 100%); /* Червоний градієнт YouTube */
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem; /* Збільшено шрифт */
+      padding: 0.9rem 1.8rem; /* Збільшено паддінги */
+      border-radius: 0.6rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3); /* Тінь */
+    }
+     .youtube-button svg {
+        width: 24px;
+        height: 24px;
+     }
+     .youtube-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(255, 0, 0, 0.4);
+    }
+
+    footer { /* Стандартний підвал */
+      text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
+      color: var(--muted); background: #fff; border-top: 1px solid var(--border);
+      margin-top: auto; /* Притискає підвал до низу */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Стандартна шапка -->
+  <header class="page-header">
+    <nav class="header-nav">
+      <!-- Посилання "Назад на Головну" -->
+      <a href="index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        На головну
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Стандартний контейнер для основного вмісту -->
+  <main class="main-content">
+    <div class="content-wrapper">
+
+      <h1>Відеоматеріали</h1>
+
+      <!-- Вміст сторінки, який був раніше -->
+      <h2>Про канал "Мова Life"</h2>
+      <p>Ласкаво просимо на канал Мова Life! Він створений для тих, хто хоче вдосконалити свої знання української мови, зрозуміти її сучасний контекст і полюбити її ще більше. Це ваш відео-супутник до посібника "Мова майбутнього: сучасна українська для сучасних студентів" та доповнюють його практичними прикладами й живим спілкуванням.</p>
+
+      <h2>Що ви знайдете на нашому каналі?</h2>
+      <ul>
+        <li>Цікаві уроки української мови: новітні правила, тонкощі слововживання, лайфхаки для щоденного спілкування.</li>
+        <li>Мовні виклики: тести, вправи, інтерактивні завдання.</li>
+        <li>Культурні аспекти: цікаві факти про українську літературу, історію мови та її місце у світі.</li>
+        <li>Розмовна практика: допомога в удосконаленні мовлення для повсякденного використання.</li>
+      </ul>
+
+      <h2>Наша місія</h2>
+      <p>Показати, що українська мова — це не лише спадок, але й інструмент для майбутнього. Ми допомагаємо кожному стати впевненим користувачем мови та відкриваємо нові можливості для комунікації.</p>
+      <p><strong>Приєднуйтеся до нас, щоб разом творити мовне майбутнє!</strong></p>
+
+      <!-- Контейнер для кнопки -->
+      <div class="button-container">
+        <p style="margin-bottom: 0.5rem; color: var(--muted); font-size: 1rem;">Перегляньте відео на нашому YouTube-каналі:</p>
+        <a href="https://www.youtube.com/@%D0%9C%D0%BE%D0%B2%D0%B0%D0%9B%D0%B0%D0%B9%D1%84/videos" class="youtube-button" target="_blank" rel="noopener noreferrer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.714 3.407 0 4.96 0 8.016v7.968c0 3.057.714 4.609 4.385 4.834 3.6.245 11.626.246 15.23 0 3.671-.225 4.385-1.777 4.385-4.834V8.016c0-3.056-.714-4.609-4.385-4.832zM9.919 14.55V7.45l6.56 3.55-6.56 3.55z"/></svg>
+          Перейти до відео
+        </a>
+      </div>
+      <!-- Кінець вмісту сторінки -->
+
+    </div>
+  </main>
+
+  <!-- Стандартний підвал -->
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+</body>
+</html>
+
