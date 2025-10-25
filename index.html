@@ -6,9 +6,20 @@
   <title>Мова майбутнього — інтерактивний посібник</title>
   <meta name="description" content="Інтерактивний посібник «Мова майбутнього»: сучасна українська мова для студентів. Розділи, інтерактивні додатки, відео та корисні матеріали." />
   <meta name="theme-color" content="#1E3A5F" />
+  <meta name="color-scheme" content="light"> <!-- Додано -->
+  <!-- Meta/OG -->
+  <meta property="og:title" content="Мова майбутнього — інтерактивний посібник" />
+  <meta property="og:description" content="Сучасна українська для сучасних студентів: модулі, вправи, словники, тести та відео." />
+  <meta property="og:type" content="website"> <!-- Додано -->
+  <meta property="og:locale" content="uk_UA"> <!-- Додано -->
+  <!-- <meta property="og:image" content="АБСОЛЮТНИЙ_URL_ДО_ЗОБРАЖЕННЯ_1200x630.jpg"> -->
+  <!-- <link rel="canonical" href="АБСОЛЮТНИЙ_URL_ДО_СТОРІНКИ"> -->
+  <!-- <link rel="icon" href="/favicon.ico" sizes="any"> -->
+  <!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --blue: #4BA3C3;      /* акцент з обкладинки */
@@ -18,7 +29,21 @@
       --muted: #6B7280;
       --border: #D1D5DB;
       --card-shadow: 0 10px 22px rgba(0,0,0,0.08);
+      --header-height: 96px; /* Оновлено висоту шапки для відступу */
     }
+
+    /* Додаємо scroll-padding-top для плавного скролу і відступу під шапкою */
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: var(--header-height); /* Глобальний відступ для всіх якорів */
+    }
+
+    /* Стилі для :target (підсвітка якоря) */
+    :target {
+        outline: 2px dashed var(--blue);
+        outline-offset: 6px;
+    }
+
 
     html, body { height: 100%; }
     body {
@@ -33,6 +58,21 @@
       background-image: linear-gradient(135deg, #FFFFFF 0%, #F5F7FA 55%, #FFFFFF 100%);
       background-attachment: fixed;
     }
+
+    /* Стилі Skip-link */
+     .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+     .skip-link:focus-visible {
+       position: fixed;
+       left: 1rem; top: 1rem;
+       padding: .5rem .75rem;
+       background: #fff; border: 2px solid var(--blue);
+       border-radius: .5rem; box-shadow: 0 6px 16px rgba(0,0,0,.15);
+       clip: auto; width: auto; height: auto; white-space: normal;
+       z-index: 100; /* Переконатись, що він над шапкою */
+       color: var(--blue-dark);
+       text-decoration: none;
+       font-weight: 600;
+     }
 
     /* Шапка */
     header {
@@ -54,7 +94,8 @@
     header p {
       margin: 0;
       font-size: 1rem;
-      color: #E0F4FB;
+      /* color: #E0F4FB; Перевірити контраст, можливо #CDE9F5 або темніше */
+      color: #CDE9F5; /* Трохи темніший для кращого контрасту */
       max-width: 700px; /* Обмеження ширини підзаголовка */
       margin: 0 auto;
     }
@@ -68,7 +109,7 @@
       gap: .75rem;
       padding: 0 1rem;
     }
-    
+
     @media (min-width: 768px) {
       .toolbar {
         grid-template-columns: 1fr auto; /* Два стовпці на більших екранах */
@@ -100,6 +141,15 @@
     .search svg {
       color: var(--muted);
     }
+    /* Додано стилі для статусу пошуку */
+    #search-status {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+        text-align: left; /* Або center, залежно від дизайну */
+        min-height: 1.2em; /* Щоб уникнути стрибків */
+    }
+
     .quick-nav {
       display: flex;
       gap: .5rem;
@@ -122,9 +172,9 @@
       transition: transform .2s ease, box-shadow .2s ease;
       font-weight: 500;
     }
-    .chip:hover { 
-      transform: translateY(-2px); 
-      box-shadow: 0 6px 14px rgba(0,0,0,0.06); 
+    .chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.06);
       color: var(--blue);
       border-color: #cdd3da;
     }
@@ -135,7 +185,10 @@
       margin: 0 auto;
       padding: 1.25rem 1rem 2.5rem;
     }
-    
+
+    /* Відступ для секцій-якорів вже задано через scroll-padding-top на html */
+    /* #start, #content { scroll-margin-top: var(--header-height); } */
+
     /* Розділювач секцій */
     .section-title {
       grid-column: 1 / -1;
@@ -148,20 +201,19 @@
       align-items: center;
       gap: .6rem;
     }
-    .section-title:before { 
-      content: ''; 
-      display: inline-block; 
-      width: 20px; 
-      height: 20px; 
-      border-radius: 5px; 
-      background: linear-gradient(135deg, var(--blue-dark), var(--blue)); 
+    .section-title:before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
     }
 
     /* Сітка карток */
     .card-grid {
       display: grid;
       gap: 1.25rem;
-      /* Ось зміна: 250px замість 260px для кращої гнучкості */
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
     .card {
@@ -179,18 +231,19 @@
       min-height: 160px;
     }
     .card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow); border-color: #cdd3da; }
-    .card .eyebrow { 
-      color: var(--blue-dark); 
-      font-size: .8rem; 
-      letter-spacing: .08em; 
-      text-transform: uppercase; 
-      opacity: .9; 
+    .card .eyebrow {
+      color: var(--blue-dark);
+      font-size: .8rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .9;
       font-weight: 600;
     }
-    .card h2 { 
-      font-size: 1.12rem; 
-      color: var(--blue-dark); 
-      margin: 0; 
+    /* Змінено h2 на h3 */
+    .card h3 {
+      font-size: 1.12rem;
+      color: var(--blue-dark);
+      margin: 0;
       font-weight: 700;
     }
     .card p { margin: 0; color: var(--muted); font-size: .95rem; }
@@ -221,29 +274,26 @@
       border-top: 1px solid var(--border);
     }
 
-    /* Дрібні покращення */
-    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-    
     /* Акордеон: чистий, стриманий */
     .accordion-wrapper {
       max-width: 48rem; /* 768px */
       margin: 0 auto; /* Центрування акордеону */
     }
-    .accordion details {  
-      background: #fff; border: 1px solid var(--border); border-radius: .8rem;  
+    .accordion details {
+      background: #fff; border: 1px solid var(--border); border-radius: .8rem;
       box-shadow: 0 6px 14px rgba(0,0,0,0.04); margin-bottom: .75rem; overflow: hidden;
       transition: box-shadow 0.2s ease;
     }
     .accordion details:hover {
       box-shadow: 0 8px 18px rgba(0,0,0,0.06);
     }
-    .accordion summary {  
-      list-style: none; cursor: pointer; padding: 1rem 1.1rem;  
+    .accordion summary {
+      list-style: none; cursor: pointer; padding: 1rem 1.1rem;
       display: flex; align-items: center; gap: .75rem; font-weight: 600; color: var(--blue-dark);
     }
     .accordion summary::-webkit-details-marker { display: none; }
     .accordion summary span { flex: 1; }
-    
+
     .accordion summary svg.icon-acc {
       width: 1.25rem; /* 20px */
       height: 1.25rem;
@@ -252,11 +302,11 @@
     }
 
     .accordion .acc-body { padding: .75rem 1.1rem 1rem; border-top: 1px solid var(--border); }
-    .accordion .acc-link { 
-      display: block; 
-      margin: .25rem 0; 
-      color: var(--blue); 
-      text-decoration: none; 
+    .accordion .acc-link {
+      display: block;
+      margin: .25rem 0;
+      color: var(--blue);
+      text-decoration: none;
       padding: 0.25rem 0;
       font-weight: 500;
     }
@@ -276,18 +326,17 @@
     /* Маленькі іконки-стрілки через CSS */
     .accordion summary::after {
       content: '▼'; /* ▼ */
-      font-size: .9rem; 
-      color: var(--blue-dark); 
-      transition: transform .2s ease;  
+      font-size: .9rem;
+      color: var(--blue-dark);
+      transition: transform .2s ease;
     }
     details[open] > summary::after { transform: rotate(-180deg); }
-    
+
     /* Активний/відкритий пункт акордеону з синім маркером */
     .accordion details[open] summary {
       position: relative;
       background: linear-gradient(90deg, rgba(30,58,95,0.06), rgba(75,163,195,0.06));
-      /* Змінено колір бордера на ваш акцентний синій */
-      border-left: 4px solid var(--blue); 
+      border-left: 4px solid var(--blue);
     }
     .accordion summary span::before {
       content: "";
@@ -295,11 +344,49 @@
       width: 10px; height: 10px; border-radius: 50%;
       background: transparent; margin-right: .5rem; transform: translateY(1px);
     }
-    /* Змінено колір крапки на ваш акцентний синій */
     details[open] > summary span::before { background: var(--blue); }
+
+    /* Додано фокус-стилі */
+    .chip:focus-visible, .card:focus-visible, summary:focus-visible, .acc-link:focus-visible, .sublist a:focus-visible {
+      outline: 2px solid color-mix(in oklab, var(--blue) 75%, white 25%);
+      outline-offset: 3px;
+      border-radius: .5rem; /* Або .75rem для карток/summary */
+    }
+    .search input:focus-visible {
+        outline: 2px solid color-mix(in oklab, var(--blue) 75%, white 25%);
+        outline-offset: 1px;
+        border-radius: .5rem;
+    }
+
+
+    /* Підтримка reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; } /* Вимкнути плавну прокрутку */
+      * { transition: none !important; animation: none !important; }
+      .chip:hover, .card:hover { transform: none !important; }
+      .accordion summary::after { transition: none !important; }
+    }
+
+    /* Print-стилі */
+    @media print {
+      header, .toolbar, .icon-wrapper, footer, .search, .quick-nav, .skip-link { display: none !important; }
+      body { background: #fff !important; color: #000 !important; }
+      main { max-width: 100%; }
+      .card, .accordion details { box-shadow: none !important; border: 1px solid #999; }
+      .accordion details { page-break-inside: avoid; } /* Намагаємось не розривати акордеон */
+      .accordion details[open] { /* Намагаємось розкрити всі на друк, але надійніше через JS */
+          /* Це може не працювати стабільно */
+      }
+      .acc-link, .sublist a { color: var(--blue-dark) !important; text-decoration: none; }
+      .section-title:before { display: none; }
+    }
+
   </style>
 </head>
 <body>
+  <!-- Skip link -->
+  <a class="skip-link visually-hidden" href="#main">Пропустити до основного</a>
+
   <header>
     <div class="wrap">
       <h1>Мова майбутнього</h1>
@@ -307,9 +394,13 @@
     </div>
     <div class="toolbar" role="search">
       <label class="search" aria-label="Пошук по сайту">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-4.35-4.35m1.1-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+        <!-- Додано візуально прихований текст для кращої доступності -->
+        <span class="visually-hidden">Пошук розділів і додатків</span>
+        <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-4.35-4.35m1.1-5.4a7.75 7.75 0 11-15.5 0 7.75 7.75 0 0115.5 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
         <input id="q" type="search" placeholder="Пошук розділів і додатків…" autocomplete="off" />
       </label>
+       <!-- Додано div для статусу пошуку -->
+      <div id="search-status" aria-live="polite" role="status"></div>
       <nav class="quick-nav" aria-label="Швидка навігація">
         <a class="chip" href="#start">Швидкий старт</a>
         <a class="chip" href="#content">Повний зміст</a>
@@ -319,7 +410,8 @@
     </div>
   </header>
 
-  <main>
+  <!-- Додано id="main" -->
+  <main id="main">
     <!-- СЕКЦІЯ "ШВИДКИЙ СТАРТ" -->
     <section id="start" aria-labelledby="start-title">
       <h2 class="section-title" id="start-title">Швидкий старт</h2>
@@ -327,46 +419,50 @@
         <!-- Картка: Розділи -->
         <a class="card" href="sections/01-podorozh-svitom-movy.html">
           <span class="eyebrow">Розділ 1</span>
-          <h2>Подорож світом мови</h2>
+          <!-- Змінено h2 на h3 -->
+          <h3>Подорож світом мови</h3>
           <p>Мета, завдання та актуальність посібника.</p>
           <div class="icon-wrapper" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
           </div>
         </a>
         <!-- Картка: Інтерактиви -->
         <a class="card" href="interactive/">
           <span class="eyebrow">Інтерактив</span>
-          <h2>Вправи та тести</h2>
+           <!-- Змінено h2 на h3 -->
+          <h3>Вправи та тести</h3>
           <p>Перевірте свої знання: Фонетика, лексика, орфографія.</p>
           <div class="icon-wrapper" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5.1L11.8 15l-4.2-4.2-1.6 1.6L11.8 21 22 5.1 17 5.1z"/><path d="M3.2 13.8L8 19l6-6.2-1.6-1.6-4.2 4.2-3.2-3.2-1.6 1.6z"/></svg>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5.1L11.8 15l-4.2-4.2-1.6 1.6L11.8 21 22 5.1 17 5.1z"/><path d="M3.2 13.8L8 19l6-6.2-1.6-1.6-4.2 4.2-3.2-3.2-1.6 1.6z"/></svg>
           </div>
         </a>
         <!-- Картка: Документи -->
         <a class="card" href="sections/10-dokumenty-dlya-roboty.html">
           <span class="eyebrow">Розділ 10</span>
-          <h2>Документи для роботи</h2>
+           <!-- Змінено h2 на h3 -->
+          <h3>Документи для роботи</h3>
           <p>Шаблони та поради для резюме, автобіографії та заяв.</p>
           <div class="icon-wrapper" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           </div>
         </a>
         <!-- Картка: Сленг -->
         <a class="card" href="sections/07-novi-movni-tendenciyi.html">
           <span class="eyebrow">Розділ 7</span>
-          <h2>Сленг і тенденції</h2>
+           <!-- Змінено h2 на h3 -->
+          <h3>Сленг і тенденції</h3>
           <p>Актуальні фрази, цифрові терміни та патріотичний сленг.</p>
           <div class="icon-wrapper" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
           </div>
         </a>
       </div>
     </section>
-    
+
     <!-- СЕКЦІЯ "ПОВНИЙ ЗМІСТ" -->
     <section id="content" aria-labelledby="content-title">
       <h2 class="section-title" id="content-title">Повний зміст посібника</h2>
-      
+
       <!-- АКОРДЕОН РОЗДІЛІВ -->
       <div class="accordion-wrapper">
         <div class="accordion" id="toc">
@@ -374,7 +470,7 @@
           <!-- Передмова -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
               <span>Передмова</span>
             </summary>
             <div class="acc-body">
@@ -385,7 +481,7 @@
           <!-- Розділ 1 -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
               <span>Розділ 1. Подорож світом сучасної української мови</span>
             </summary>
             <div class="acc-body">
@@ -396,7 +492,7 @@
           <!-- Розділ 2 з підтемами -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>
               <span>Розділ 2. Навчайся по-новому. Інтерактивна частина</span>
             </summary>
             <div class="acc-body">
@@ -419,7 +515,7 @@
           <!-- Розділ 3 -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               <span>Розділ 3. Комунікація. Мистецтво мови</span>
             </summary>
             <div class="acc-body">
@@ -430,7 +526,7 @@
           <!-- Розділ 4 -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               <span>Розділ 4. Культура мовлення</span>
             </summary>
             <div class="acc-body">
@@ -441,7 +537,7 @@
           <!-- Розділ 5 -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
               <span>Розділ 5. Лексика професіонала</span>
             </summary>
             <div class="acc-body">
@@ -452,7 +548,7 @@
           <!-- Розділ 6 -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
               <span>Розділ 6. Словничок професіонала: 10 спеціальностей</span>
             </summary>
             <div class="acc-body">
@@ -463,7 +559,7 @@
           <!-- Розділ 7 -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
               <span>Розділ 7. Нові мовні тенденції та сленг</span>
             </summary>
             <div class="acc-body">
@@ -474,7 +570,7 @@
           <!-- Розділ 8 -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
               <span>Розділ 8. Словник сучасного студента</span>
             </summary>
             <div class="acc-body">
@@ -485,7 +581,7 @@
           <!-- Розділ 9 -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12L9 15l-4-4"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12L9 15l-4-4"/></svg>
               <span>Розділ 9. Мова єдності</span>
             </summary>
             <div class="acc-body">
@@ -496,7 +592,7 @@
           <!-- Розділ 10 -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
               <span>Розділ 10. Як підготувати документи для роботи мрії</span>
             </summary>
             <div class="acc-body">
@@ -507,7 +603,7 @@
           <!-- Розділ 11 -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
               <span>Розділ 11. За лаштунками мови</span>
             </summary>
             <div class="acc-body">
@@ -518,7 +614,7 @@
           <!-- Висновки і джерела -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
               <span>Висновки та джерела</span>
             </summary>
             <div class="acc-body">
@@ -532,7 +628,7 @@
           <!-- Інтерактивні додатки -->
           <details>
             <summary>
-              <svg class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <svg aria-hidden="true" focusable="false" class="icon-acc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
               <span>Інтерактивні додатки</span>
             </summary>
             <div class="acc-body">
@@ -557,32 +653,100 @@
     © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
   </footer>
 
+  <!-- Оновлений скрипт пошуку -->
   <script>
-    // Простий клієнтський пошук по заголовках карток та акордеону
     (function(){
       const input = document.getElementById('q');
       const cards = Array.from(document.querySelectorAll('.card'));
       const details = Array.from(document.querySelectorAll('.accordion details'));
-      
-      if (!input) return;
+      const status = document.getElementById('search-status'); // Елемент для статусу
+      const accordionWrapper = document.querySelector('.accordion-wrapper'); // Обгортка акордеону
+      if (!input || !accordionWrapper) return;
+
+      // Зберігаємо початковий стан відкритості details
+      const initialOpenState = new Map();
+      details.forEach(d => initialOpenState.set(d, d.open));
+
+      const normalize = s => s.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+      let tId;
 
       input.addEventListener('input', function(){
-        const q = this.value.trim().toLowerCase();
-        
-        // Фільтрація карток
-        cards.forEach(c => {
-          const t = (c.querySelector('h2')?.textContent + ' ' + c.querySelector('p')?.textContent).toLowerCase();
-          c.style.display = t.includes(q) ? '' : 'none';
-        });
+        clearTimeout(tId);
+        tId = setTimeout(() => {
+          const q = normalize(this.value.trim());
+          let hits = 0;
+          let firstMatch = null; // Для прокрутки до першого збігу в акордеоні
 
-        // Фільтрація акордеону
-        details.forEach(d => {
-          const summaryText = d.querySelector('summary span')?.textContent.toLowerCase() || '';
-          const linksText = Array.from(d.querySelectorAll('.acc-body a')).map(a => a.textContent.toLowerCase()).join(' ');
-          const t = summaryText + ' ' + linksText;
-          d.style.display = t.includes(q) ? '' : 'none';
-        });
+          // картки
+          cards.forEach(c => {
+            const text = normalize((c.querySelector('h3,h2')?.textContent||'') + ' ' + (c.querySelector('p')?.textContent||''));
+            const match = !q || text.includes(q);
+            c.style.display = match ? '' : 'none';
+            if (match) hits++;
+          });
+
+          // акордеон
+          details.forEach(d => {
+            const summaryText = normalize(d.querySelector('summary span')?.textContent || '');
+            const linksText = normalize(Array.from(d.querySelectorAll('.acc-body a')).map(a => a.textContent).join(' '));
+            const textContent = summaryText + ' ' + linksText;
+            const match = !q || textContent.includes(q);
+
+            d.style.display = match ? '' : 'none';
+
+            if (match) {
+                hits++;
+                // Відкриваємо, якщо є запит і збіг
+                if (q) {
+                    d.open = true;
+                    if (!firstMatch) {
+                        firstMatch = d; // Зберігаємо перший знайдений елемент акордеону
+                    }
+                } else {
+                    // Якщо запит порожній, повертаємо початковий стан
+                    d.open = initialOpenState.get(d) || false;
+                }
+            } else {
+                 // Закриваємо, якщо немає збігу (і є запит)
+                 if (q) {
+                    d.open = false;
+                 } else {
+                     d.open = initialOpenState.get(d) || false;
+                 }
+            }
+          });
+
+          // Оновлюємо статус
+          if (status) {
+            status.textContent = q && hits === 0 ? 'За вашим запитом нічого не знайдено.' : '';
+            // Робимо видимим, лише якщо є текст
+            status.classList.toggle('visually-hidden', !status.textContent);
+          }
+
+          // Плавна прокрутка до першого результату в акордеоні, якщо він поза полем зору
+          if (q && firstMatch && accordionWrapper) {
+              const accordionRect = accordionWrapper.getBoundingClientRect();
+              const firstMatchRect = firstMatch.getBoundingClientRect();
+
+              // Перевіряємо, чи перший збіг видимий
+              if (firstMatchRect.top < accordionRect.top || firstMatchRect.bottom > window.innerHeight) {
+                  // Прокручуємо до елемента акордеону
+                   firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+          }
+
+
+        }, 150); // Збільшено дебаунс до 150мс
       });
+
+      // Обробник для очищення пошуку (якщо браузер підтримує)
+       input.addEventListener('search', function() {
+           if (this.value === '') {
+               // Імітуємо подію input для скидання фільтрів
+               input.dispatchEvent(new Event('input'));
+           }
+       });
+
     })();
   </script>
 </body>
