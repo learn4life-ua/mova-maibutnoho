@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>7.2. Молодіжний сленг та скорочення</title>
+  <style>
+    /* ... (всі стилі з шаблону) ... */
+    * {
+      box-sizing: border-box;
+    }
+    :root {
+      --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
+      --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
+      color: var(--text); line-height: 1.7; margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-nav {
+      max-width: 900px; margin: 0 auto; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #fff; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; transition: opacity 0.2s ease;
+    }
+    .back-link:hover { opacity: 0.85; }
+    .back-link svg { width: 20px; height: 20px; }
+    .guidebook-title {
+      font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem;
+    }
+    .guidebook-title strong { font-weight: 600; }
+    @media (max-width: 640px) {
+      .guidebook-title { display: none; }
+      .back-link { margin-right: auto; }
+    }
+    .main-content {
+      flex-grow: 1; max-width: 900px; width: 100%;
+      margin: 1.5rem auto; padding: 0 1rem;
+    }
+    .content-wrapper {
+      background: #fff; border-radius: 1rem; padding: 2rem 2.5rem;
+      border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 640px) {
+      .content-wrapper { padding: 1.5rem; }
+    }
+    .content-wrapper h1 { /* Заголовок сторінки (номер + назва) */
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
+      color: var(--blue-dark); margin-top: 0; margin-bottom: 1.5rem; line-height: 1.3;
+    }
+    .content-wrapper h2 { /* Додаткові підзаголовки, якщо є */
+        font-size: 1.5rem; font-weight: 600; color: var(--blue-dark);
+        margin-top: 2rem; margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+    }
+    .content-wrapper p {
+      margin-top: 0; margin-bottom: 1rem; font-size: 1.05rem;
+    }
+    .content-wrapper ul { padding-left: 1.5rem; margin-bottom: 1rem; list-style: disc; } /* Звичайний список */
+    .content-wrapper li { margin-bottom: 0.5rem; font-size: 1.05rem; }
+    .content-wrapper strong { font-weight: 600; color: var(--text); }
+     /* Стиль для прикладів */
+     .example {
+        font-style: italic;
+        color: var(--muted);
+        margin-left: 1rem;
+     }
+
+    footer {
+      text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
+      color: var(--muted); background: #fff; border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <nav class="header-nav">
+       <!-- Посилання "Назад" -->
+      <a href="07-novi-movni-tendenciyi.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        Назад до Розділу 7
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+
+      <h1>7.2. Молодіжний сленг та скорочення</h1>
+
+      <p>Ось 12 популярних молодіжних сленгових скорочень і виразів, які активно використовуються в повсякденному спілкуванні та в онлайн-середовищі:</p>
+      
+      <ul>
+          <li>😂 <strong>LOL</strong> – Laughing Out Loud (сміятися в голос).
+              <br><span class="example">Приклад: "Ти побачив його мем? LOL, я не міг зупинитися від сміху!"</span></li>
+          <li>🤝 <strong>BFF</strong> – Best Friend Forever (найкращий друг назавжди).
+              <br><span class="example">Приклад: "Це моя BFF, ми знаємо одне одного з дитинства!"</span></li>
+          <li>😟 <strong>FOMO</strong> – Fear Of Missing Out (страх пропустити щось важливе або цікаве).
+              <br><span class="example">Приклад: "Я не поїхав на вечірку, але відчуваю FOMO через те, що пропустив!"</span></li>
+          <li>📩 <strong>DM</strong> – Direct Message (пряме повідомлення в соцмережах).
+              <br><span class="example">Приклад: "Напишу тобі DM з деталями зустрічі."</span></li>
+          <li>🗣 <strong>TMI</strong> – Too Much Information (занадто багато інформації, яка не є потрібною або є незручною).
+              <br><span class="example">Приклад: "Це було TMI, не потрібно було так детально пояснювати!"</span></li>
+          <li>🎢 <strong>YOLO</strong> – You Only Live Once (життя одне, живи на повну).
+              <br><span class="example">Приклад: "Я вирішив поїхати в подорож до Єгипту. YOLO!"</span></li>
+          <li>🤷 ‍♂️ <strong>IDK</strong> – I Don't Know (я не знаю).
+              <br><span class="example">Приклад: "Чому він не прийшов? IDK, можливо, щось сталося."</span></li>
+          <li>🧐 <strong>TBH</strong> – To Be Honest (чесно кажучи).
+              <br><span class="example">Приклад: "TBH, я не впевнений, чи готовий я до цього проекту."</span></li>
+          <li>⏳ <strong>BRB</strong> – Be Right Back (щоб повернутися скоро).
+              <br><span class="example">Приклад: "BRB, треба швидко відповісти на дзвінок."</span></li>
+          <li>🤦 ‍♂️ <strong>SMH</strong> – Shaking My Head (мотаю головою, виражаю розчарування чи незгоду).
+              <br><span class="example">Приклад: "Він знову запізнився на зустріч — SMH."</span></li>
+          <li>🔙 <strong>TBT</strong> – Throwback Thursday (пост на тему спогадів, який часто публікується в четвер).
+              <br><span class="example">Приклад: "Дивись мій старий пост на TBT, як ми відпочивали на морі!"</span></li>
+          <li>😂 <strong>LMAO</strong> – Laughing My Ass Off (сміятися до сліз, дуже сильно сміятися).
+              <br><span class="example">Приклад: "Це було так смішно, LMAO!"</span></li>
+      </ul>
+
+      <p>Ці скорочення й вирази активно використовуються в текстових повідомленнях, на соціальних платформах і в повсякденних розмовах серед молоді. Вони допомагають зробити спілкування швидким та більш виразним, а також додають емоційності й неформальності в комунікацію.</p>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+</body>
+</html>
