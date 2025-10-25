@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>7.4. Вплив нових мовних тенденцій</title>
+  <style>
+    /* ... (всі стилі з шаблону) ... */
+    * {
+      box-sizing: border-box;
+    }
+    :root {
+      --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
+      --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
+      color: var(--text); line-height: 1.7; margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-nav {
+      max-width: 900px; margin: 0 auto; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #fff; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; transition: opacity 0.2s ease;
+    }
+    .back-link:hover { opacity: 0.85; }
+    .back-link svg { width: 20px; height: 20px; }
+    .guidebook-title {
+      font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem;
+    }
+    .guidebook-title strong { font-weight: 600; }
+    @media (max-width: 640px) {
+      .guidebook-title { display: none; }
+      .back-link { margin-right: auto; }
+    }
+    .main-content {
+      flex-grow: 1; max-width: 900px; width: 100%;
+      margin: 1.5rem auto; padding: 0 1rem;
+    }
+    .content-wrapper {
+      background: #fff; border-radius: 1rem; padding: 2rem 2.5rem;
+      border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 640px) {
+      .content-wrapper { padding: 1.5rem; }
+    }
+    .content-wrapper h1 { /* Заголовок сторінки (номер + назва) */
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
+      color: var(--blue-dark); margin-top: 0; margin-bottom: 1.5rem; line-height: 1.3;
+    }
+    .content-wrapper h2 { /* Додаткові підзаголовки, якщо є */
+        font-size: 1.5rem; font-weight: 600; color: var(--blue-dark);
+        margin-top: 2rem; margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+    .content-wrapper p {
+      margin-top: 0; margin-bottom: 1rem; font-size: 1.05rem;
+    }
+    .content-wrapper ul { padding-left: 1.5rem; margin-bottom: 1rem; list-style: disc; } /* Звичайний список */
+    .content-wrapper li { margin-bottom: 0.5rem; font-size: 1.05rem; }
+    .content-wrapper strong { font-weight: 600; color: var(--text); }
+     /* Стиль для прикладів */
+     .example {
+        font-style: italic;
+        color: var(--muted);
+        margin-left: 1rem;
+     }
+
+    footer {
+      text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
+      color: var(--muted); background: #fff; border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <nav class="header-nav">
+       <!-- Посилання "Назад" -->
+      <a href="07-novi-movni-tendenciyi.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        Назад до Розділу 7
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+
+      <h1>7.4. Вплив нових мовних тенденцій на сучасне спілкування</h1>
+      
+      <h2>Чому молодіжний сленг та цифрові терміни настільки популярні?</h2>
+      <ul>
+          <li>🧑‍🤝‍🧑 <strong>Ідентифікація</strong>: Сленг допомагає молоді відчути свою приналежність до певної соціальної групи, підкреслити свою індивідуальність та відрізнитися від старшого покоління.</li>
+          <li>🌈 <strong>Експресивність</strong>: Нові слова та вирази дозволяють висловити емоції більш яскраво та образно, ніж традиційна лексика.</li>
+          <li>⚡ <strong>Спрощення спілкування</strong>: Сленг часто використовується для швидкого та неформального спілкування, особливо в онлайн-просторі.</li>
+          <li>💻 <strong>Віддзеркалення сучасної реальності</strong>: Нові терміни виникають для позначення нових явищ, гаджетів, соціальних мереж та інших аспектів сучасного життя.</li>
+      </ul>
+
+      <h2>Вплив на сучасне спілкування:</h2>
+      <ul>
+          <li>🌍 <strong>Демократизація мови</strong>: Сленг руйнує мовні бар'єри, роблячи спілкування більш доступним і невимушеним.</li>
+          <li>🧠 <strong>Збагачення лексики</strong>: Постійне оновлення словникового запасу сприяє розвитку мови та її адаптації до нових умов.</li>
+          <li>🔄 <strong>Зміна мовних норм</strong>: Сленг впливає на літературну мову, породжуючи нові слова та вирази.</li>
+          <li>🧩 <strong>Створення субкультур</strong>: Кожна молодіжна субкультура має свій власний сленг, що підкреслює її особливості та відмінності від інших.</li>
+      </ul>
+
+      <h2>Проте, є й негативні аспекти:</h2>
+      <ul>
+          <li>🚫 <strong>Збіднення мови</strong>: Занадто часте використання сленгу може призвести до збіднення мови та ускладнення розуміння для людей старшого покоління.</li>
+          <li>💬 <strong>Створення мовних бар'єрів</strong>: Надмірне захоплення сленгом може ускладнювати спілкування між різними соціальними групами.</li>
+          <li>⚠️ <strong>Деградація мови</strong>: Деякі дослідники стверджують, що надмірне використання сленгу може призвести до деградації мови.</li>
+      </ul>
+
+      <p>Молодіжний сленг та цифрові терміни є невід'ємною частиною сучасного мовного ландшафту. Вони відіграють важливу роль у формуванні ідентичності молоді, розвитку мови та адаптації її до нових умов. Однак важливо пам'ятати про доречність використання сленгу та зберігати баланс між новим і традиційним.</p>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+</body>
+</html>
