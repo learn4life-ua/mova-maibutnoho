@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Про посібник "Мова майбутнього"</title>
+  <style>
+    /* ... (всі стилі з шаблону) ... */
+    * {
+      box-sizing: border-box;
+    }
+    :root {
+      --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
+      --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
+      color: var(--text); line-height: 1.7; margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-nav {
+      max-width: 900px; margin: 0 auto; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #fff; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; transition: opacity 0.2s ease;
+    }
+    .back-link:hover { opacity: 0.85; }
+    .back-link svg { width: 20px; height: 20px; }
+    .guidebook-title {
+      font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem;
+    }
+    .guidebook-title strong { font-weight: 600; }
+    @media (max-width: 640px) {
+      .guidebook-title { display: none; }
+      .back-link { margin-right: auto; }
+    }
+    .main-content {
+      flex-grow: 1; max-width: 900px; width: 100%;
+      margin: 1.5rem auto; padding: 0 1rem;
+    }
+    .content-wrapper {
+      background: #fff; border-radius: 1rem; padding: 2rem 2.5rem;
+      border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 640px) {
+      .content-wrapper { padding: 1.5rem; }
+    }
+    .content-wrapper h1 {
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
+      color: var(--blue-dark); margin-top: 0; margin-bottom: 1.5rem; line-height: 1.3;
+    }
+    .content-wrapper h2 {
+        font-size: 1.5rem; font-weight: 600; color: var(--blue-dark);
+        margin-top: 2rem; margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+     .content-wrapper h3 {
+        font-size: 1.25rem; font-weight: 600; color: var(--blue-dark);
+        margin-top: 1.5rem; margin-bottom: 0.8rem;
+    }
+    .content-wrapper p {
+      margin-top: 0; margin-bottom: 1rem; font-size: 1.05rem;
+    }
+    .content-wrapper ul { padding-left: 1.5rem; margin-bottom: 1rem; list-style: none; /* Прибираємо стандартні маркери */}
+    .content-wrapper li { margin-bottom: 0.5rem; font-size: 1.05rem; }
+    .content-wrapper strong { font-weight: 600; color: var(--text); }
+
+    .authors-list li { margin-bottom: 1rem; } /* Додатковий відступ для авторів */
+    .reviewer { margin-top: 2rem; } /* Відступ перед рецензентом */
+
+    footer {
+      text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
+      color: var(--muted); background: #fff; border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <nav class="header-nav">
+      <!-- Посилання "Назад на Головну" -->
+      <a href="index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        На головну
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+
+      <h1>Про посібник</h1>
+
+      <h2>Укладачі</h2>
+      <ul class="authors-list">
+        <li><strong>Глушко С.О.</strong> – викладач вищої кваліфікаційної категорії, голова методичного об’єднання кураторів ВСП «Аграрно-економічний фаховий коледж Полтавського державного аграрного університету»</li>
+        <li><strong>Степаненко О.Ю.</strong> – викладач вищої кваліфікаційної категорії ВСП «Аграрно-економічний фаховий коледж Полтавського державного аграрного університету»</li>
+        <li><strong>Губарь Н. Л.</strong> – викладач-методист, викладач вищої кваліфікаційної категорії ВСП «Аграрно-економічний фаховий коледж Полтавського державного аграрного університету»</li>
+      </ul>
+
+      <h2 class="reviewer">Рецензент</h2>
+      <p><strong>В.Д. Марченко</strong> – викладач української мови та літератури, викладач-методист, викладач вищої кваліфікаційної категорії Полтавського фахового коледжу нафти і газу Національного університету «Полтавська політехніка імені Юрія Кондратюка»</p>
+
+      <h2>Анотація</h2>
+      <p>Інтерактивний посібник містить теоретичний матеріал, відеолекції, інтерактивні ресурси та тестові завдання з усіх основних тем сучасної української мови. Зміст посібника відповідає освітньо-професійним програмам для студентів різних спеціальностей і покликаний допомогти в удосконаленні мовних навичок.</p>
+      <p>Унікальність посібника полягає в поєднанні класичних основ мови з актуальними тенденціями: професійною лексикою, інтерактивними ресурсами, молодіжним сленгом та цифровою етикою. Практичні вправи, тести, шаблони документів і словники допоможуть вам застосовувати знання у навчанні, роботі та повсякденному житті.</p>
+      <p><strong>Ця онлайн-версія є розширеним та зручним інтерактивним доповненням до друкованого посібника.</strong></p>
+      <p>Посібник стане незамінним помічником у вивченні мови, допоможе впевнено користуватися українською у навчанні, професійній діяльності та повсякденному житті.</p>
+
+      <p><em>Рекомендовано цикловою комісією загальноосвітніх дисциплін.</em></p>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+</body>
+</html>
