@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="uk" class="h-full">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Флеш-картки: Студентський Сленг | Мова майбутнього</title>
+    <!-- Підключення Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Підключення шрифту Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    
+    <style>
+        /* --- Стилі для флеш-карток --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F7FA; 
+        }
+        
+        /* Стилі для самої картки */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 350px; /* Висота картки */
+            perspective: 1000px;
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+
+        /* Ефект при наведенні - легке збільшення */
+        .flip-card:not(.flipped):hover {
+             transform: scale(1.03);
+             box-shadow: 0 10px 20px 0 rgba(0,0,0,0.15);
+        }
+
+        /* Внутрішній контейнер, що обертається */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            /* Плавна "пружиниста" анімація */
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 12px 0 rgba(0,0,0,0.1);
+            border-radius: 0.75rem; /* 12px */
+        }
+
+        /* Стан "перевернутої" картки */
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Передня та задня сторони */
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Для Safari */
+            backface-visibility: hidden;
+            border-radius: 0.75rem; /* 12px */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto; /* Прокрутка, якщо текст не вміщується */
+        }
+
+        /* Стиль передньої сторони - градієнт */
+        .flip-card-front {
+            background: linear-gradient(135deg, #ffffff 25%, #fffde7 100%);
+            /* --blue-dark: #1E3A5F; */
+            color: #1E3A5F;
+            border: 1px solid #4BA3C3;
+        }
+
+        /* Стиль задньої сторони - градієнт */
+        .flip-card-back {
+            /* --blue-dark: #1E3A5F; --blue: #4BA3C3; */
+            background: linear-gradient(135deg, #4BA3C3 0%, #1E3A5F 100%);
+            color: white;
+            transform: rotateY(180deg);
+            border: 1px solid #4BA3C3;
+            /* Вирівнювання тексту нагорі для легшого читання */
+            align-items: flex-start; 
+        }
+        /* --- Кінець стилів для флеш-карток --- */
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- 
+    Стандартна шапка (відтворена за допомогою Tailwind)
+  -->
+  <header class="bg-gradient-to-r from-[#1E3A5F] to-[#4BA3C3] text-white p-4 shadow-lg sticky top-0 z-50">
+    <nav class="max-w-4xl mx-auto flex justify-between items-center">
+      <!-- .back-link -->
+      <a href="#" class="inline-flex items-center gap-2 text-white no-underline font-semibold text-sm sm:text-base hover:opacity-85 transition-opacity">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        На головну
+      </a>
+      <!-- .guidebook-title -->
+      <div class="text-sm opacity-90 hidden sm:block">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Стандартний контейнер для основного вмісту -->
+  <main class="flex-grow w-full max-w-4xl mx-auto my-6 sm:my-8 px-4">
+    <div class="bg-white rounded-2xl p-6 sm:p-8 lg:p-10 shadow-lg border border-gray-200">
+
+        <!-- Вміст сторінки флеш-карток -->
+        <header class="text-center mb-10">
+            <h1 class="text-[clamp(1.6rem,2.5vw+1rem,2.25rem)] font-bold text-[#1E3A5F] mb-4">
+                🎓 Сленг Сучасного Студента
+            </h1>
+            <p class="text-lg text-[#2C2C2C] max-w-3xl mx-auto mb-4">
+                Ці терміни відображають життя молодого покоління — від безсонних ночей перед дедлайном до кодових слів для відпочинку та харчування.
+            </p>
+            <p class="text-md text-gray-600">Натисніть на картку, щоб дізнатися, що означає той чи інший сленг.</p>
+        </header>
+
+        <!-- Контейнер для карток -->
+        <div id="card-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Картки будуть додані сюди за допомогою JavaScript -->
+        </div>
+
+    </div>
+  </main>
+
+  <!-- Стандартний підвал -->
+  <footer class="text-center p-6 mt-auto text-sm text-gray-600 bg-white border-t border-gray-200">
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+    <script>
+        const flashcardsData = [
+            {
+                term: "Завалія",
+                definition: "<strong>Категорія: Навчання</strong><br><br>Студент, який постійно не встигає та провалює дедлайни або іспити, часто через прокрастинацію."
+            },
+            {
+                term: "Ночепис",
+                definition: "<strong>Категорія: Навчання</strong><br><br>Нічний час, спеціально відведений для написання термінових конспектів, курсових чи інших навчальних робіт."
+            },
+            {
+                term: "Читоніч",
+                definition: "<strong>Категорія: Навчання</strong><br><br>Великий обсяг навчального матеріалу, який доводиться екстрено «поглинати» за одну ніч перед іспитом."
+            },
+            {
+                term: "Задедлайнився",
+                definition: "<strong>Категорія: Навчання</strong><br><br>Ситуація, коли студент застряг у безлічі завдань, терміни виконання яких вже критично наближаються або минули."
+            },
+            {
+                term: "Халявник",
+                definition: "<strong>Категорія: Навчання</strong><br><br>Студент, що успішно виконує завдання чи складає іспити в останню мить, часто мінімальними зусиллями (на «халяву»)."
+            },
+            {
+                term: "Лаба",
+                definition: "<strong>Категорія: Технічний</strong><br><br>Популярне скорочення від «лабораторна робота»."
+            },
+            {
+                term: "Пушнути",
+                definition: "<strong>Категорія: Технічний</strong><br><br>Викласти код, документ або оновлення у спільний онлайн-репозиторій чи на платформу (від англ. *to push*)."
+            },
+            {
+                term: "Дебаг",
+                definition: "<strong>Категорія: Технічний</strong><br><br>Процес виправлення помилок (багів) у комп'ютерній програмі, коді або системі (від англ. *debug*)."
+            },
+            {
+                term: "Мівінка",
+                definition: "<strong>Категорія: Харчування</strong><br><br>Миколттєва локшина — найпопулярніша швидка і бюджетна студентська страва."
+            },
+            {
+                term: "Гречка з кетчупом",
+                definition: "<strong>Категорія: Харчування</strong><br><br>Культова проста і дешева студентська страва, що є символом виживання і часто стає мемом."
+            },
+            {
+                term: "Чіл",
+                definition: "<strong>Категорія: Відпочинок</strong><br><br>Стан спокійного, розслабленого відпочинку, байдикування, релакс (від англ. *chill*)."
+            },
+            {
+                term: "Відвал бошки",
+                definition: "<strong>Категорія: Відпочинок</strong><br><br>Надзвичайно захоплююча, вражаюча або дуже весела подія чи явище."
+            },
+            {
+                term: "Релоаднутися",
+                definition: "<strong>Категорія: Відпочинок</strong><br><br>Відновити сили, перезавантажитися, добре відпочити після інтенсивного навчання чи роботи (від англ. *reload*)."
+            },
+            {
+                term: "Автомат",
+                definition: "<strong>Категорія: Оцінки</strong><br><br>Отримання заліку або позитивної оцінки автоматично, без необхідності складати іспит чи залік."
+            },
+            {
+                term: "Перездача",
+                definition: "<strong>Категорія: Оцінки</strong><br><br>Друга або наступна спроба скласти іспит чи залік після першої невдачі."
+            },
+            {
+                term: "Краш",
+                definition: "<strong>Категорія: Соціальні</strong><br><br>Людина, яка дуже подобається, часто об'єкт таємного або явного закохання (від англ. *crush*)."
+            },
+            {
+                term: "Шарити",
+                definition: "<strong>Категорія: Інтернет/Знання</strong><br><br>Добре розумітися на певній темі, мати глибокі знання чи навички (від англ. *to share* — ділитися, або *sharp* — гострий)."
+            }
+        ];
+
+        const cardContainer = document.getElementById('card-container');
+        let allCards = []; 
+
+        // Створюємо та додаємо кожну картку
+        flashcardsData.forEach(cardData => {
+            const card = document.createElement('div');
+            card.className = 'flip-card cursor-pointer';
+
+            const cardInner = document.createElement('div');
+            cardInner.className = 'flip-card-inner';
+
+            const cardFront = document.createElement('div');
+            cardFront.className = 'flip-card-front';
+            cardFront.innerHTML = `<h3 class="text-2xl font-bold px-4">${cardData.term}</h3>`;
+
+            const cardBack = document.createElement('div');
+            cardBack.className = 'flip-card-back text-left';
+            cardBack.innerHTML = `<div class="text-sm md:text-base w-full">${cardData.definition}</div>`;
+
+            cardInner.appendChild(cardFront);
+            cardInner.appendChild(cardBack);
+            card.appendChild(cardInner);
+            cardContainer.appendChild(card);
+            
+            allCards.push(card); 
+
+            // Додаємо обробник події для перевертання
+            card.addEventListener('click', () => {
+                const isFlipped = card.classList.contains('flipped');
+
+                // Спочатку "закриваємо" всі інші картки
+                allCards.forEach(c => {
+                    if (c !== card) {
+                        c.classList.remove('flipped');
+                    }
+                });
+
+                // "Відкриваємо" або "закриваємо" натиснуту картку
+                if (!isFlipped) {
+                    card.classList.add('flipped');
+                } else {
+                    card.classList.remove('flipped');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
