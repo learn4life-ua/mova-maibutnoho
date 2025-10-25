@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Квест «Слово-рятівник» — Мова майбутнього</title>
+  <meta name="description" content="Інтерактивний квест для порятунку мови від запозичень. Заміни іншомовне слово питомим українським." />
+  <meta name="color-scheme" content="light" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
+      --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
+      --card-shadow:0 10px 22px rgba(0,0,0,.08);
+      --ok:#16a34a;        /* успіх */
+      --warn:#ef4444;      /* помилка */
+    }
+    
+    /* --- Стандартні стилі шаблону --- */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
+      color: var(--text); line-height: 1.7; margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-nav {
+      max-width: 900px; margin: 0 auto; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #fff; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; transition: opacity 0.2s ease;
+    }
+    .back-link:hover { opacity: 0.85; }
+    .back-link svg { width: 20px; height: 20px; }
+    .guidebook-title {
+      font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem;
+    }
+    .guidebook-title strong { font-weight: 600; }
+    @media (max-width: 640px) {
+      .guidebook-title { display: none; }
+      .back-link { margin-right: auto; }
+    }
+    .main-content {
+      flex-grow: 1; max-width: 900px; width: 100%;
+      margin: 1.5rem auto; padding: 0 1rem;
+    }
+    .content-wrapper {
+      background: #fff; border-radius: 1rem; padding: 2rem 2.5rem;
+      border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 640px) {
+      .content-wrapper { padding: 1.5rem; }
+    }
+    .content-wrapper h1 {
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
+      color: var(--blue-dark); margin-top: 0; margin-bottom: 1rem; line-height: 1.3;
+    }
+    .content-wrapper h2 {
+      font-size: 1.4rem; font-weight: 600; color: var(--blue-dark);
+      margin-top: 1.8rem; margin-bottom: 0.8rem;
+    }
+    .content-wrapper p {
+      margin-top: 0; margin-bottom: 1.5rem; font-size: 1.05rem;
+      color: var(--text);
+    }
+    .content-wrapper ul { 
+      padding-left: 1.5rem; margin-bottom: 1rem; list-style: disc;
+    }
+    .content-wrapper li {
+      margin-bottom: 0.5rem; font-size: 1.05rem; 
+    }
+    .content-wrapper strong { font-weight: 600; color: var(--text); }
+    footer { 
+      text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
+      color: var(--muted); background: #fff; border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+    /* --- Кінець стилів шаблону --- */
+
+
+    /* --- Стилі компонентів квесту --- */
+    .chip{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border);background:#fff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1rem;border-radius:.9rem;border:1px solid var(--border);transition:.15s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .btn-primary:disabled{opacity:.6}
+    .btn-ghost{background:#fff}
+    .tab{padding:.5rem .9rem;border-radius:.7rem;border:1px solid var(--border);background:#fff}
+    .tab-active{border-color:var(--blue);color:var(--blue-dark);font-weight:600}
+    .opt{border:1px solid var(--border);border-radius:.9rem;padding:1rem;background:#fff;cursor:pointer;display:flex;gap:.8rem;align-items:flex-start}
+    .opt:hover{border-color:var(--blue)}
+    .opt.correct{border-color:var(--ok);box-shadow:0 0 0 3px rgba(22,163,74,.15)}
+    .opt.wrong{border-color:var(--warn);box-shadow:0 0 0 3px rgba(239,68,68,.12)}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.85rem; background:#f3f4f6; border:1px solid #e5e7eb; border-bottom-width:2px; padding:.1rem .4rem; border-radius:.4rem}
+    
+    /* (ДОДАНО) Стилі для нового квесту */
+    b.borrowed {
+      color: var(--blue-dark);
+      font-weight: 600;
+      background: #eff6ff;
+      padding: 2px 5px;
+      border-radius: 5px;
+      border: 1px solid #bfdbfe;
+    }
+    .explain-block {
+      display: grid;
+      grid-template-columns: 45px 1fr;
+      gap: 4px 8px;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+    .explain-block span {
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .explain-sentence {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .answer-inline {
+      color: var(--ok);
+      font-weight: 600;
+      border-bottom: 2px solid var(--ok);
+      padding-bottom: 1px;
+    }
+    .bg-red-50 .answer-inline {
+       color: var(--warn);
+       border-color: var(--warn);
+    }
+    /* --- Кінець нових стилів --- */
+    
+    dialog::backdrop{background:rgba(0,0,0,.45)}
+    dialog{border:none;border-radius:1rem;max-width:680px;width:92%;padding:0;box-shadow:0 20px 40px rgba(0,0,0,.2)}
+    .modal-body{padding:1.25rem}
+    
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    .shake { animation: shake 0.5s ease-in-out; }
+
+    #toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translate(-50%, 150%);
+      background: #333; color: white;
+      padding: 0.8rem 1.5rem; border-radius: 999px;
+      font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease-in-out;
+      z-index: 100; opacity: 0;
+    }
+    #toast.show { transform: translate(-50%, 0); opacity: 1; }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+  
+  <header class="page-header">
+    <nav class="header-nav">
+      <!-- (ОНОВЛЕНО) Посилання веде на index.html (список квестів) -->
+      <a href="index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        До списку квестів
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+
+      <h1>Квест «Слово-рятівник»</h1>
+      <p>Заміни запозичення питомим українським словом. Рятуймо мову разом!</p>
+
+      <section class="mb-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="chip" title="Кількість завдань"><span class="font-semibold" id="totalCount">—</span> завдань</span>
+            <span class="chip" title="Рівень складності"><span id="levelLabel">Високий</span></span>
+            <span class="chip" title="Прогрес"><span id="progressChip">0 / 0</span></span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <label class="flex items-center gap-2 text-sm"><input id="shuffleToggle" type="checkbox" class="h-4 w-4"> Перемішати</label>
+            <!-- (ДОДАНО) Кнопка Інверсії -->
+            <button id="invertBtn" class="btn" title="Інверсія: Укр. → Запозичення">⇅ Інверсія</button>
+            <label class="flex items-center gap-2 text-sm"><input id="timedToggle" type="checkbox" class="h-4 w-4"> Таймер 60с/завд.</label>
+            <button id="restartBtn" class="btn" title="Почати заново"><span class="mdi">⟲</span> Почати заново</button>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="w-full bg-gray-200 rounded-full h-3">
+            <div id="progressBar" class="h-3 rounded-full bg-[var(--blue)]" style="width:0%"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="taskArea" aria-live="polite">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-sm text-[var(--muted)]" id="taskCounter">Завдання 1/—</div>
+            <h2 class="text-xl md:text-2xl font-semibold mt-1" id="taskTitle">Обери правильний відповідник</h2>
+          </div>
+          <div class="text-right">
+            <div id="timerBox" class="hidden text-sm"><span class="font-semibold">Таймер:</span> <span id="timer">60</span> с</div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-[#f9fafb] rounded-xl border border-[var(--border)]" id="promptBox">
+          <p class="text-lg" id="promptText">…</p>
+        </div>
+
+        <div class="mt-4 grid gap-3" id="optionsBox" role="group" aria-label="Варіанти відповіді"></div>
+
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <button id="hintBtn" class="btn" title="Показати підказку (H)"><span class="mdi">💡</span> Підказка</button>
+          <button id="checkBtn" class="btn btn-primary" title="Перевірити відповідь (Enter)"><span class="mdi">✔</span> Перевірити</button>
+          <button id="nextBtn" class="btn" title="Наступне завдання (N)" disabled><span class="mdi">→</span> Далі</button>
+          <button id="skipBtn" class="btn" title="Пропустити завдання (S)">Пропустити</button>
+        </div>
+
+        <div id="hintBox" class="mt-3 hidden text-sm bg-blue-50 border border-blue-200 text-blue-900 rounded-lg p-3"></div>
+        <div id="explainBox" class="mt-3 hidden text-sm bg-green-50 border border-green-200 text-green-900 rounded-lg p-3"></div>
+      </section>
+
+      <section class="text-sm text-[var(--muted)] mt-4 flex items-center justify-between">
+        <div>Натисніть <span class="kbd">H</span> — підказка, <span class="kbd">Enter</span> — перевірити, <span class="kbd">N</span> — далі, <span class="kbd">S</span> — пропустити.</div>
+        <a class="underline hover:text-[var(--blue)]" href="#" id="saveLink">Зберегти прогрес</a>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+  <dialog id="resultModal">
+    <div class="bg-[var(--blue-dark)] text-white rounded-t-[1rem] p-5">
+      <h3 class="text-xl font-semibold">Результат квесту</h3>
+      <p class="opacity-90 text-sm">Підсумок проходження та зароблені бейджі</p>
+    </div>
+    <div class="modal-body">
+      <div class="grid gap-3">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="chip"><strong>Правильних:</strong> <span id="resRight">0</span></span>
+          <span class="chip"><strong>Неправильних:</strong> <span id="resWrong">0</span></span>
+          <span class="chip"><strong>Час:</strong> <span id="resTime">—</span></span>
+        </div>
+        <div class="mt-2" id="badgeBox"></div>
+        <div class="mt-2 text-sm text-[var(--muted)]" id="resTip"></div>
+      </div>
+      <div class="flex items-center justify-end gap-2 mt-4 p-3 border-t">
+        <button class="btn" id="closeModalBtn">Гаразд</button>
+        <button class="btn btn-primary" id="restartModalBtn">Пройти ще раз</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /**
+     * (ОНОВЛЕНО) ДАНІ КВЕСТУ "СЛОВО-РЯТІВНИК"
+     * Неправильні варіанти (opts) тепер узгоджені з граматикою
+     * вихідного речення (s), щоб уникнути помилок при
+     * неправильній відповіді.
+     */
+    const TASKS_BASE = [
+      {
+        s: 'Наш <b class="borrowed">бренд</b> упізнаваний серед студентів.', // ч.р.
+        opts: ['торгова марка', 'фірмач', 'логотип'], // (ж.р. - correct, ч.р., ч.р.)
+        correct: 0,
+        hint: 'У діловому стилі — «торгова марка».',
+        explain: '«Бренд» → «торгова марка».',
+        rewrite: 'Наша <span class="answer-inline">торгова марка</span> впізнавана серед студентів.',
+        s_inv: 'Наша <b class="borrowed">торгова марка</b> впізнавана серед студентів.',
+        opts_inv: ['бренд', 'лейбл', 'логотип'],
+        correct_inv: 0,
+        hint_inv: 'Шукаємо популярний англіцизм.',
+        explain_inv: '«Торгова марка» → «бренд».',
+        rewrite_inv: 'Наш <span class="answer-inline">бренд</span> упізнаваний серед студентів.'
+      },
+      {
+        s: 'Ми провели <b class="borrowed">брифінг</b> для волонтерів.', // ч.р., З.в.
+        opts: ['мітинг', 'інструктаж', 'збори'], // (ч.р., ч.р., мн.) - "провели мітинг", "провели збори" - граматично ок.
+        correct: 1,
+        hint: 'Коротка нарада-інструктаж.',
+        explain: '«Брифінг» → «інструктаж» (або «нарада»).',
+        rewrite: 'Ми провели <span class="answer-inline">інструктаж</span> для волонтерів.',
+        s_inv: 'Ми провели <b class="borrowed">інструктаж</b> для волонтерів.',
+        opts_inv: ['брифінг', 'мітинг', 'комітет'],
+        correct_inv: 0,
+        hint_inv: 'Запозичення, що означає короткі збори.',
+        explain_inv: '«Інструктаж» → «брифінг».',
+        rewrite_inv: 'Ми провели <span class="answer-inline">брифінг</span> для волонтерів.'
+      },
+      {
+        s: 'Який <b class="borrowed">дедлайн</b> цього завдання?',
+        opts: ['крайній термін', 'кінцева дата', 'фініш'],
+        correct: 0,
+        hint: 'Час, до якого потрібно завершити.',
+        explain: '«Дедлайн» → «крайній термін» (або «реченець»).',
+        rewrite: 'Який <span class="answer-inline">крайній термін</span> цього завдання?',
+        s_inv: 'Який <b class="borrowed">крайній термін</b> цього завдання?',
+        opts_inv: ['дедлайн', 'фінал', 'стоп-час'],
+        correct_inv: 0,
+        hint_inv: 'Англіцизм, що означає кінець строку.',
+        explain_inv: '«Крайній термін» → «дедлайн».',
+        rewrite_inv: 'Який <span class="answer-inline">дедлайн</span> цього завдання?'
+      },
+      {
+        s: 'Потрібно покращити <b class="borrowed">юзабіліті</b> сайту.',
+        opts: ['зручність користування', 'дизайн', 'вигляд'],
+        correct: 0,
+        hint: 'Наскільки зручно користуватися?',
+        explain: '«Юзабіліті» → «зручність користування».',
+        rewrite: 'Потрібно покращити <span class="answer-inline">зручність користування</span> сайтом.',
+        s_inv: 'Потрібно покращити <b class="borrowed">зручність користування</b> сайтом.',
+        opts_inv: ['юзабіліті', 'UX', 'інтерфейс'],
+        correct_inv: 0,
+        hint_inv: 'Англіцизм, синонім до "UX".',
+        explain_inv: '«Зручність користування» → «юзабіліті».',
+        rewrite_inv: 'Потрібно покращити <span class="answer-inline">юзабіліті</span> сайту.'
+      },
+      {
+        s: 'Ми отримали позитивний <b class="borrowed">фідбек</b>.',
+        opts: ['відгук', 'зворотний зв’язок', 'респонс'],
+        correct: 1, 
+        hint: 'Реакція на дію.',
+        explain: '«Фідбек» → «зворотний зв’язок».',
+        rewrite: 'Ми отримали позитивний <span class="answer-inline">зворотний зв’язок</span>.',
+        s_inv: 'Ми отримали позитивний <b class="borrowed">зворотний зв’язок</b>.',
+        opts_inv: ['фідбек', 'коментар', 'відповідь'],
+        correct_inv: 0,
+        hint_inv: 'Англіцизм для «зворотної реакції».',
+        explain_inv: '«Зворотний зв’язок» → «фідбек».',
+        rewrite_inv: 'Ми отримали позитивний <span class="answer-inline">фідбек</span>.'
+      },
+      {
+        s: 'Це був <b class="borrowed">фейк</b>, а не новина.', // ч.р., Н.в.
+        opts: ['підробка', 'обман', 'фальш'], // (ж.р. - correct, ч.р., ч.р.) - "Це був обман" - ок.
+        correct: 0,
+        hint: 'Щось не справжнє.',
+        explain: '«Фейк» → «підробка», «фальшивка».',
+        rewrite: 'Це була <span class="answer-inline">підробка</span>, а не новина.',
+        s_inv: 'Це була <b class="borrowed">підробка</b>, а не новина.',
+        opts_inv: ['фейк', 'фальш', 'обман'],
+        correct_inv: 0,
+        hint_inv: 'Популярний англіцизм для неправдивої інформації.',
+        explain_inv: '«Підробка» → «фейк».',
+        rewrite_inv: 'Це був <span class="answer-inline">фейк</span>, а не новина.'
+      },
+      {
+        s: 'Давайте проведемо <b class="borrowed">імплементацію</b> нової системи.', // ж.р., З.в.
+        opts: ['впровадження', 'втілення', 'запуск'], // (с.р. - correct, с.р., ч.р.) - "проведемо втілення", "проведемо запуск" - граматично ок.
+        correct: 0,
+        hint: 'Початок використання.',
+        explain: '«Імплементація» → «впровадження».',
+        rewrite: 'Давайте проведемо <span class="answer-inline">впровадження</span> нової системи.',
+        s_inv: 'Давайте проведемо <b class="borrowed">впровадження</b> нової системи.',
+        opts_inv: ['імплементацію', 'інсталяцію', 'реліз'],
+        correct_inv: 0,
+        hint_inv: 'Книжне запозичення, означає реалізацію.',
+        explain_inv: '«Впровадження» → «імплементація».',
+        rewrite_inv: 'Давайте проведемо <span class="answer-inline">імплементацію</span> нової системи.'
+      },
+      {
+        s: 'Студенти люблять <b class="borrowed">івенти</b> в коледжі.',
+        opts: ['події', 'заходи', 'вечірки'],
+        correct: 1,
+        hint: 'Організовані події.',
+        explain: '«Івент» → «захід».',
+        rewrite: 'Студенти люблять <span class="answer-inline">заходи</span> в коледжі.',
+        s_inv: 'Студенти люблять <b class="borrowed">заходи</b> в коледжі.',
+        opts_inv: ['івенти', 'паті', 'фестивалі'],
+        correct_inv: 0,
+        hint_inv: 'Англіцизм для «подій» або «заходів».',
+        explain_inv: '«Захід» → «івент».',
+        rewrite_inv: 'Студенти люблять <span class="answer-inline">івенти</span> в коледжі.'
+      },
+      {
+        s: 'Він крутий <b class="borrowed">копірайтер</b>.',
+        opts: ['рекламний автор', 'текстовик', 'письменник'],
+        correct: 0,
+        hint: 'Автор рекламних текстів.',
+        explain: '«Копірайтер» → «рекламний автор».',
+        rewrite: 'Він крутий <span class="answer-inline">рекламний автор</span>.',
+        s_inv: 'Він крутий <b class="borrowed">рекламний автор</b>.',
+        opts_inv: ['копірайтер', 'сценарист', 'журналіст'],
+        correct_inv: 0,
+        hint_inv: 'Англіцизм для автора рекламних текстів.',
+        explain_inv: '«Рекламний автор» → «копірайтер».',
+        rewrite_inv: 'Він крутий <span class="answer-inline">копірайтер</span>.'
+      },
+      {
+        s: 'Це <b class="borrowed">кастомний</b> дизайн.',
+        opts: ['індивідуальний', 'особливий', 'авторський'],
+        correct: 0,
+        hint: 'Зроблено на замовлення.',
+        explain: '«Кастомний» → «індивідуальний».',
+        rewrite: 'Це <span class="answer-inline">індивідуальний</span> дизайн.',
+        s_inv: 'Це <b class="borrowed">індивідуальний</b> дизайн.',
+        opts_inv: ['кастомний', 'унікальний', 'персональний'],
+        correct_inv: 0,
+        hint_inv: 'Англіцизм від "custom".',
+        explain_inv: '«Індивідуальний» → «кастомний».',
+        rewrite_inv: 'Це <span class="answer-inline">кастомний</span> дизайн.'
+      }
+    ];
+
+    // Налаштування/стан
+    let tasks = []; // (ОНОВЛЕНО) Буде заповнено в залежності від режиму
+    let idx = 0;
+    let right = 0; let wrong = 0; let startedAt = null; let perTaskTimer = null; let leftSec = 60;
+    let isInverted = false; // (ДОДАНО) Стан інверсії
+    const stateKey = 'mf-quest-savior-v1'; // (ОНОВЛЕНО) Новий ключ для localStorage
+
+    // Елементи
+    const totalCountEl = document.getElementById('totalCount');
+    const progressChipEl = document.getElementById('progressChip');
+    const progressBarEl = document.getElementById('progressBar');
+    const taskCounterEl = document.getElementById('taskCounter');
+    const taskTitleEl = document.getElementById('taskTitle');
+    const promptTextEl = document.getElementById('promptText');
+    const optionsBoxEl = document.getElementById('optionsBox');
+    const hintBtn = document.getElementById('hintBtn');
+    const checkBtn = document.getElementById('checkBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const hintBox = document.getElementById('hintBox');
+    const explainBox = document.getElementById('explainBox');
+    const shuffleToggle = document.getElementById('shuffleToggle');
+    const timedToggle = document.getElementById('timedToggle');
+    const timerEl = document.getElementById('timer');
+    const timerBox = document.getElementById('timerBox');
+    const restartBtn = document.getElementById('restartBtn');
+    const saveLink = document.getElementById('saveLink');
+    const invertBtn = document.getElementById('invertBtn'); // (ДОДАНО)
+
+    const resultModal = document.getElementById('resultModal');
+    const resRight = document.getElementById('resRight');
+    const resWrong = document.getElementById('resWrong');
+    const resTime = document.getElementById('resTime');
+    const badgeBox = document.getElementById('badgeBox');
+    const resTip = document.getElementById('resTip');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const restartModalBtn = document.getElementById('restartModalBtn');
+    
+    const toastEl = document.getElementById('toast');
+    let toastTimer = null;
+
+    // Утіліти
+    const shuffle = (arr)=>{
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]]=[arr[j],arr[i]];
+      }
+      return arr;
+    }
+    const fmtTime = (ms)=>{
+      const sec = Math.round(ms/1000); const m=Math.floor(sec/60); const s=sec%60; return `${m}:${s.toString().padStart(2,'0')}`;
+    }
+
+    function showToast(message) {
+        toastEl.textContent = message;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+            toastEl.classList.remove('show');
+        }, 2500);
+    }
+
+    /**
+     * (ДОДАНО) Готує масив завдань для поточного режиму гри.
+     */
+    function processTasksForMode() {
+        return TASKS_BASE.map(t => {
+            if (isInverted) {
+                return {
+                    prompt: t.s_inv,
+                    options: t.opts_inv,
+                    correct: t.correct_inv,
+                    hint: t.hint_inv || t.hint, // Фоллбек на звичайну підказку
+                    explain: t.explain_inv,
+                    rewrite: t.rewrite_inv,
+                    original_prompt: t.s_inv
+                };
+            } else {
+                return {
+                    prompt: t.s,
+                    options: t.opts,
+                    correct: t.correct,
+                    hint: t.hint,
+                    explain: t.explain,
+                    rewrite: t.rewrite,
+                    original_prompt: t.s
+                };
+            }
+        });
+    }
+
+    function saveState(){
+      // (ОНОВЛЕНО) Зберігаємо tasks (вже оброблені та перемішані)
+      const state = {idx,right,wrong,tasks,startedAt: startedAt?.valueOf?.()||Date.now(), timed: timedToggle.checked, shuffle: shuffleToggle.checked, isInverted: isInverted};
+      localStorage.setItem(stateKey, JSON.stringify(state));
+    }
+    
+    function loadState(){
+      const raw = localStorage.getItem(stateKey);
+      if(!raw) return false;
+      try{
+        const s = JSON.parse(raw);
+        if(!s || !Array.isArray(s.tasks)) return false;
+        tasks = s.tasks; // (ОНОВЛЕНО) Відновлюємо збережений стан завдань
+        idx = s.idx||0; right = s.right||0; wrong = s.wrong||0; startedAt = new Date(s.startedAt||Date.now());
+        timedToggle.checked = !!s.timed; timerBox.classList.toggle('hidden', !timedToggle.checked);
+        shuffleToggle.checked = !!s.shuffle;
+        isInverted = !!s.isInverted; // (ДОДАНО)
+        invertBtn.classList.toggle('tab-active', isInverted); // (ДОДАНО)
+        return true;
+      }catch(e){ return false; }
+    }
+
+    function resetAll(forceShuffle = false){
+        tasks = processTasksForMode(); // (ОНОВЛЕНО) Завжди обробляємо TASKS_BASE
+        if (shuffleToggle.checked || forceShuffle) {
+            shuffle(tasks);
+        }
+        idx = 0; right = 0; wrong = 0; startedAt = new Date();
+        clearInterval(perTaskTimer); leftSec = 60; timerEl.textContent = leftSec;
+        timerBox.classList.toggle('hidden', !timedToggle.checked);
+        invertBtn.classList.toggle('tab-active', isInverted); // (ОНОВЛЕНО)
+        taskTitleEl.textContent = isInverted ? 'Обери правильне запозичення' : 'Обери правильний відповідник';
+        render(); saveState();
+    }
+
+
+    function startPerTaskTimer(){
+      clearInterval(perTaskTimer);
+      if(!timedToggle.checked) return;
+      leftSec = 60; timerEl.textContent = leftSec;
+      perTaskTimer = setInterval(()=>{
+        leftSec--; timerEl.textContent = leftSec;
+        if(leftSec<=0){
+          clearInterval(perTaskTimer);
+          lockOptions();
+          revealAnswer(false, true); 
+        }
+      },1000);
+    }
+
+    function lockOptions(){
+      optionsBoxEl.querySelectorAll('button.opt').forEach(b=>b.disabled=true);
+      checkBtn.disabled = true;
+      skipBtn.disabled = true; 
+      hintBtn.disabled = true; 
+    }
+    function unlockOptions(){
+      optionsBoxEl.querySelectorAll('button.opt').forEach(b=>b.disabled=false);
+      checkBtn.disabled = false;
+      skipBtn.disabled = false; 
+      hintBtn.disabled = false; 
+    }
+
+    function render(){
+      totalCountEl.textContent = tasks.length;
+      progressChipEl.textContent = `${idx}/${tasks.length}`;
+      progressBarEl.style.width = `${(idx/tasks.length)*100}%`;
+      taskCounterEl.textContent = `Завдання ${Math.min(idx+1,tasks.length)}/${tasks.length}`;
+
+      hintBox.classList.add('hidden'); hintBox.textContent='';
+      explainBox.classList.add('hidden'); explainBox.innerHTML=''; // (ОНОВЛЕНО) .innerHTML
+      nextBtn.disabled = true;
+
+      if(idx>=tasks.length){
+        showResults();
+        return;
+      }
+
+      const t = tasks[idx];
+      promptTextEl.innerHTML = t.prompt; // (ОНОВЛЕНО) <b class="borrowed"> вже є у рядку
+      optionsBoxEl.innerHTML = '';
+      t.options.forEach((opt,i)=>{
+        const btn = document.createElement('button');
+        btn.className = 'opt text-left';
+        btn.type='button';
+        btn.setAttribute('data-i', i);
+        btn.innerHTML = `<span class="kbd">${String.fromCharCode(65+i)}</span> <span>${opt}</span>`;
+        btn.setAttribute('aria-label', `Варіант ${String.fromCharCode(65+i)}: ${opt}`);
+        btn.addEventListener('click', ()=>selectOption(i));
+        optionsBoxEl.appendChild(btn);
+      });
+      unlockOptions(); 
+      startPerTaskTimer(); 
+    }
+
+    let chosen = null;
+    function selectOption(i){
+      chosen = i;
+      optionsBoxEl.querySelectorAll('.opt').forEach(b=>b.classList.remove('ring-2','ring-[var(--blue)]'));
+      const current = optionsBoxEl.querySelector(`.opt[data-i="${i}"]`);
+      current.classList.add('ring-2','ring-[var(--blue)]');
+    }
+
+    /**
+     * (ОНОВЛЕНО) Логіка показу відповіді з "Було/Стало"
+     */
+    function revealAnswer(isManualCheck=true, dueToTimer=false){
+        const t = tasks[idx];
+        const correct = t.correct;
+
+        let isCorrectAnswer = (chosen === correct) && !dueToTimer;
+
+        optionsBoxEl.querySelectorAll('.opt').forEach((b) => {
+            const i = Number(b.getAttribute('data-i'));
+            b.classList.remove('ring-2', 'ring-[var(--blue)]'); 
+            if (i === correct) {
+                b.classList.add('correct'); 
+            }
+            if (chosen !== null && i === chosen && !isCorrectAnswer) {
+                b.classList.add('wrong');
+            }
+        });
+
+        let fullExplanation = ''; // (ОНОВЛЕНО) Починаємо з порожнього рядка
+
+        if (isCorrectAnswer) {
+            right++;
+            explainBox.className = 'mt-3 text-sm bg-green-50 border border-green-200 text-green-900 rounded-lg p-3';
+            // (ДОДАНО) Явне повідомлення про успіх
+            fullExplanation = `<div class="font-semibold mb-2 text-lg text-green-700">Правильно!</div>`;
+            fullExplanation += `<div class="mb-2">${t.explain}</div>`; // Додаємо пояснення
+        } else {
+            wrong++;
+            explainBox.className = 'mt-3 text-sm bg-red-50 border border-red-200 text-red-900 rounded-lg p-3';
+            // (ДОДАНО) Явне повідомлення про помилку
+            fullExplanation = `<div class="font-semibold mb-2 text-lg text-red-700">На жаль, це невірно.</div>`;
+            fullExplanation += `<div class="mb-2">${t.explain}</div>`; // Додаємо правильне правило
+        }
+
+        // Логіка "Було/Стало" (залишається без змін)
+        if (t.rewrite) {
+            // Використовуємо поле 'rewrite'
+            let finalRewrite = t.rewrite;
+            if (!isCorrectAnswer && chosen !== null) {
+                // Якщо відповідь невірна, показуємо невірний варіант у "Стало"
+                const wrongText = t.options[chosen];
+                finalRewrite = t.original_prompt.replace(/<b class="borrowed">(.*?)<\/b>/i, `<span class="answer-inline">${wrongText}</span>`);
+            }
+            fullExplanation += `
+                <div class="explain-block">
+                    <span>Було:</span> <div class="explain-sentence">${t.original_prompt}</div>
+                    <span>Стало:</span> <div class="explain-sentence">${finalRewrite}</div>
+                </div>
+            `;
+        } else {
+            // Фоллбек: проста заміна (якщо 'rewrite' не вказано)
+            const correctText = t.options[t.correct];
+            let newSentence = t.original_prompt.replace(/<b class="borrowed">(.*?)<\/b>/i, `<span class="answer-inline">${correctText}</span>`);
+            
+            if (!isCorrectAnswer && chosen !== null) {
+                const wrongText = t.options[chosen];
+                newSentence = t.original_prompt.replace(/<b class="borrowed">(.*?)<\/b>/i, `<span class="answer-inline">${wrongText}</span>`);
+            }
+             fullExplanation += `
+                <div class="explain-block">
+                    <span>Було:</span> <div class="explain-sentence">${t.original_prompt}</div>
+                    <span>Стало:</span> <div class="explain-sentence">${newSentence}</div>
+                </div>
+            `;
+        }
+
+        if (dueToTimer) {
+            fullExplanation += '<div class="mt-2 font-semibold">Час вичерпано.</div>';
+        }
+
+        hintBox.classList.add('hidden');
+        explainBox.innerHTML = fullExplanation; // (ОНОВЛЕНО)
+        explainBox.classList.remove('hidden');
+
+        nextBtn.disabled = false;
+        lockOptions(); 
+        saveState();
+    }
+
+
+    // Обробники
+    hintBtn.addEventListener('click', ()=>{
+      const t = tasks[idx];
+      hintBox.classList.remove('hidden');
+      hintBox.textContent = t.hint;
+    });
+
+    checkBtn.addEventListener('click', ()=>{
+      if (chosen === null) {
+        optionsBoxEl.classList.add('shake');
+        setTimeout(() => optionsBoxEl.classList.remove('shake'), 500);
+        return; 
+      }
+      clearInterval(perTaskTimer); 
+      revealAnswer(true, false);
+    });
+
+    nextBtn.addEventListener('click', ()=>{
+      idx++; chosen=null; render(); saveState();
+    });
+
+    skipBtn.addEventListener('click', ()=>{
+        clearInterval(perTaskTimer); 
+        idx++; chosen=null; render(); saveState();
+    });
+
+    restartBtn.addEventListener('click', ()=>{ localStorage.removeItem(stateKey); resetAll(); });
+
+    saveLink.addEventListener('click', (e)=>{ 
+      e.preventDefault(); 
+      saveState(); 
+      showToast('Прогрес збережено.'); 
+    });
+
+    // (ДОДАНО) Обробник інверсії
+    invertBtn.addEventListener('click', ()=>{
+        isInverted = !isInverted;
+        localStorage.removeItem(stateKey); // Скидаємо прогрес при зміні режиму
+        resetAll();
+        showToast(isInverted ? 'Режим інверсії увімкнено' : 'Звичайний режим увімкнено');
+    });
+
+    // Клавіші швидкого доступу
+    window.addEventListener('keydown', (e)=>{
+      if (resultModal.open) return;
+      if(['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)) return;
+
+      const k = e.key.toLowerCase();
+      if(k === 'h' && !hintBtn.disabled){ hintBtn.click(); e.preventDefault(); }
+      if(k === 'enter' && !checkBtn.disabled){ checkBtn.click(); e.preventDefault(); }
+      if(k === 'n' && !nextBtn.disabled){ nextBtn.click(); e.preventDefault(); }
+      if(k === 's' && !skipBtn.disabled){ skipBtn.click(); e.preventDefault(); }
+
+      if(k >= 'a' && k <= 'z' && !checkBtn.disabled){ 
+        const i = k.charCodeAt(0) - 97; // a->0
+        const btn = optionsBoxEl.querySelector(`.opt[data-i="${i}"]`);
+        if(btn && !btn.disabled) {
+            selectOption(i);
+            e.preventDefault();
+        }
+      }
+    });
+
+    function showResults(){
+      const total = tasks.length; const ms = Date.now()-startedAt.valueOf();
+      resRight.textContent = right; resWrong.textContent = wrong; resTime.textContent = fmtTime(ms);
+      badgeBox.innerHTML = '';
+      const rate = total > 0 ? right/total : 0; 
+      const badges = [];
+      // (ОНОВЛЕНО) Нові бейджі
+      if(rate===1) badges.push({name:'Словорятівник / ця', desc:'Бездоганне володіння мовою!'});
+      else if(rate>=0.8) badges.push({name:'Пурист / ка', desc:'Чудовий результат, майже бездоганно.'});
+      else if(rate>=0.6) badges.push({name:'Знавець / чиня', desc:'Гарний результат, є куди рости.'});
+      else badges.push({name:'Помічник рятівника', desc:'Нічого, продовжуй тренування.'});
+
+      badges.forEach(b=>{
+        const el = document.createElement('div');
+        // (ОНОВЛЕНО) Використовуємо .btn-ghost замість .card для стилізації бейджа
+        el.className = 'btn btn-ghost text-left flex-col items-start gap-0 p-3'; 
+        el.style.transform = 'none'; // Вимикаємо hover-ефект
+        el.innerHTML = `<div class="font-semibold text-lg">🏅 ${b.name}</div><div class="text-sm text-[var(--muted)]">${b.desc}</div>`;
+        badgeBox.appendChild(el);
+      });
+      resTip.textContent = rate<0.8 ? 'Порада: спробуй пройти ще раз. Повторення — ключ до успіху!' : 'Чудово! Спробуй режим інверсії або таймер.';
+      resultModal.showModal();
+    }
+
+    closeModalBtn.addEventListener('click', ()=>{ resultModal.close(); });
+    restartModalBtn.addEventListener('click', ()=>{ resultModal.close(); localStorage.removeItem(stateKey); resetAll(); });
+
+    // Старт
+    (function init(){
+        shuffleToggle.addEventListener('change', () => {
+            resetAll(shuffleToggle.checked);
+        });
+        
+        invertBtn.addEventListener('change', () => { // Обробник для інверсії (хоча він на кнопці, не toggle)
+            resetAll();
+        });
+
+        timedToggle.addEventListener('change', () => {
+            timerBox.classList.toggle('hidden', !timedToggle.checked);
+            if (timedToggle.checked && idx < tasks.length && checkBtn.disabled === false) {
+                startPerTaskTimer();
+            } else {
+                clearInterval(perTaskTimer);
+            }
+              saveState(); 
+        });
+
+        const restored = loadState();
+        if(!restored){
+            resetAll(shuffleToggle.checked); 
+        } else {
+            // (ОНОВЛЕНО) Встановлюємо заголовок відповідно до збереженого стану
+            taskTitleEl.textContent = isInverted ? 'Обери правильне запозичення' : 'Обери правильний відповідник';
+            render(); 
+            if (timedToggle.checked && idx < tasks.length && checkBtn.disabled === false) {
+                 startPerTaskTimer();
+            }
+        }
+    })();
+  </script>
+</body>
+</html>
