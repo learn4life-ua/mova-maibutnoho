@@ -1,1 +1,659 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Квест «Мовний детектив» — Мова майбутнього</title>
+  <meta name="description" content="Інтерактивний квест для викриття кальок, русизмів і помилок. Обери правильний варіант, користуйся підказками та здобувай бейджі." />
+  <meta name="color-scheme" content="light" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- (ОНОВЛЕНО) Шрифт з шаблону -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* (ОНОВЛЕНО) Змінні з шаблону об'єднані з оригінальними */
+    :root {
+      --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
+      --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
+      /* Змінні, збережені з квесту */
+      --card-shadow:0 10px 22px rgba(0,0,0,.08);
+      --ok:#16a34a;        /* успіх */
+      --warn:#ef4444;      /* помилка */
+    }
+    
+    /* --- (ДОДАНО) Стандартні стилі шаблону --- */
+    * {
+      box-sizing: border-box;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
+      color: var(--text); line-height: 1.7; margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-nav {
+      max-width: 900px; margin: 0 auto; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #fff; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; transition: opacity 0.2s ease;
+    }
+    .back-link:hover { opacity: 0.85; }
+    .back-link svg { width: 20px; height: 20px; }
+    .guidebook-title {
+      font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem;
+    }
+    .guidebook-title strong { font-weight: 600; }
+    @media (max-width: 640px) {
+      .guidebook-title { display: none; }
+      .back-link { margin-right: auto; }
+    }
+    .main-content {
+      flex-grow: 1; max-width: 900px; width: 100%;
+      margin: 1.5rem auto; padding: 0 1rem;
+    }
+    .content-wrapper {
+      background: #fff; border-radius: 1rem; padding: 2rem 2.5rem;
+      border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 640px) {
+      .content-wrapper { padding: 1.5rem; }
+    }
+    .content-wrapper h1 { /* Заголовок сторінки */
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
+      color: var(--blue-dark); margin-top: 0; margin-bottom: 1rem; line-height: 1.3; /* Зменшено mb з 1.5rem */
+    }
+      .content-wrapper h2 { /* Підзаголовки (стиль для h2 квесту) */
+        font-size: 1.4rem; font-weight: 600; color: var(--blue-dark);
+        margin-top: 1.8rem; margin-bottom: 0.8rem;
+      }
+      .content-wrapper p {
+      margin-top: 0; margin-bottom: 1.5rem; font-size: 1.05rem; /* Збільшено mb до 1.5rem */
+      color: var(--text);
+    }
+      .content-wrapper ul { 
+        padding-left: 1.5rem; /* Повернено відступ для звичайних списків */
+        margin-bottom: 1rem;
+        list-style: disc; /* Повернено маркери */
+      }
+      .content-wrapper li {
+        margin-bottom: 0.5rem; 
+        font-size: 1.05rem; 
+      }
+    .content-wrapper strong { font-weight: 600; color: var(--text); }
+
+    /* (ДОДАНО) Стилі для підвалу, яких не вистачало */
+    footer { 
+      text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
+      color: var(--muted); background: #fff; border-top: 1px solid var(--border);
+      margin-top: auto; /* Притискає підвал до низу */
+    }
+    /* --- Кінець стилів шаблону --- */
+
+
+    /* --- Стилі компонентів квесту (Збережено) --- */
+    .chip{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border);background:#fff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1rem;border-radius:.9rem;border:1px solid var(--border);transition:.15s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .btn-primary:disabled{opacity:.6}
+    .btn-ghost{background:#fff}
+    .tab{padding:.5rem .9rem;border-radius:.7rem;border:1px solid var(--border);background:#fff}
+    .tab-active{border-color:var(--blue);color:var(--blue-dark);font-weight:600}
+    .opt{border:1px solid var(--border);border-radius:.9rem;padding:1rem;background:#fff;cursor:pointer;display:flex;gap:.8rem;align-items:flex-start}
+    .opt:hover{border-color:var(--blue)}
+    .opt.correct{border-color:var(--ok);box-shadow:0 0 0 3px rgba(22,163,74,.15)}
+    .opt.wrong{border-color:var(--warn);box-shadow:0 0 0 3px rgba(239,68,68,.12)}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.85rem; background:#f3f4f6; border:1px solid #e5e7eb; border-bottom-width:2px; padding:.1rem .4rem; border-radius:.4rem}
+    dialog::backdrop{background:rgba(0,0,0,.45)}
+    dialog{border:none;border-radius:1rem;max-width:680px;width:92%;padding:0;box-shadow:0 20px 40px rgba(0,0,0,.2)}
+    .modal-body{padding:1.25rem}
+    
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+    .shake {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translate(-50%, 150%);
+      background: #333;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease-in-out;
+      z-index: 100;
+      opacity: 0;
+    }
+    #toast.show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+  
+  <!-- (ЗАМІНЕНО) Стандартна шапка з шаблону -->
+  <header class="page-header">
+    <nav class="header-nav">
+      <!-- (ОНОВЛЕНО) Посилання веде на index.html (список квестів) -->
+      <a href="index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        До списку квестів
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <!-- (ЗАМІНЕНО) Стандартний контейнер для основного вмісту з шаблону -->
+  <main class="main-content">
+    <div class="content-wrapper">
+
+      <!-- (ПЕРЕНЕСЕНО) Заголовок і опис квесту з оригінальної шапки -->
+      <h1>Квест «Мовний детектив»</h1>
+      <p>Викривай кальки, русизми та неточності. Вибирай правильні відповідники — і збирай бейджі.</p>
+
+      <!-- (ЗМІНЕНО) Панель керування. Клас "card" і відступи (p-4) видалено -->
+      <section class="mb-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="chip" title="Кількість завдань"><span class="font-semibold" id="totalCount">—</span> завдань</span>
+            <span class="chip" title="Рівень складності"><span id="levelLabel">Середній</span></span>
+            <span class="chip" title="Прогрес"><span id="progressChip">0 / 0</span></span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <label class="flex items-center gap-2 text-sm"><input id="shuffleToggle" type="checkbox" class="h-4 w-4"> Перемішати</label>
+            <label class="flex items-center gap-2 text-sm"><input id="timedToggle" type="checkbox" class="h-4 w-4"> Таймер 60с/завд.</label>
+            <button id="restartBtn" class="btn" title="Почати заново"><span class="mdi">⟲</span> Почати заново</button>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="w-full bg-gray-200 rounded-full h-3">
+            <div id="progressBar" class="h-3 rounded-full bg-[var(--blue)]" style="width:0%"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- (ЗМІНЕНО) Область завдання. Клас "card" і відступи (p-4) видалено -->
+      <section id="taskArea" aria-live="polite">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-sm text-[var(--muted)]" id="taskCounter">Завдання 1/—</div>
+            <!-- (ОНОВЛЕНО) Використовуємо <h2> для семантичної відповідності стилям шаблону -->
+            <h2 class="text-xl md:text-2xl font-semibold mt-1">Викрий помилку та обери правильний варіант</h2>
+          </div>
+          <div class="text-right">
+            <div id="timerBox" class="hidden text-sm"><span class="font-semibold">Таймер:</span> <span id="timer">60</span> с</div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-[#f9fafb] rounded-xl border border-[var(--border)]" id="promptBox">
+          <p class="text-lg" id="promptText">…</p>
+        </div>
+
+        <div class="mt-4 grid gap-3" id="optionsBox" role="group" aria-label="Варіанти відповіді"></div>
+
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <button id="hintBtn" class="btn" title="Показати підказку (H)"><span class="mdi">💡</span> Підказка</button>
+          <button id="checkBtn" class="btn btn-primary" title="Перевірити відповідь (Enter)"><span class="mdi">✔</span> Перевірити</button>
+          <button id="nextBtn" class="btn" title="Наступне завдання (N)" disabled><span class="mdi">→</span> Далі</button>
+          <button id="skipBtn" class="btn" title="Пропустити завдання (S)">Пропустити</button>
+        </div>
+
+        <div id="hintBox" class="mt-3 hidden text-sm bg-blue-50 border border-blue-200 text-blue-900 rounded-lg p-3"></div>
+        <div id="explainBox" class="mt-3 hidden text-sm bg-green-50 border border-green-200 text-green-900 rounded-lg p-3"></div>
+      </section>
+
+      <!-- Підвал сторінки квесту -->
+      <section class="text-sm text-[var(--muted)] mt-4 flex items-center justify-between">
+        <div>Натисніть <span class="kbd">H</span> — підказка, <span class="kbd">Enter</span> — перевірити, <span class="kbd">N</span> — далі, <span class="kbd">S</span> — пропустити.</div>
+        <a class="underline hover:text-[var(--blue)]" href="#" id="saveLink">Зберегти прогрес</a>
+      </section>
+
+    <!-- (ЗАМІНЕНО) Закриваючі теги для нової структури -->
+    </div>
+  </main>
+
+  <!-- (ЗАМІНЕНО) Стандартний підвал з шаблону -->
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+  <!-- Модал результатів (Залишено без змін) -->
+  <dialog id="resultModal">
+    <div class="bg-[var(--blue-dark)] text-white rounded-t-[1rem] p-5">
+      <h3 class="text-xl font-semibold">Результат квесту</h3>
+      <p class="opacity-90 text-sm">Підсумок проходження та зароблені бейджі</p>
+    </div>
+    <div class="modal-body">
+      <div class="grid gap-3">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="chip"><strong>Правильних:</strong> <span id="resRight">0</span></span>
+          <span class="chip"><strong>Неправильних:</strong> <span id="resWrong">0</span></span>
+          <span class="chip"><strong>Час:</strong> <span id="resTime">—</span></span>
+        </div>
+        <div class="mt-2" id="badgeBox"></div>
+        <div class="mt-2 text-sm text-[var(--muted)]" id="resTip"></div>
+      </div>
+      <div class="flex items-center justify-end gap-2 mt-4 p-3 border-t">
+        <button class="btn" id="closeModalBtn">Гаразд</button>
+        <button class="btn btn-primary" id="restartModalBtn">Пройти ще раз</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Елемент для спливаючих повідомлень (Залишено без змін) -->
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Скрипт квесту (Залишено без змін) -->
+  <script>
+    /**
+     * ДАНІ КВЕСТУ
+     * Додавай/редагуй завдання тут. Формат:
+     * { prompt: 'Речення з помилкою/калькою', options: ['варіант 1', 'варіант 2', ...], correct: 0, hint: 'підказка', explain: 'пояснення після відповіді' }
+     */
+    const TASKS_BASE = [
+      {
+        prompt: 'Потрібно *сделать вывод* за підсумками дослідження.',
+        options: ['зробити висновок', 'зробити вивод', 'вчинити висновок'],
+        correct: 0,
+        hint: 'Українською — «зробити висновок».',
+        explain: 'Калька з рос. «сделать вывод». Нормативно: «зробити висновок».'
+      },
+      {
+        prompt: 'Завтра *по плану* маємо зустріч.',
+        options: ['за планом', 'по плану', 'відповідно плану'],
+        correct: 0,
+        hint: 'Керування з прийменником «за».',
+        explain: 'Правильно: «за планом», можливе також «відповідно до плану».'
+      },
+      {
+        prompt: 'Дякую, що *вибачаєтесь* за затримку.',
+        options: ['прошу вибачення', 'вибачаюсь', 'вибачаєтесь'],
+        correct: 0,
+        hint: 'Уникаємо звороту на -ся в офіційній формулі.',
+        explain: 'Нормативна формула: «Прошу вибачення» / «Перепрошую».'
+      },
+      {
+        prompt: 'Постраждали *із-за* негоди.',
+        options: ['через негоду', 'із-за негоди', 'по причині негоди'],
+        correct: 0,
+        hint: 'Значення причини передає «через».',
+        explain: 'Нормативно: «через негоду».'
+      },
+      {
+        prompt: 'Згідно *наказу* призначено перевірку.',
+        options: ['згідно з наказом', 'згідно наказу', 'згідно до наказу'],
+        correct: 0,
+        hint: 'Потрібен прийменник «з».',
+        explain: 'Правильно: «згідно з наказом».'
+      },
+      {
+        prompt: 'Прошу вислати *обратній зв’язок* до кінця дня.',
+        options: ['зворотний зв’язок', 'зворотній зв’язок', 'обратний зв’язок'],
+        correct: 0,
+        hint: 'Прикметник «зворотний»: на -н-ий.',
+        explain: 'Нормативно: «зворотний зв’язок».'
+      },
+      {
+        prompt: 'Це *саме головне* питання порядку денного.',
+        options: ['найголовніше питання', 'саме головне питання', 'самий головний пункт'],
+        correct: 0,
+        hint: 'Уникай кальки «саме головне».',
+        explain: 'Нормативно: «найголовніше питання».'
+      },
+      {
+        prompt: 'Інформація є у *прилаженому файлі*.',
+        options: ['долученому файлі', 'прикріпленому файлі', 'прилаженому файлі'],
+        correct: 1, // Правильний варіант може бути і "долученому"
+        hint: 'У діловому стилі — «прикріплений/долучений файл».',
+        explain: '«Прилажений» — просторіччя/калька. Коректно: «прикріплений» або «долучений».'
+      },
+      {
+        prompt: 'Це питання ми *обговоримо на слідуючому тижні*.',
+        options: ['наступного тижня', 'слідуючого тижня', 'в слідуючий тиждень'],
+        correct: 0,
+        hint: 'Лексична норма: «наступний», не «слідуючий».',
+        explain: 'Правильно: «наступного тижня».'
+      },
+      {
+        prompt: 'Прошу *відослати* документ на погодження.',
+        options: ['надіслати документ', 'відослати документ', 'скинути документ якось'],
+        correct: 0,
+        hint: 'Офіційна лексика замість жаргонізмів.',
+        explain: 'Коректно: «надіслати документ».'
+      }
+    ];
+
+    // Налаштування/стан
+    let tasks = JSON.parse(JSON.stringify(TASKS_BASE));
+    let idx = 0;
+    let right = 0; let wrong = 0; let startedAt = null; let perTaskTimer = null; let leftSec = 60;
+    const stateKey = 'mf-quest-detektiv-v1';
+
+    // Елементи
+    const totalCountEl = document.getElementById('totalCount');
+    const progressChipEl = document.getElementById('progressChip');
+    const progressBarEl = document.getElementById('progressBar');
+    const taskCounterEl = document.getElementById('taskCounter');
+    const promptTextEl = document.getElementById('promptText');
+    const optionsBoxEl = document.getElementById('optionsBox');
+    const hintBtn = document.getElementById('hintBtn');
+    const checkBtn = document.getElementById('checkBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const hintBox = document.getElementById('hintBox');
+    const explainBox = document.getElementById('explainBox');
+    const shuffleToggle = document.getElementById('shuffleToggle');
+    const timedToggle = document.getElementById('timedToggle');
+    const timerEl = document.getElementById('timer');
+    const timerBox = document.getElementById('timerBox');
+    const restartBtn = document.getElementById('restartBtn');
+    const saveLink = document.getElementById('saveLink');
+
+    const resultModal = document.getElementById('resultModal');
+    const resRight = document.getElementById('resRight');
+    const resWrong = document.getElementById('resWrong');
+    const resTime = document.getElementById('resTime');
+    const badgeBox = document.getElementById('badgeBox');
+    const resTip = document.getElementById('resTip');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const restartModalBtn = document.getElementById('restartModalBtn');
+    
+    const toastEl = document.getElementById('toast');
+    let toastTimer = null;
+
+    // Утіліти
+    const shuffle = (arr)=>{
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]]=[arr[j],arr[i]];
+      }
+      return arr;
+    }
+    const fmtTime = (ms)=>{
+      const sec = Math.round(ms/1000); const m=Math.floor(sec/60); const s=sec%60; return `${m}:${s.toString().padStart(2,'0')}`;
+    }
+
+    function showToast(message) {
+        toastEl.textContent = message;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+            toastEl.classList.remove('show');
+        }, 2500); // Повідомлення зникне через 2.5 секунди
+    }
+
+
+    function saveState(){
+      const state = {idx,right,wrong,tasks,startedAt: startedAt?.valueOf?.()||Date.now(), timed: timedToggle.checked, shuffle: shuffleToggle.checked};
+      localStorage.setItem(stateKey, JSON.stringify(state));
+    }
+    function loadState(){
+      const raw = localStorage.getItem(stateKey);
+      if(!raw) return false;
+      try{
+        const s = JSON.parse(raw);
+        if(!s || !Array.isArray(s.tasks)) return false;
+        tasks = s.tasks; idx = s.idx||0; right = s.right||0; wrong = s.wrong||0; startedAt = new Date(s.startedAt||Date.now());
+        timedToggle.checked = !!s.timed; timerBox.classList.toggle('hidden', !timedToggle.checked);
+        shuffleToggle.checked = !!s.shuffle; // Відновлюємо стан чекбокса перемішування
+        return true;
+      }catch(e){ return false; }
+    }
+
+    function resetAll(forceShuffle = false){
+        tasks = JSON.parse(JSON.stringify(TASKS_BASE));
+        if (shuffleToggle.checked || forceShuffle) {
+            shuffle(tasks);
+        }
+        idx = 0; right = 0; wrong = 0; startedAt = new Date();
+        clearInterval(perTaskTimer); leftSec = 60; timerEl.textContent = leftSec;
+        timerBox.classList.toggle('hidden', !timedToggle.checked);
+        render(); saveState();
+    }
+
+
+    function startPerTaskTimer(){
+      clearInterval(perTaskTimer);
+      if(!timedToggle.checked) return;
+      leftSec = 60; timerEl.textContent = leftSec;
+      perTaskTimer = setInterval(()=>{
+        leftSec--; timerEl.textContent = leftSec;
+        if(leftSec<=0){
+          clearInterval(perTaskTimer);
+          lockOptions();
+          revealAnswer(false, true); // Відповідь неправильна через час
+        }
+      },1000);
+    }
+
+    function lockOptions(){
+      optionsBoxEl.querySelectorAll('button.opt').forEach(b=>b.disabled=true);
+      checkBtn.disabled = true;
+      skipBtn.disabled = true; // Блокуємо і пропуск
+      hintBtn.disabled = true; // Блокуємо і підказку
+    }
+    function unlockOptions(){
+      optionsBoxEl.querySelectorAll('button.opt').forEach(b=>b.disabled=false);
+      checkBtn.disabled = false;
+      skipBtn.disabled = false; // Розблокуємо
+      hintBtn.disabled = false; // Розблокуємо
+    }
+
+    function render(){
+      totalCountEl.textContent = tasks.length;
+      progressChipEl.textContent = `${idx}/${tasks.length}`;
+      progressBarEl.style.width = `${(idx/tasks.length)*100}%`;
+      taskCounterEl.textContent = `Завдання ${Math.min(idx+1,tasks.length)}/${tasks.length}`;
+
+      hintBox.classList.add('hidden'); hintBox.textContent='';
+      explainBox.classList.add('hidden'); explainBox.textContent='';
+      nextBtn.disabled = true;
+
+      if(idx>=tasks.length){
+        showResults();
+        return;
+      }
+
+      const t = tasks[idx];
+      // (ОНОВЛЕНО) Стилізація жирного тексту тепер покладається на Tailwind-класи, а не на стилі шаблону для <p>
+      promptTextEl.innerHTML = t.prompt.replace(/\*(.*?)\*/g,'<strong class="text-[var(--blue)] font-semibold">$1</strong>'); 
+      optionsBoxEl.innerHTML = '';
+      t.options.forEach((opt,i)=>{
+        const btn = document.createElement('button');
+        btn.className = 'opt text-left';
+        btn.type='button';
+        btn.setAttribute('data-i', i);
+        btn.innerHTML = `<span class="kbd">${String.fromCharCode(65+i)}</span> <span>${opt}</span>`;
+        btn.setAttribute('aria-label', `Варіант ${String.fromCharCode(65+i)}: ${opt}`);
+        btn.addEventListener('click', ()=>selectOption(i));
+        optionsBoxEl.appendChild(btn);
+      });
+      unlockOptions(); // Розблоковуємо кнопки для нового завдання
+      startPerTaskTimer(); // Запускаємо таймер, якщо потрібно
+    }
+
+    let chosen = null;
+    function selectOption(i){
+      chosen = i;
+      optionsBoxEl.querySelectorAll('.opt').forEach(b=>b.classList.remove('ring-2','ring-[var(--blue)]'));
+      const current = optionsBoxEl.querySelector(`.opt[data-i="${i}"]`);
+      current.classList.add('ring-2','ring-[var(--blue)]');
+    }
+
+    function revealAnswer(isManualCheck=true, dueToTimer=false){
+        const t = tasks[idx];
+        const correct = t.correct;
+
+        let isCorrectAnswer = (chosen === correct) && !dueToTimer;
+
+        optionsBoxEl.querySelectorAll('.opt').forEach((b) => {
+            const i = Number(b.getAttribute('data-i'));
+            b.classList.remove('ring-2', 'ring-[var(--blue)]'); 
+
+            if (i === correct) {
+                b.classList.add('correct'); 
+            }
+            if (chosen !== null && i === chosen && !isCorrectAnswer) {
+                b.classList.add('wrong');
+            }
+        });
+
+        if (isCorrectAnswer) {
+            right++;
+            explainBox.className = 'mt-3 text-sm bg-green-50 border border-green-200 text-green-900 rounded-lg p-3'; // Зелений
+            explainBox.textContent = t.explain;
+        } else {
+            wrong++;
+            explainBox.className = 'mt-3 text-sm bg-red-50 border border-red-200 text-red-900 rounded-lg p-3'; // Червоний
+            explainBox.textContent = t.explain + (dueToTimer ? ' (Час вичерпано.)' : '');
+        }
+
+        hintBox.classList.add('hidden');
+        explainBox.classList.remove('hidden');
+
+        nextBtn.disabled = false;
+        lockOptions(); 
+        saveState();
+    }
+
+
+    // Обробники
+    hintBtn.addEventListener('click', ()=>{
+      const t = tasks[idx];
+      hintBox.classList.remove('hidden');
+      hintBox.textContent = t.hint;
+    });
+
+    checkBtn.addEventListener('click', ()=>{
+      if (chosen === null) {
+        optionsBoxEl.classList.add('shake');
+        setTimeout(() => optionsBoxEl.classList.remove('shake'), 500);
+        return; 
+      }
+      clearInterval(perTaskTimer); 
+      revealAnswer(true, false);
+    });
+
+
+    nextBtn.addEventListener('click', ()=>{
+      idx++; chosen=null; render(); saveState();
+    });
+
+    skipBtn.addEventListener('click', ()=>{
+        clearInterval(perTaskTimer); 
+        idx++; chosen=null; render(); saveState();
+    });
+
+
+    restartBtn.addEventListener('click', ()=>{ localStorage.removeItem(stateKey); resetAll(); });
+
+    saveLink.addEventListener('click', (e)=>{ 
+      e.preventDefault(); 
+      saveState(); 
+      showToast('Прогрес збережено.'); 
+    });
+
+    // Клавіші швидкого доступу
+    window.addEventListener('keydown', (e)=>{
+      if (resultModal.open) return;
+      if(['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)) return;
+
+      const k = e.key.toLowerCase();
+      if(k === 'h' && !hintBtn.disabled){ hintBtn.click(); e.preventDefault(); }
+      if(k === 'enter' && !checkBtn.disabled){ checkBtn.click(); e.preventDefault(); }
+      if(k === 'n' && !nextBtn.disabled){ nextBtn.click(); e.preventDefault(); }
+      if(k === 's' && !skipBtn.disabled){ skipBtn.click(); e.preventDefault(); }
+
+      if(k >= 'a' && k <= 'z' && !checkBtn.disabled){ 
+        const i = k.charCodeAt(0) - 97; // a->0
+        const btn = optionsBoxEl.querySelector(`.opt[data-i="${i}"]`);
+        if(btn && !btn.disabled) {
+            selectOption(i);
+            e.preventDefault();
+        }
+      }
+    });
+
+
+    function showResults(){
+      const total = tasks.length; const ms = Date.now()-startedAt.valueOf();
+      resRight.textContent = right; resWrong.textContent = wrong; resTime.textContent = fmtTime(ms);
+      badgeBox.innerHTML = '';
+      const rate = total > 0 ? right/total : 0; 
+      const badges = [];
+      if(rate===1) badges.push({name:'Мовний інспектор', desc:'Безпомилкове розслідування!'});
+      else if(rate>=0.8) badges.push({name:'Редактор точності', desc:'Майже ідеально, дрібні неточності.'});
+      else if(rate>=0.6) badges.push({name:'Грамотний слідчий', desc:'Гарний результат, ще трохи практики.'});
+      else badges.push({name:'Початківець-детектив', desc:'Нічого, продовжуй тренування.'});
+
+      badges.forEach(b=>{
+        const el = document.createElement('div');
+        el.className = 'card p-3 bg-gray-50'; 
+        el.innerHTML = `<div class="font-semibold text-lg">🏅 ${b.name}</div><div class="text-sm text-[var(--muted)]">${b.desc}</div>`;
+        badgeBox.appendChild(el);
+      });
+      resTip.textContent = rate<0.8 ? 'Порада: пройди розділи «Типові помилки» та «Комунікація» у словниках — підтягнеш норми швидко.' : 'Чудово! Спробуй режим з таймером або перемішуванням.';
+      resultModal.showModal();
+    }
+
+    closeModalBtn.addEventListener('click', ()=>{ resultModal.close(); });
+    restartModalBtn.addEventListener('click', ()=>{ resultModal.close(); localStorage.removeItem(stateKey); resetAll(); });
+
+    // Старт
+    (function init(){
+        shuffleToggle.addEventListener('change', () => {
+            resetAll(shuffleToggle.checked);
+        });
+
+        timedToggle.addEventListener('change', () => {
+            timerBox.classList.toggle('hidden', !timedToggle.checked);
+            if (timedToggle.checked && idx < tasks.length && checkBtn.disabled === false) {
+                startPerTaskTimer();
+            } else {
+                clearInterval(perTaskTimer);
+            }
+              saveState(); 
+        });
+
+
+        const restored = loadState();
+        if(!restored){
+            resetAll(shuffleToggle.checked); 
+        } else {
+            render(); 
+            if (timedToggle.checked && idx < tasks.length && checkBtn.disabled === false) {
+                 startPerTaskTimer();
+            }
+        }
+    })();
+  </script>
+</body>
+</html>
+
+
 
