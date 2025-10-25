@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>10.3. Заява. Оформлюємо ваш професійний шлях</title>
+  <style>
+    /* ... (всі стилі з шаблону) ... */
+    * {
+      box-sizing: border-box;
+    }
+    :root {
+      --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
+      --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
+      color: var(--text); line-height: 1.7; margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-nav {
+      max-width: 900px; margin: 0 auto; display: flex;
+      justify-content: space-between; align-items: center;
+    }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #fff; text-decoration: none; font-weight: 600;
+      font-size: 0.95rem; transition: opacity 0.2s ease;
+    }
+    .back-link:hover { opacity: 0.85; }
+    .back-link svg { width: 20px; height: 20px; }
+    .guidebook-title {
+      font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem;
+    }
+    .guidebook-title strong { font-weight: 600; }
+    @media (max-width: 640px) {
+      .guidebook-title { display: none; }
+      .back-link { margin-right: auto; }
+    }
+    .main-content {
+      flex-grow: 1; max-width: 900px; width: 100%;
+      margin: 1.5rem auto; padding: 0 1rem;
+    }
+    .content-wrapper {
+      background: #fff; border-radius: 1rem; padding: 2rem 2.5rem;
+      border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 640px) {
+      .content-wrapper { padding: 1.5rem; }
+    }
+    .content-wrapper h1 {
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
+      color: var(--blue-dark); margin-top: 0; margin-bottom: 1.5rem; line-height: 1.3;
+    }
+    .content-wrapper h2 {
+        font-size: 1.5rem; font-weight: 600; color: var(--blue-dark);
+        margin-top: 2rem; margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
+    }
+     .content-wrapper h3 {
+        font-size: 1.25rem; font-weight: 600; color: var(--blue-dark);
+        margin-top: 1.5rem; margin-bottom: 0.8rem;
+    }
+    .content-wrapper p {
+      margin-top: 0; margin-bottom: 1rem; font-size: 1.05rem;
+    }
+    .content-wrapper ul { padding-left: 1.5rem; margin-bottom: 1rem; list-style: disc; }
+     .content-wrapper ol { padding-left: 1.5rem; margin-bottom: 1rem; list-style: decimal;}
+    .content-wrapper li { margin-bottom: 0.5rem; font-size: 1.05rem; }
+    .content-wrapper strong { font-weight: 600; color: var(--text); }
+    .content-wrapper em { font-style: italic; color: var(--muted); }
+
+    /* Стилі для блоку з прикладом заяви всередині акордеону */
+    .statement-example {
+        background-color: #f8f9fa;
+        border: 1px dashed var(--border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-top: 1rem; /* Відступ зверху для прикладу */
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        white-space: pre-wrap;
+        color: #343a40;
+    }
+    .statement-example .header {
+        text-align: right;
+        margin-bottom: 1.5rem;
+    }
+    .statement-example .title {
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        font-size: 1.1rem;
+    }
+     .statement-example .body {
+        text-indent: 2em;
+        margin-bottom: 1.5rem;
+    }
+     .statement-example .attachments {
+        margin-bottom: 1.5rem;
+    }
+     .statement-example .footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+    }
+     .statement-example .signature-placeholder {
+         width: 150px;
+         text-align: right;
+     }
+
+      /* --- СТИЛІ АКОРДЕОНУ --- */
+    .accordion {
+      display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem;
+    }
+    .accordion details {
+      background: #fff; border: 1px solid var(--border); border-radius: 0.8rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04); overflow: hidden;
+    }
+    .accordion summary {
+      list-style: none; cursor: pointer; padding: 1.1rem 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      font-weight: 600; color: var(--blue-dark); font-size: 1.1rem;
+      transition: background-color 0.2s ease;
+    }
+    .accordion summary::-webkit-details-marker { display: none; }
+    .accordion summary span { flex: 1; }
+
+    .accordion details[open] summary {
+      background: linear-gradient(90deg, rgba(30,58,95,0.06), rgba(75,163,195,0.06));
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+     .accordion summary:hover {
+        background-color: rgba(30, 58, 95, 0.03);
+     }
+    .accordion .accordion-body {
+      padding: 0.5rem 1.25rem 1.25rem;
+    }
+     /* Стилі для тексту всередині акордеону */
+    .accordion .accordion-body p,
+    .accordion .accordion-body ol,
+    .accordion .accordion-body ul,
+    .accordion .accordion-body li {
+        font-size: 1rem;
+    }
+     .accordion .accordion-body ol,
+     .accordion .accordion-body ul {
+         padding-left: 1.2rem;
+         margin-bottom: 0.8rem; /* Зменшено відступ знизу списків */
+     }
+
+    .accordion summary::after {
+      content: '▼';
+      font-size: 0.9rem; color: var(--blue-dark);
+      transition: transform 0.2s ease;
+    }
+    details[open] > summary::after { transform: rotate(-180deg); }
+    /* --- КІНЕЦЬ СТИЛІВ АКОРДЕОНУ --- */
+
+
+    footer {
+      text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem;
+      color: var(--muted); background: #fff; border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <nav class="header-nav">
+      <!-- Посилання "Назад до Розділу 10" -->
+      <a href="10-dokumenty-dlya-roboty.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        Назад до Розділу 10
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+
+      <h1>10.3. Заява. Оформлюємо ваш професійний шлях</h1>
+
+      <p>Заява про прийом на роботу або зміну посади — це ключовий документ, який формалізує трудові відносини та є першим кроком до укладення або зміни трудового договору.</p>
+      <p>Вона допомагає узгодити бажання працівника із запитами роботодавця та є основою для видання відповідного наказу. Дотримання вимог законодавства та грамотне складання заяви дозволяють уникнути непорозумінь і сприяють вашому професійному розвитку.</p>
+
+      <h2>Законодавчі основи заяви</h2>
+      <p>Правила складання та розгляду заяви про прийом на роботу або зміну посади регулюються:</p>
+      <ul>
+        <li>📜 <strong>Кодексом законів про працю України (КЗпП):</strong>
+            <ul>
+                <li><strong>Стаття 24 КЗпП:</strong> Трудовий договір укладається за згодою сторін у письмовій або усній формі. Заява працівника є юридичним підтвердженням добровільності його намірів.</li>
+                <li><strong>Стаття 29 КЗпП:</strong> Роботодавець зобов’язаний ознайомити працівника з обов’язками, умовами праці та правилами внутрішнього трудового розпорядку.</li>
+                <li><strong>Стаття 32 КЗпП:</strong> Переведення на іншу посаду можливе лише за згодою працівника (за винятком випадків, передбачених законодавством).</li>
+            </ul>
+        </li>
+        <li>🩺 <strong>Закон України "Про охорону праці":</strong> У разі переведення на посади з важкими/небезпечними умовами, працівник повинен пройти медогляд.</li>
+        <li>🔒 <strong>Закон України "Про захист персональних даних":</strong> Конфіденційність документів гарантована роботодавцем.</li>
+      </ul>
+
+      <!-- АКОРДЕОН ПОЧИНАЄТЬСЯ ТУТ -->
+      <div class="accordion">
+          <details>
+              <summary><span>Заява про прийом на роботу: структура та зразок</span></summary>
+              <div class="accordion-body">
+                   <h3>📝 Структура заяви про прийом на роботу:</h3>
+                    <ol>
+                        <li><strong>Шапка документа:</strong> Посада керівника, назва компанії, ваші ПІБ та контакти.</li>
+                        <li><strong>Основний текст:</strong> Чітке прохання прийняти на посаду, бажана дата початку, перелік доданих документів.</li>
+                        <li><strong>Заключна частина:</strong> Дата складання та особистий підпис.</li>
+                    </ol>
+
+                    <h3>📌 Зразок заяви:</h3>
+                    <div class="statement-example">
+<div class="header">Директору ТОВ «Зоря»
+Іваненку Сергію Олександровичу
+Петренка Андрія Васильовича,
+який проживає за адресою:
+м. Київ, вул. Перемоги, 10
+тел.: +38 (050) 123-45-67
+email: andrii.petrenko@email.com</div>
+
+<div class="title">Заява</div>
+
+<div class="body">Прошу прийняти мене на посаду бухгалтера з 1 січня 2025 року на умовах повного робочого дня.</div>
+
+<div class="attachments">До заяви додаю:
+1. Копію паспорта громадянина України.
+2. Копію ідентифікаційного коду.
+3. Копію диплома про вищу освіту.
+4. Трудову книжку (за наявності).</div>
+
+<div class="footer">
+    <span class="date">15 грудня 2024 року</span>
+    <span class="signature-placeholder">___________ (Підпис)</span>
+</div>
+                    </div>
+              </div>
+          </details>
+
+          <details>
+              <summary><span>Заява на зміну посади: структура та зразок</span></summary>
+              <div class="accordion-body">
+                   <h3>📝 Структура заяви на зміну посади:</h3>
+                    <ol>
+                        <li><strong>Шапка документа:</strong> Аналогічно до заяви про прийом.</li>
+                        <li><strong>Основний текст:</strong> Чітке прохання перевести на іншу посаду, обґрунтування (за потреби), умови переведення.</li>
+                        <li><strong>Заключна частина:</strong> Дата заяви та особистий підпис.</li>
+                    </ol>
+
+                    <h3>📌 Зразок заяви:</h3>
+                    <div class="statement-example">
+<div class="header">Директору ТОВ «Зоря»
+Іваненку Сергію Олександровичу
+Петренка Андрія Васильовича,
+бухгалтера
+тел.: +38 (050) 123-45-67</div>
+
+<div class="title">Заява</div>
+
+<div class="body">Прошу перевести мене на посаду старшого бухгалтера з 1 лютого 2025 року у зв’язку з підвищенням кваліфікації та успішним виконанням завдань на попередній посаді.</div>
+
+<div class="attachments">До заяви додаю копії сертифікатів про завершення курсів підвищення кваліфікації.</div>
+
+<div class="footer">
+    <span class="date">15 січня 2025 року</span>
+    <span class="signature-placeholder">___________ (Підпис)</span>
+</div>
+                   </div>
+              </div>
+          </details>
+      </div>
+       <!-- АКОРДЕОН ЗАКІНЧУЄТЬСЯ ТУТ -->
+
+
+       <h2>🤔 Часті запитання про написання заяви</h2>
+      <ul>
+          <li><strong>Чи можна подати заяву в електронній формі?</strong> Так, якщо компанія це підтримує і є електронний підпис.</li>
+          <li><strong>Чи обов’язково обґрунтовувати бажання змінити посаду?</strong> Залежить від правил компанії; бажано при внутрішньому конкурсі.</li>
+          <li><strong>Які документи додаються до заяви?</strong> При прийомі: паспорт, диплом, ІПН, трудова книжка. При зміні: підтверджуючі документи (сертифікати, рекомендації).</li>
+      </ul>
+
+      <h2>Типові помилки при написанні заяви</h2>
+       <ul>
+          <li>❌ Відсутність дати чи підпису.</li>
+          <li>❌ Нечітке формулювання умов (посада, дата).</li>
+          <li>❌ Помилки у ПІБ.</li>
+          <li>❌ Відсутність супровідних документів (якщо потрібні).</li>
+      </ul>
+
+      <h2>🌟 Поради для успішного професійного старту чи змін</h2>
+      <h3>Для нових працівників:</h3>
+       <ul>
+           <li>Ознайомтеся із завданнями та обов’язками перед підписанням договору.</li>
+           <li>Переконайтеся, що умови відповідають вашим очікуванням.</li>
+       </ul>
+       <h3>Для працівників, які хочуть змінити посаду:</h3>
+       <ul>
+           <li>Уточніть наявність вакансії.</li>
+           <li>Обґрунтуйте свої навички для нової посади.</li>
+           <li>Переконайтеся, що відповідаєте кваліфікаційним вимогам.</li>
+       </ul>
+
+       <p>💼 Заява про прийом на роботу чи зміну посади — це перший крок до досягнення ваших професійних цілей. Дотримуйтеся правил складання, враховуйте законодавчі вимоги та не бійтеся проявляти ініціативу.</p>
+       <!-- Останній абзац видалено, як ви просили -->
+
+    </div>
+  </main>
+
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+   <!-- Скрипт для автоматичного згортання акордеону -->
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const detailsElements = document.querySelectorAll('.accordion details');
+
+      detailsElements.forEach((details) => {
+        details.addEventListener('toggle', (event) => {
+          // Якщо <details> відкривається
+          if (details.open) {
+            // Закрити всі інші <details>
+            detailsElements.forEach((otherDetails) => {
+              if (otherDetails !== details && otherDetails.open) {
+                otherDetails.open = false;
+              }
+            });
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
+
