@@ -1,1 +1,404 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Квест «Хто сказав?» — Мова майбутнього</title>
+  <meta name="description" content="Впізнай автора цитати або афоризму про мову, культуру чи мислення. Підказки, пояснення, бейджі, таймер, збереження прогресу." />
+  <meta name="color-scheme" content="light" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue: #4BA3C3; --blue-dark: #1E3A5F; --gray-bg: #F5F7FA;
+      --text: #2C2C2C; --muted: #6B7280; --border: #D1D5DB;
+      --card-shadow: 0 10px 22px rgba(0,0,0,.08);
+      --ok:#16a34a; --warn:#ef4444;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif; background-color: var(--gray-bg);
+      color: var(--text); line-height: 1.7; margin: 0;
+      display: flex; flex-direction: column;
+    }
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff; padding: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .header-nav { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: #fff; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: opacity 0.2s ease; }
+    .back-link:hover { opacity: 0.85; }
+    .back-link svg { width: 20px; height: 20px; }
+    .guidebook-title { font-size: 0.9rem; opacity: 0.9; margin-left: auto; margin-right: 1rem; }
+    .guidebook-title strong { font-weight: 600; }
+    @media (max-width: 640px) { .guidebook-title { display: none; } .back-link { margin-right: auto; } }
+    .main-content { flex-grow: 1; max-width: 900px; width: 100%; margin: 1.5rem auto; padding: 0 1rem; }
+    .content-wrapper { background: #fff; border-radius: 1rem; padding: 2rem 2.5rem; border: 1px solid var(--border); box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05); }
+    @media (max-width: 640px) { .content-wrapper { padding: 1.5rem; } }
+    .content-wrapper h1 { font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700; color: var(--blue-dark); margin-top: 0; margin-bottom: 1rem; line-height: 1.3; }
+    .content-wrapper h2 { font-size: 1.4rem; font-weight: 600; color: var(--blue-dark); margin-top: 1.8rem; margin-bottom: 0.8rem; }
+    .content-wrapper p { margin-top: 0; margin-bottom: 1.5rem; font-size: 1.05rem; color: var(--text); }
+    .content-wrapper ul { padding-left: 1.5rem; margin-bottom: 1rem; list-style: disc; }
+    .content-wrapper li { margin-bottom: 0.5rem; font-size: 1.05rem; }
+    .content-wrapper strong { font-weight: 600; color: var(--text); }
+    footer { text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem; color: var(--muted); background: #fff; border-top: 1px solid var(--border); margin-top: auto; }
+
+    .chip{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .7rem;border-radius:999px;border:1px solid var(--border);background:#fff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1rem;border-radius:.9rem;border:1px solid var(--border);transition:.15s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .btn-primary:disabled{opacity:.6}
+    .btn-ghost{background:#fff}
+    .opt{border:1px solid var(--border);border-radius:.9rem;padding:1rem;background:#fff;cursor:pointer;display:flex;gap:.8rem;align-items:flex-start}
+    .opt:hover{border-color:var(--blue)}
+    .opt.correct{border-color:var(--ok);box-shadow:0 0 0 3px rgba(22,163,74,.15)}
+    .opt.wrong{border-color:var(--warn);box-shadow:0 0 0 3px rgba(239,68,68,.12)}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:.85rem; background:#f3f4f6; border:1px solid #e5e7eb; border-bottom-width:2px; padding:.1rem .4rem; border-radius:.4rem}
+    .card{border:1px solid var(--border);border-radius:1rem;box-shadow:var(--card-shadow);background:#fff}
+
+    dialog::backdrop{background:rgba(0,0,0,.45)}
+    dialog{border:none;border-radius:1rem;max-width:680px;width:92%;padding:0;box-shadow:0 20px 40px rgba(0,0,0,.2)}
+    .modal-body{padding:1.25rem}
+
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    blockquote{font-style:italic;position:relative;padding-left:1rem}
+    blockquote:before{content:'“';position:absolute;left:-.2rem;top:-.1rem;font-size:2rem;opacity:.35}
+
+    @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-5px)} 40%,80%{transform:translateX(5px)} }
+    .shake{animation:shake .5s ease-in-out}
+    #toast{position:fixed;bottom:2rem;left:50%;transform:translate(-50%,150%);background:#333;color:#fff;padding:.8rem 1.5rem;border-radius:999px;font-size:.9rem;box-shadow:0 4px 10px rgba(0,0,0,.2);transition:transform .3s ease-in-out;z-index:100;opacity:0}
+    #toast.show{transform:translate(-50%,0);opacity:1}
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+  <header class="page-header">
+    <nav class="header-nav" aria-label="Навігація квесту">
+      <a href="index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        До списку квестів
+      </a>
+      <div class="guidebook-title">Посібник: <strong>Мова майбутнього</strong></div>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+      <h1>Квест «Хто сказав?»</h1>
+      <p>Впізнай автора цитати про мову, культуру чи мислення.</p>
+
+      <section class="mb-6">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="chip"><span class="font-semibold" id="totalCount">—</span> цитат</span>
+            <span class="chip"><span id="progressChip">0 / 0</span></span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <label class="text-sm btn btn-ghost"><input id="shuffleToggle" type="checkbox" class="h-4 w-4 mr-2"> Перемішати</label>
+            <label class="text-sm btn btn-ghost"><input id="timedToggle" type="checkbox" class="h-4 w-4 mr-2"> Таймер 45с</label>
+            <label class="text-sm btn btn-ghost"><input id="hintModeToggle" type="checkbox" class="h-4 w-4 mr-2" checked> Підказки увімкнені</label>
+            <button id="restartBtn" class="btn" title="Почати заново">⟲ Почати заново</button>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="w-full bg-gray-200 rounded-full h-3" aria-hidden="true">
+            <div id="progressBar" class="h-3 rounded-full bg-[var(--blue)]" style="width:0%"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="taskArea" aria-live="polite">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-sm text-[var(--muted)]" id="taskCounter">Цитата 1/—</div>
+            <h2 class="text-xl md:text-2xl font-semibold mt-1">Впізнай автора</h2>
+          </div>
+          <div class="text-right">
+            <div id="timerBox" class="hidden text-sm"><span class="font-semibold">Таймер:</span> <span id="timer">45</span> с</div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-[#f9fafb] rounded-xl border border-[var(--border)]" id="promptBox">
+          <blockquote class="text-lg" id="quoteText">…</blockquote>
+        </div>
+
+        <div class="mt-4 grid gap-3" id="optionsBox" role="group" aria-label="Автори"></div>
+
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <button id="hintBtn" class="btn" title="Показати підказку">💡 Підказка</button>
+          <button id="checkBtn" class="btn btn-primary" title="Перевірити відповідь">✔ Перевірити</button>
+          <button id="nextBtn" class="btn" title="Наступна цитата" disabled>→ Далі</button>
+          <button id="skipBtn" class="btn" title="Пропустити цитату">Пропустити</button>
+        </div>
+
+        <div id="hintBox" class="mt-3 hidden text-sm bg-blue-50 border border-blue-200 text-blue-900 rounded-lg p-3"></div>
+        <div id="explainBox" class="mt-3 hidden text-sm bg-green-50 border border-green-200 text-green-900 rounded-lg p-3"></div>
+        <div id="contextBox" class="mt-3 hidden text-sm bg-gray-50 border border-gray-200 text-gray-800 rounded-lg p-3"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+  <dialog id="resultModal" role="dialog" aria-modal="true" aria-labelledby="resTitle">
+    <div class="bg-[var(--blue-dark)] text-white rounded-t-[1rem] p-5">
+      <h3 id="resTitle" class="text-xl font-semibold">Результат квесту</h3>
+      <p class="opacity-90 text-sm">Наскільки добре ти впізнаєш голоси української думки?</p>
+    </div>
+    <div class="modal-body">
+      <div class="grid gap-3">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="chip"><strong>Правильних:</strong> <span id="resRight">0</span></span>
+          <span class="chip"><strong>Неправильних:</strong> <span id="resWrong">0</span></span>
+          <span class="chip"><strong>Час:</strong> <span id="resTime">—</span></span>
+        </div>
+        <div class="mt-2" id="badgeBox"></div>
+        <div class="mt-2 text-sm text-[var(--muted)]" id="resTip"></div>
+      </div>
+      <div class="flex items-center justify-end gap-2 mt-4 p-3 border-t">
+        <button class="btn" id="closeModalBtn">Гаразд</button>
+        <button class="btn btn-primary" id="restartModalBtn">Пройти ще раз</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const TASKS_QUOTES_BASE = [
+      { quote: 'Мова — це душа народу.', opts: ['Пантелеймон Куліш','Тарас Шевченко','Іван Франко'], correct: 0, hint: 'Письменник і перекладач, сучасник Шевченка.', explain: 'Вислів Пантелеймона Куліша, письменника, перекладача, історика.', context: 'Кінець XIX ст.; тема — національна ідентичність.' },
+      { quote: 'У кожного слова своя доля.', opts: ['Іван Франко','Леся Українка','Ольга Кобилянська'], correct: 0, hint: 'Каменяр українського духу.', explain: 'Автор — Іван Франко. Афоризм про вагу слова у житті народу.', context: 'Кінець XIX — початок XX ст.' },
+      { quote: 'Слово — велетень, коли думка велика.', opts: ['Леся Українка','Михайло Драгоманов','Іван Огієнко'], correct: 0, hint: 'Поетеса сили духу.', explain: 'Леся Українка наголошувала на єдності думки й слова.', context: '' },
+      { quote: 'Нації вмирають не від інфаркту, спочатку їм відбирає мову.', opts: ['Ліна Костенко','Оксана Забужко','Василь Стус'], correct: 0, hint: 'Авторка «Маруся Чурай».', explain: 'Вислів Ліни Костенко про мову як основу нації.', context: '' },
+      { quote: 'Народ, що не шанує своєї мови, не матиме майбутнього.', opts: ['Іван Огієнко','Митрополит Андрей Шептицький','Михайло Грушевський'], correct: 0, hint: 'Учений і мовознавець, також — митрополит Іларіон.', explain: 'Іван Огієнко (митрополит Іларіон) про значення мови.', context: '' },
+      { quote: 'Слова мають силу будувати і руйнувати.', opts: ['Григорій Сковорода','Микола Гоголь','Митрополит Андрей Шептицький'], correct: 2, hint: 'Духовний і громадський діяч Галичини.', explain: 'Андрей Шептицький — про моральну відповідальність слова.', context: '' },
+      { quote: 'Думка без слова — тінь, слово без думки — звук.', opts: ['Григорій Сковорода','Памфіл Юркевич','Микола Костомаров'], correct: 0, hint: 'Філософ-мандрівник.', explain: 'Григорій Сковорода про єдність думки і слова.', context: '' },
+      { quote: 'Мова росте разом з душею народу.', opts: ['Олександр Потебня','Борис Грінченко','Пантелеймон Куліш'], correct: 0, hint: 'Видатний мовознавець і психолог мови.', explain: 'Потебня про історичну природу мови.', context: '' },
+      { quote: 'Хто мови своєї цурається, той сам себе відрікається.', opts: ['Борис Грінченко','Микола Куліш','Василь Стус'], correct: 0, hint: 'Лексикограф, просвітянин.', explain: 'Борис Грінченко — про самопошану через мову.', context: '' },
+      { quote: 'Ти, слово, — моя зброя.', opts: ['Василь Стус','Ліна Костенко','Оксана Забужко'], correct: 0, hint: 'Поет-шістдесятник, правозахисник.', explain: 'Стус — про силу поетичного слова.', context: '' },
+    ];
+
+    let tasks = JSON.parse(JSON.stringify(TASKS_QUOTES_BASE));
+    let idx = 0; let right = 0; let wrong = 0; let startedAt = null;
+    let perTaskTimer = null; let leftSec = 45;
+    const stateKey = 'mf-quest-who-v1';
+
+    const totalCountEl = document.getElementById('totalCount');
+    const progressChipEl = document.getElementById('progressChip');
+    const progressBarEl = document.getElementById('progressBar');
+    const taskCounterEl = document.getElementById('taskCounter');
+    const quoteTextEl = document.getElementById('quoteText');
+    const optionsBoxEl = document.getElementById('optionsBox');
+    const hintBtn = document.getElementById('hintBtn');
+    const checkBtn = document.getElementById('checkBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const hintBox = document.getElementById('hintBox');
+    const explainBox = document.getElementById('explainBox');
+    const contextBox = document.getElementById('contextBox');
+    const shuffleToggle = document.getElementById('shuffleToggle');
+    const timedToggle = document.getElementById('timedToggle');
+    const hintModeToggle = document.getElementById('hintModeToggle');
+    const timerEl = document.getElementById('timer');
+    const timerBox = document.getElementById('timerBox');
+    const restartBtn = document.getElementById('restartBtn');
+    const saveLink = document.getElementById('saveLink');
+    const toastEl = document.getElementById('toast');
+    let toastTimer = null;
+
+    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+    const fmtTime = (ms)=>{ const sec=Math.round(ms/1000); const m=Math.floor(sec/60); const s=sec%60; return `${m}:${s.toString().padStart(2,'0')}`; };
+
+    function showToast(message) {
+      toastEl.textContent = message;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toastEl.classList.remove('show'); }, 2500);
+    }
+
+    function saveState(){
+      const state = {idx,right,wrong,tasks,startedAt: startedAt?.valueOf?.()||Date.now(), timed: timedToggle.checked, hintOn: hintModeToggle.checked, shuffle: shuffleToggle.checked};
+      localStorage.setItem(stateKey, JSON.stringify(state));
+    }
+    function loadState(){
+      const raw = localStorage.getItem(stateKey);
+      if(!raw) return false;
+      try{
+        const s = JSON.parse(raw);
+        if(!s || !Array.isArray(s.tasks)) return false;
+        tasks = s.tasks; idx = s.idx||0; right = s.right||0; wrong = s.wrong||0; startedAt = new Date(s.startedAt||Date.now());
+        timedToggle.checked = !!s.timed; timerBox.classList.toggle('hidden', !timedToggle.checked);
+        hintModeToggle.checked = s.hintOn!==false; 
+        shuffleToggle.checked = !!s.shuffle; 
+        return true;
+      }catch(e){ return false; }
+    }
+
+    function resetAll(){
+      tasks = JSON.parse(JSON.stringify(TASKS_QUOTES_BASE));
+      if(shuffleToggle.checked) shuffle(tasks);
+      idx = 0; right = 0; wrong = 0; startedAt = new Date();
+      clearInterval(perTaskTimer); leftSec = 45; timerEl.textContent = leftSec;
+      timerBox.classList.toggle('hidden', !timedToggle.checked);
+      hintBtn.disabled = !hintModeToggle.checked;
+      hintBtn.style.display = hintModeToggle.checked ? 'inline-flex' : 'none';
+      render(); saveState();
+    }
+
+    function startPerTaskTimer(){
+      clearInterval(perTaskTimer);
+      if(!timedToggle.checked) return;
+      leftSec = 45; timerEl.textContent = leftSec;
+      perTaskTimer = setInterval(()=>{
+        leftSec--; timerEl.textContent = leftSec;
+        if(leftSec<=0){
+          clearInterval(perTaskTimer);
+          lockOptions();
+          revealAnswer(false, true);
+        }
+      },1000);
+    }
+
+    function lockOptions(){ 
+      optionsBoxEl.querySelectorAll('button.opt').forEach(b=>b.disabled=true); 
+      checkBtn.disabled = true; hintBtn.disabled = true; skipBtn.disabled = true; 
+    }
+    function unlockOptions(){ 
+      optionsBoxEl.querySelectorAll('button.opt').forEach(b=>b.disabled=false); 
+      checkBtn.disabled = false; hintBtn.disabled = !hintModeToggle.checked; skipBtn.disabled = false; 
+    }
+
+    function render(){
+      totalCountEl.textContent = tasks.length;
+      progressChipEl.textContent = `${Math.min(idx, tasks.length)}/${tasks.length}`;
+      progressBarEl.style.width = `${(Math.min(idx,tasks.length)/tasks.length)*100}%`;
+      taskCounterEl.textContent = `Цитата ${Math.min(idx+1,tasks.length)}/${tasks.length}`;
+
+      hintBox.classList.add('hidden'); hintBox.textContent='';
+      explainBox.classList.add('hidden'); explainBox.textContent='';
+      contextBox.classList.add('hidden'); contextBox.textContent='';
+      nextBtn.disabled = true;
+
+      if(idx>=tasks.length){ showResults(); return; }
+
+      const t = tasks[idx];
+      quoteTextEl.textContent = t.quote;
+      optionsBoxEl.innerHTML = '';
+      t.opts.forEach((opt,i)=>{ 
+        const btn = document.createElement('button');
+        btn.className = 'opt text-left'; btn.type='button'; btn.setAttribute('data-i', i);
+        btn.innerHTML = `<span class=\"kbd\">${String.fromCharCode(65+i)}</span> <span>${opt}</span>`;
+        btn.addEventListener('click', ()=>selectOption(i));
+        btn.setAttribute('aria-label', `Варіант ${String.fromCharCode(65+i)}: ${opt}`);
+        optionsBoxEl.appendChild(btn);
+      });
+      chosen = null;
+      unlockOptions();
+      startPerTaskTimer();
+    }
+
+    let chosen = null;
+    function selectOption(i){
+      chosen = i;
+      optionsBoxEl.querySelectorAll('.opt').forEach(b=>b.classList.remove('ring-2','ring-[var(--blue)]'));
+      const current = optionsBoxEl.querySelector(`.opt[data-i=\"${i}\"]`);
+      if(current) current.classList.add('ring-2','ring-[var(--blue)]');
+    }
+
+    function revealAnswer(isManualCheck=true, dueToTimer=false){
+      const t = tasks[idx];
+      const correct = t.correct;
+      optionsBoxEl.querySelectorAll('.opt').forEach((b)=>{
+        const i = Number(b.getAttribute('data-i'));
+        if(i===correct) b.classList.add('correct');
+        if(chosen!==null && i===chosen && chosen!==correct) b.classList.add('wrong');
+      });
+
+      const ok = (chosen===correct) && !dueToTimer;
+      if(ok){ right++; explainBox.className = 'mt-3 text-sm bg-green-50 border border-green-200 text-green-900 rounded-lg p-3'; }
+      else { wrong++; explainBox.className = 'mt-3 text-sm bg-red-50 border border-red-200 text-red-900 rounded-lg p-3'; }
+
+      hintBox.classList.add('hidden');
+      explainBox.classList.remove('hidden');
+      explainBox.innerHTML = ok ? `<b class=\"text-lg\">Саме так! Автор — ${t.opts[correct]}.</b>` : `<b class=\"text-lg\">Насправді це сказав(ла) ${t.opts[correct]}.</b>`;
+      if(t.explain) explainBox.innerHTML += ` <div class=\"mt-1\">${t.explain}</div>`;
+      if(t.context){ contextBox.classList.remove('hidden'); contextBox.textContent = 'Контекст: ' + t.context; }
+      if(dueToTimer) explainBox.innerHTML += ' <div class=\"mt-1 font-semibold\">(Час вичерпано)</div>';
+
+      nextBtn.disabled = false; lockOptions(); saveState();
+    }
+
+    hintBtn.addEventListener('click', ()=>{ if(!hintModeToggle.checked) return; const t = tasks[idx]; hintBox.classList.remove('hidden'); hintBox.textContent = t.hint||'Подумай про добу та коло автора.'; });
+    checkBtn.addEventListener('click', ()=>{ if(chosen===null){ optionsBoxEl.classList.add('shake'); showToast('Оберіть варіант відповіді.'); setTimeout(()=>optionsBoxEl.classList.remove('shake'),500); return; } clearInterval(perTaskTimer); revealAnswer(true,false); });
+    nextBtn.addEventListener('click', ()=>{ idx++; render(); saveState(); });
+    skipBtn.addEventListener('click', ()=>{ wrong++; idx++; render(); saveState(); });
+    restartBtn.addEventListener('click', ()=>{ localStorage.removeItem(stateKey); resetAll(); });
+    saveLink?.addEventListener('click', (e)=>{ e.preventDefault(); saveState(); showToast('Прогрес збережено.'); });
+
+    function showResults(){
+      const total = tasks.length; const ms = Date.now()-startedAt.valueOf();
+      const resRightEl = document.getElementById('resRight');
+      const resWrongEl = document.getElementById('resWrong');
+      const resTimeEl = document.getElementById('resTime');
+      const badgeBox = document.getElementById('badgeBox');
+      const resTip = document.getElementById('resTip');
+      resRightEl.textContent = right; resWrongEl.textContent = wrong; resTimeEl.textContent = fmtTime(ms);
+      badgeBox.innerHTML = '';
+      const rate = total > 0 ? right/total : 0;
+      const badges = [];
+      if(rate===1) badges.push({name:'Мовознавець', desc:'Жодної помилки — блискуче!'});
+      else if(rate>=0.8) badges.push({name:'Цитатознавець', desc:'Впевнене відчуття авторів.'});
+      else if(rate>=0.6) badges.push({name:'Дослідник мови', desc:'Гарний результат, рухайся далі!'});
+      else badges.push({name:'Початківець', desc:'Час подружитися з авторами ближче.'});
+      badges.forEach(b=>{ const el = document.createElement('div'); el.className='card p-3 bg-gray-50'; el.innerHTML=`<div class=\"font-semibold text-lg\">🏅 ${b.name}</div><div class=\"text-sm text-[var(--muted)]\">${b.desc}</div>`; badgeBox.appendChild(el); });
+      resTip.textContent = rate<0.8 ? 'Порада: перечитай добірку цитат українських мислителів і письменників.' : 'Чудово! Спробуй пройти без підказок і з таймером.';
+      document.getElementById('resultModal').showModal();
+    }
+
+    document.getElementById('closeModalBtn').addEventListener('click', () => { document.getElementById('resultModal').close(); });
+    document.getElementById('restartModalBtn').addEventListener('click', () => { document.getElementById('resultModal').close(); localStorage.removeItem(stateKey); resetAll(); });
+
+    (function selfTests(){
+      try {
+        console.assert(Array.isArray(TASKS_QUOTES_BASE) && TASKS_QUOTES_BASE.length >= 10, '[Test] Має бути не менше 10 цитат');
+        const hasKulish = TASKS_QUOTES_BASE.some(t=>t.quote.includes('Мова — це душа народу.') && t.opts[0].includes('Куліш'));
+        const hasFranko = TASKS_QUOTES_BASE.some(t=>t.quote.includes('У кожного слова своя доля.') && t.opts.includes('Іван Франко'));
+        console.assert(hasKulish && hasFranko, '[Test] Приклади присутні');
+        const t0 = TASKS_QUOTES_BASE[0];
+        console.assert(typeof t0.quote==='string' && Array.isArray(t0.opts) && Number.isInteger(t0.correct), '[Test] Формат завдання валідний');
+        console.log('[SelfTests] OK');
+      } catch (e) { console.error('[SelfTests] FAILED', e); }
+    })();
+
+    (function init(){
+      shuffleToggle.addEventListener('change', () => { resetAll(); });
+      timedToggle.addEventListener('change', () => {
+        timerBox.classList.toggle('hidden', !timedToggle.checked);
+        if (timedToggle.checked && idx < tasks.length && checkBtn.disabled === false) { startPerTaskTimer(); } else { clearInterval(perTaskTimer); }
+        saveState();
+      });
+      hintModeToggle.addEventListener('change', () => {
+        const hintsEnabled = hintModeToggle.checked; 
+        hintBtn.style.display = hintsEnabled ? 'inline-flex' : 'none';
+        hintBtn.disabled = !hintsEnabled;
+        if (!hintsEnabled) { hintBox.classList.add('hidden'); }
+        saveState();
+      });
+
+      const restored = loadState();
+      if(!restored){ resetAll(); }
+      else { hintBtn.style.display = hintModeToggle.checked ? 'inline-flex' : 'none'; render(); if (timedToggle.checked && idx < tasks.length && checkBtn.disabled === false) { startPerTaskTimer(); } }
+    })();
+  </script>
+</body>
+</html>
 
