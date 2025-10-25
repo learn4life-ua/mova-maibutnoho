@@ -1,1 +1,288 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- Змінений <title> для Розділу 10 -->
+  <title>Розділ 10. Документи для роботи мрії</title>
+  <style>
+    /* Всі стилі скопійовано з вашого зразка */
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --blue: #4BA3C3;
+      --blue-dark: #1E3A5F;
+      --gray-bg: #F5F7FA;
+      --text: #2C2C2C;
+      --muted: #6B7280;
+      --border: #D1D5DB;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--gray-bg);
+      color: var(--text);
+      line-height: 1.7;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-header {
+      background: linear-gradient(90deg, var(--blue-dark) 0%, var(--blue) 100%);
+      color: #fff;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-nav {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: opacity 0.2s ease;
+    }
+
+    .back-link:hover {
+      opacity: 0.85;
+    }
+
+    .back-link svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .guidebook-title {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-left: auto;
+      margin-right: 1rem;
+    }
+    
+    .guidebook-title strong {
+      font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+      .guidebook-title {
+        display: none;
+      }
+      .back-link {
+        margin-right: auto;
+      }
+    }
+
+    .main-content {
+      flex-grow: 1;
+      max-width: 900px;
+      width: 100%;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+
+    .content-wrapper {
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2rem 2.5rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    }
+    
+    @media (max-width: 640px) {
+      .content-wrapper {
+        padding: 1.5rem;
+      }
+    }
+
+    .content-wrapper h1 {
+      font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem);
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-top: 0;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .content-wrapper h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--blue-dark);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--blue);
+      padding-bottom: 0.5rem;
+    }
+    
+    .content-wrapper p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+
+    .content-wrapper ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .content-wrapper li {
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    .content-wrapper strong {
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    /* Стилі для інтерактивних посилань, взяті зі зразка */
+    .interactive-links {
+      list-style-type: none;
+      padding-left: 0;
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    
+    .interactive-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background-color: #fff;
+      border: 1px solid var(--border);
+      padding: 0.9rem 1.2rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      color: var(--blue-dark);
+      font-weight: 600;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+    }
+    
+    .interactive-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+    
+    .interactive-link svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      color: var(--blue);
+    }
+    
+    .interactive-link .arrow-icon {
+      margin-left: auto;
+      color: var(--muted);
+      transition: color 0.2s ease;
+    }
+    
+    .interactive-link:hover .arrow-icon {
+      color: var(--blue);
+    }
+    
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      background: #fff;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Хедер, залишений без змін, як у зразку -->
+  <header class="page-header">
+    <nav class="header-nav">
+      <a href="../index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+        На головну
+      </a>
+      <div class="guidebook-title">
+        Посібник: <strong>Мова майбутнього</strong>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Основний вміст, адаптований для Розділу 10 -->
+  <main class="main-content">
+    <div class="content-wrapper">
+      
+      <!-- Заголовок та описові параграфи для Розділу 10 -->
+      <h1>Розділ 10. Як підготувати документи для роботи мрії</h1>
+      
+      <p>Кожна велика кар’єра починається з маленького, але дуже важливого кроку — правильно оформлених документів. Резюме, автобіографія та заява — це саме ті інструменти, які допоможуть презентувати себе роботодавцю.</p>
+      <p>У цьому розділі ти дізнаєшся, як виділити свої сильні сторони, досягнення та навички, щоб зацікавити роботодавця з першого погляду. Ми розкриємо тонкощі створення професійних документів, які відкриють перед тобою нові можливості та стануть першою сходинкою до роботи твоєї мрії. 🌟</p>
+
+      <h2>Підрозділи</h2>
+      
+      <!-- Нове меню для підрозділів 10.1, 10.2, 10.3 -->
+      <ul class="interactive-links">
+        <li>
+          <a href="10-01-rezyume.html" class="interactive-link">
+            <!-- Іконка "file-text" для Резюме -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            10.1. Резюме. Створюємо професійний портрет
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+          <a href="10-02-avtobiohrafiia.html" class="interactive-link">
+            <!-- Іконка "user-check" для Автобіографії -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+            10.2. Автобіографія. Створюємо свою історію
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+          <a href="10-03-zayava.html" class="interactive-link">
+            <!-- Іконка "edit-3" для Заяви -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+            10.3. Заява. Оформлюємо ваш професійний шлях
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </main>
+
+  <!-- Футер, залишений без змін, як у зразку -->
+  <footer>
+    © 2025 ВСП «Аграрно-економічний фаховий коледж ПДАУ». Проєкт «Мова майбутнього».
+  </footer>
+
+</body>
+</html>
 
