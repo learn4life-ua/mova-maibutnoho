@@ -8,7 +8,7 @@
     <!-- Підключення шрифту Inter --><link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-    
+
     <style>
         /* Налаштування шрифту та фону */
         body {
@@ -18,7 +18,7 @@
         /* * --- СТРУКТУРНІ ТА АНІМАЦІЙНІ СТИЛІ FLIP-CARD ---
          * Це необхідна CSS-логіка для 3D-перевороту, яку не можна замінити Tailwind.
          */
-        
+
         /* База картки: Прибрано фіксоване співвідношення (1:1). Висота адаптується до вмісту. */
         .flip-card {
             background-color: transparent;
@@ -69,14 +69,14 @@
         .flip-card-back {
             transform: rotateY(180deg);
             /* Вирівнювання тексту нагорі для легшого читання */
-            align-items: flex-start; 
+            align-items: flex-start;
             text-align: left;
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 antialiased">
 
-    <!-- 
+    <!--
       Шапка з оригінальним синім градієнтом
     --><header class="bg-gradient-to-r from-[#1E3A5F] to-[#4BA3C3] text-white p-4 shadow-xl sticky top-0 z-50">
         <nav class="max-w-4xl mx-auto flex justify-between items-center">
@@ -110,8 +110,12 @@
                 </p>
             </header>
 
-            <!-- Контейнер для карток (Grid): Змінено на 2 колонки на середніх екранах (md) --><div id="card-container" class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 items-stretch">
-                <!-- items-stretch гарантує, що картки в одному ряду матимуть однакову висоту --></div>
+            <!-- === ОНОВЛЕНО: Grid === -->
+            <!-- Контейнер для карток (Grid): 1 колонка на моб, 2 на sm+ -->
+            <div id="card-container" class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 items-stretch">
+                <!-- items-stretch гарантує, що картки в одному ряду матимуть однакову висоту -->
+            </div>
+             <!-- === КІНЕЦЬ ЗМІН === -->
 
         </div>
     </main>
@@ -150,7 +154,7 @@
         ];
 
         const cardContainer = document.getElementById('card-container');
-        const allCards = []; 
+        const allCards = [];
 
         /**
          * Створює DOM-структуру картки та додає її до контейнера.
@@ -158,32 +162,31 @@
          */
         function createCard(cardData) {
             const card = document.createElement('div');
-            // === ЗМІНЕНО: min-h-[16rem] на min-h-[22rem] для кращого вміщення тексту ===
+            // Залишено min-h-[22rem] для вміщення тексту
             card.className = 'flip-card cursor-pointer rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out min-h-[22rem]';
 
             const cardInner = document.createElement('div');
             // Візуальні стилі Tailwind: закруглені кути, тінь
-            cardInner.className = 'flip-card-inner rounded-xl shadow-xl'; 
+            cardInner.className = 'flip-card-inner rounded-xl shadow-xl';
 
-            // Передня сторона: Світлий градієнт 
+            // === ОНОВЛЕНО: Повернення оригінальних стилів ===
+            // Передня сторона: Світлий градієнт
             const cardFront = document.createElement('div');
             cardFront.className = 'flip-card-front rounded-xl bg-white text-[#1E3A5F] border-4 border-[#4BA3C3]/50 hover:bg-[#F5F7FA] transition-colors duration-200';
-            // Збільшено розмір шрифту на передній стороні
             cardFront.innerHTML = `<h3 class="text-2xl sm:text-3xl font-extrabold px-4 leading-snug">${cardData.term}</h3>`;
 
             // Задня сторона: Темний градієнт
             const cardBack = document.createElement('div');
             cardBack.className = 'flip-card-back rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#4BA3C3] text-white shadow-xl';
-            
-            // Збільшено розмір шрифту на задній стороні
             cardBack.innerHTML = `<div class="text-base sm:text-lg w-full space-y-3">${cardData.definition}</div>`;
+             // === КІНЕЦЬ ЗМІН ===
 
             cardInner.appendChild(cardFront);
             cardInner.appendChild(cardBack);
             card.appendChild(cardInner);
             cardContainer.appendChild(card);
-            
-            allCards.push(card); 
+
+            allCards.push(card);
 
             // Обробник події для перевертання
             card.addEventListener('click', () => {
@@ -211,3 +214,4 @@
     </script>
 </body>
 </html>
+
