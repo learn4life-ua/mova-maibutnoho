@@ -8,7 +8,7 @@
     <!-- Підключення шрифту Inter --><link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-    
+
     <style>
         /* Налаштування шрифту */
         body {
@@ -18,7 +18,7 @@
         /* * --- СТРУКТУРНІ ТА АНІМАЦІЙНІ СТИЛІ FLIP-CARD ---
          * Залишаємо лише CSS-логіку для 3D-перевороту, яку не можна замінити Tailwind.
          */
-        
+
         /* База картки: Висота адаптується до вмісту. */
         .flip-card {
             background-color: transparent;
@@ -56,7 +56,7 @@
         .flip-card-front, .flip-card-back {
             position: absolute;
             width: 100%;
-            height: 100%; 
+            height: 100%;
             -webkit-backface-visibility: hidden; /* Для Safari */
             backface-visibility: hidden;
             display: flex;
@@ -69,19 +69,29 @@
         .flip-card-back {
             transform: rotateY(180deg);
             /* Вирівнювання тексту нагорі для легшого читання */
-            align-items: flex-start; 
+            align-items: flex-start;
             text-align: left;
         }
-        
+
         /* Стиль для активної кнопки-вкладки */
         .tab-button.active {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
         }
+
+        /* Прибираємо скролбар для вкладок, якщо він з'являється */
+        #category-tabs::-webkit-scrollbar {
+             display: none; /* Chrome, Safari, Opera */
+        }
+        #category-tabs {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
     </style>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 antialiased">
 
-    <!-- 
+    <!--
       Шапка з оригінальним синім градієнтом
     --><header class="bg-gradient-to-r from-[#1E3A5F] to-[#4BA3C3] text-white p-4 shadow-xl sticky top-0 z-50">
         <nav class="max-w-4xl mx-auto flex justify-between items-center">
@@ -114,15 +124,20 @@
                     Натисніть на картку, щоб дізнатися, що означає той чи інший сленг.
                 </p>
             </header>
-            
+
+            <!-- === ОНОВЛЕНО: Стилі для вкладок === -->
             <!-- Вкладки для фільтрації -->
-            <div id="category-tabs" class="mb-8 overflow-x-auto whitespace-nowrap p-1 border-b border-gray-200">
+            <div id="category-tabs" class="mb-8 flex flex-wrap justify-center sm:justify-start -m-1 border-b border-gray-200 pb-4">
                 <!-- Кнопки-вкладки генеруються за допомогою JavaScript -->
             </div>
+             <!-- === КІНЕЦЬ ЗМІН === -->
 
-            <!-- Контейнер для карток (Grid) --><div id="card-container" class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-5 sm:gap-6 items-stretch">
+             <!-- === ОНОВЛЕНО: Grid === -->
+            <!-- Контейнер для карток (Grid): 1 колонка на моб, 2 на sm+ -->
+            <div id="card-container" class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 items-stretch">
                 <!-- Картки будуть додані сюди за допомогою JavaScript -->
             </div>
+             <!-- === КІНЕЦЬ ЗМІН === -->
 
         </div>
     </main>
@@ -144,7 +159,7 @@
             { term: "Задедлайнився", category: "Навчання", description: "<strong>Категорія: Навчання</strong><br><br>Ситуація, коли студент застряг у безлічі завдань, терміни виконання яких критично наближаються або минули." },
             { term: "Халявник", category: "Навчання", description: "<strong>Категорія: Навчання</strong><br><br>Студент, що успішно виконує завдання чи складає іспити в останню мить, часто мінімальними зусиллями (на «халяву»)." },
             { term: "Окей-без-паніки", category: "Навчання", description: "<strong>Категорія: Навчання</strong><br><br>Остання надія, яку використовують для заспокоєння перед іспитом або дедлайном." },
-            
+
             // --- ТЕХНІЧНИЙ (7 карток) ---
             { term: "Гугл-документ", category: "Технічний", description: "<strong>Категорія: Технічний</strong><br><br>Онлайн-документ (Google Docs) для спільних проєктів." },
             { term: "Лаба", category: "Технічний", description: "<strong>Категорія: Технічний</strong><br><br>Популярне скорочення від «лабораторна робота»." },
@@ -153,7 +168,7 @@
             { term: "Сніппет", category: "Технічний", description: "<strong>Категорія: Технічний</strong><br><br>Короткий фрагмент коду або шаблон для швидкого використання." },
             { term: "Репозиторій", category: "Технічний", description: "<strong>Категорія: Технічний</strong><br><br>Місце для зберігання проєктів і коду (наприклад, GitHub)." },
             { term: "Скрам", category: "Технічний", description: "<strong>Категорія: Технічний</strong><br><br>Метод управління проєктами, що часто вивчається в ІТ-спеціальностях." },
-            
+
             // --- ХАРЧУВАННЯ (5 карток) ---
             { term: "Мівінка", category: "Харчування", description: "<strong>Категорія: Харчування</strong><br><br>Миттєва локшина — найпопулярніша швидка і бюджетна студентська страва." },
             { term: "Гречка з кетчупом", category: "Харчування", description: "<strong>Категорія: Харчування</strong><br><br>Культова проста і дешева студентська страва, що є символом виживання." },
@@ -174,7 +189,7 @@
             { term: "Витягнути на трійку", category: "Оцінки", description: "<strong>Категорія: Оцінки</strong><br><br>Отримати мінімально прийнятну оцінку, часто з великими зусиллями або завдяки везінню." },
             { term: "Заліковка", category: "Оцінки", description: "<strong>Категорія: Оцінки</strong><br><br>Залікова книжка студента." },
             { term: "Прокачати скіл", category: "Оцінки", description: "<strong>Категорія: Оцінки</strong><br><br>Поліпшити свої навички та знання в певному предметі (від англ. *skill*)." },
-            
+
             // --- СОЦІАЛЬНІ (3 картки) ---
             { term: "Краш", category: "Соціальні", description: "<strong>Категорія: Соціальні</strong><br><br>Людина, яка дуже подобається, часто об'єкт таємного або явного закохання (від англ. *crush*)." },
             { term: "Френдзона", category: "Соціальні", description: "<strong>Категорія: Соціальні</strong><br><br>Ситуація, коли романтичні почуття не взаємні, і людина залишається лише «другом»." },
@@ -189,7 +204,7 @@
 
         const cardContainer = document.getElementById('card-container');
         const tabsContainer = document.getElementById('category-tabs');
-        const allCards = []; 
+        const allCards = [];
 
         // 1. Збираємо унікальні категорії
         const categories = [...new Set(flashcardsData.map(card => card.category))];
@@ -204,11 +219,11 @@
             const card = document.createElement('div');
             // Встановлюємо атрибут для фільтрації
             card.dataset.category = cardData.category;
-            // === ЗМІНЕНО: min-h-[16rem] на min-h-[22rem] для кращого вміщення тексту ===
+            // === ОНОВЛЕНО: min-h-[22rem] для кращого вміщення тексту ===
             card.className = 'flip-card cursor-pointer rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out min-h-[22rem]';
 
             const cardInner = document.createElement('div');
-            cardInner.className = 'flip-card-inner rounded-xl shadow-xl'; 
+            cardInner.className = 'flip-card-inner rounded-xl shadow-xl';
 
             const cardFront = document.createElement('div');
             cardFront.className = 'flip-card-front rounded-xl bg-white text-[#1E3A5F] border-4 border-[#4BA3C3]/50 hover:bg-[#F5F7FA] transition-colors duration-200';
@@ -216,7 +231,7 @@
 
             const cardBack = document.createElement('div');
             cardBack.className = 'flip-card-back rounded-xl bg-gradient-to-br from-[#1E3A5F] to-[#4BA3C3] text-white shadow-xl';
-            
+
             // Використовуємо description, оскільки definition було перейменовано
             cardBack.innerHTML = `<div class="text-base sm:text-lg w-full space-y-3">${cardData.description}</div>`;
 
@@ -224,8 +239,8 @@
             cardInner.appendChild(cardBack);
             card.appendChild(cardInner);
             cardContainer.appendChild(card);
-            
-            allCards.push(card); 
+
+            allCards.push(card);
 
             // Додаємо обробник події для перевертання
             card.addEventListener('click', () => {
@@ -252,7 +267,7 @@
             allCards.forEach(card => {
                 const cardCategory = card.dataset.category;
                 const isVisible = (category === "Усі" || cardCategory === category);
-                
+
                 // Приховуємо або показуємо картку
                 card.style.display = isVisible ? 'block' : 'none';
 
@@ -261,7 +276,7 @@
                     card.classList.remove('flipped');
                 }
             });
-            
+
             // Оновлюємо активну кнопку
             document.querySelectorAll('.tab-button').forEach(btn => {
                 btn.classList.remove('active', 'bg-[#1E3A5F]', 'text-white');
@@ -281,8 +296,9 @@
                 const button = document.createElement('button');
                 button.textContent = category;
                 button.dataset.category = category;
-                button.className = 'tab-button px-4 py-2 text-sm font-semibold rounded-full mr-2 transition-all duration-200';
-                
+                // === ОНОВЛЕНО: Додано mb-2 і відступи m-1 для кращого вигляду при перенесенні ===
+                button.className = 'tab-button px-4 py-2 text-sm font-semibold rounded-full m-1 mb-2 transition-all duration-200';
+
                 // Встановлюємо початкові класи
                 button.classList.add('text-gray-700', 'hover:text-[#4BA3C3]', 'hover:bg-gray-50');
 
@@ -291,14 +307,15 @@
                 tabsContainer.appendChild(button);
             });
         }
-        
+
         // --- ІНІЦІАЛІЗАЦІЯ ---
         flashcardsData.forEach(createCard);
         createTabs();
-        
+
         // Показуємо всі картки за замовчуванням при завантаженні
-        filterCards("Усі"); 
+        filterCards("Усі");
 
     </script>
 </body>
 </html>
+
