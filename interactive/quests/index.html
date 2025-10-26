@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+          <!DOCTYPE html>
 <html lang="uk">
 <head>
   <meta charset="UTF-8" />
@@ -6,7 +6,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <title>Квести | Мова майбутнього</title>
+  <!-- Змінено Title -->
+  <title>Завдання | Мова майбутнього</title>
   <style>
     /* --- Стандартні стилі шаблону --- */
     * {
@@ -61,23 +62,26 @@
       font-size: clamp(1.6rem, 2.5vw + 1rem, 2.25rem); font-weight: 700;
       color: var(--blue-dark); margin-top: 0; margin-bottom: 1.5rem; line-height: 1.3;
     }
-     .content-wrapper h2 { /* Підзаголовки */
+      .content-wrapper h2 { /* Підзаголовки */
         font-size: 1.4rem; font-weight: 600; color: var(--blue-dark);
-        margin-top: 1.8rem; margin-bottom: 0.8rem;
+        margin-top: 2rem; /* Збільшено відступ для розділення секцій */
+        margin-bottom: 1rem; /* Збільшено відступ знизу */
+        padding-bottom: 0.5rem; /* Додано підкреслення */
+        border-bottom: 2px solid var(--gray-bg); /* Лінія-розділювач */
      }
      .content-wrapper p {
       margin-top: 0; margin-bottom: 1rem; font-size: 1.05rem;
       color: var(--text);
     }
      .content-wrapper ul { /* Застосовано до interactive-links */
-        padding-left: 0; /* Прибрали відступ */
-        margin-bottom: 1rem;
-        list-style: none; /* Прибираємо стандартні маркери для списку посилань */
+       padding-left: 0; /* Прибрали відступ */
+       margin-bottom: 1rem;
+       list-style: none; /* Прибираємо стандартні маркери для списку посилань */
      }
-      .content-wrapper li {
+       .content-wrapper li {
         margin-bottom: 0.5rem; /* Змінено на відступ між елементами списку */
         font-size: 1.05rem; /* Залишено, але основний розмір контролює .interactive-link */
-      }
+       }
     .content-wrapper strong { font-weight: 600; color: var(--text); }
 
     /* --- Стилі для інтерактивних посилань --- */
@@ -167,23 +171,27 @@
   <main class="main-content">
     <div class="content-wrapper">
 
-      <h1>Мовні квести</h1>
-      <p>Зануртеся у захопливий світ мовних квестів! Цей розділ створений для тих, хто любить виклики та хоче перевірити свої знання української мови в ігровому форматі.</p>
-      <p>Виконуйте завдання, розгадуйте загадки та відкривайте нові рівні мовної майстерності.</p>
+      <!-- Оновлений заголовок та опис -->
+      <h1>Інтерактивні завдання</h1>
+      <p>Оберіть формат для перевірки та вдосконалення знань. Зануртеся у захопливі мовні квести, щоб випробувати себе в ігровому форматі, або скористайтеся флешкартками для ефективного запам'ятовування нової лексики.</p>
+      
+      <!-- Розділ Квестів -->
+      <h2>Квести</h2>
 
-      <h2>Оберіть квест:</h2>
-
-      <!-- Список квестів -->
+      <!-- Список квестів (4 шт) -->
       <ul class="interactive-links">
         <li>
           <a href="01-movnyi-detektyv.html" class="interactive-link">
+            <!-- Icon: Search -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             <span class="link-text">1. Мовний детектив</span>
             <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </a>
         </li>
         <li>
-          <a href="#" class="interactive-link">
+          <!-- Оновлено посилання з # на .html -->
+          <a href="02-slovo-riativnyk.html" class="interactive-link">
+            <!-- Icon: Bookmark -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
             <span class="link-text">2. Слово-рятівник</span>
             <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -191,12 +199,52 @@
         </li>
          <li>
           <a href="03-khto-skazav.html" class="interactive-link">
+            <!-- Icon: Alert Triangle -->
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-            <span class="link-text">3. Хто сказав </span>
+            <span class="link-text">3. Хто сказав?</span>
             <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </a>
         </li>
-         
+        <!-- Додано 4-й квест -->
+        <li>
+          <a href="proverbs_quest.html" class="interactive-link">
+            <!-- Icon: Book Open -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            <span class="link-text">4. Мудрість народу</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Новий розділ Флешкарток -->
+      <h2>Флешкартки</h2>
+
+      <!-- Список флешкарток (3 шт) -->
+      <ul class="interactive-links">
+        <li>
+          <a href="flashcards-1.html" class="interactive-link">
+            <!-- Icon: Layers -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span class="link-text">Флешкартки: Основи</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+        <li>
+          <a href="internet_slang_flashcards.html" class="interactive-link">
+            <!-- Icon: Layers -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span class="link-text">Флешкартки: Інтернет-сленг</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
+         <li>
+          <a href="student_flashcards.html" class="interactive-link">
+            <!-- Icon: Layers -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span class="link-text">Флешкартки: Студентський жаргон</span>
+            <svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+        </li>
       </ul>
 
     </div>
@@ -209,4 +257,3 @@
 
 </body>
 </html>
-
