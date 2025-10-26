@@ -4,17 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Мова майбутнього — інтерактивний посібник</title>
-  <meta name="description" content="Інтерактивний посібник «Мова майбутнього»: сучасна українська мова для студентів. Розділи, інтерактивні додатки, відео та корисні матеріали." />
+  <!-- === ОНОВЛЕНО: SEO Description === -->
+  <meta name="description" content="«Мова майбутнього» — це інтерактивний PDF-посібник + Smart-версія, створений для студентів закладів фахової передвищої освіти, які прагнуть не просто вивчати українську мову, а використовувати її впевнено, природно й професійно. Посібник поєднує класичну структуру навчання з новими цифровими можливостями. У ньому гармонійно об’єднано теоретичний матеріал, мультимедійні ресурси, відео, інтерактивні вправи, квести, флеш-картки, QR-коди, онлайн-тести та елементи саморефлексії." />
   <meta name="theme-color" content="#1E3A5F" />
   <meta name="color-scheme" content="light"> <!-- Додано -->
   <!-- Meta/OG -->
   <meta property="og:title" content="Мова майбутнього — інтерактивний посібник" />
-  <meta property="og:description" content="Сучасна українська для сучасних студентів: модулі, вправи, словники, тести та відео." />
+  <meta property="og:description" content="Сучасна українська для сучасних студентів: модулі, вправи, словники, тести та відео." /> <!-- Залишено коротший опис для OG -->
   <meta property="og:type" content="website"> <!-- Додано -->
   <meta property="og:locale" content="uk_UA"> <!-- Додано -->
-  <!-- <meta property="og:image" content="АБСОЛЮТНИЙ_URL_ДО_ЗОБРАЖЕННЯ_1200x630.jpg"> -->
+  <!-- === ОНОВЛЕНО: OG Image === -->
+  <meta property="og:image" content="https://raw.githubusercontent.com/learn4life-ua/mova-maibutnoho/b8acc9cc1b6585369b098840e5fb6f35a7491ffc/smart-1.png">
   <!-- <link rel="canonical" href="АБСОЛЮТНИЙ_URL_ДО_СТОРІНКИ"> -->
-  <!-- <link rel="icon" href="/favicon.ico" sizes="any"> -->
+
+  <!-- === ОНОВЛЕНО: Favicon === -->
+  <link rel="icon" href="https://raw.githubusercontent.com/learn4life-ua/mova-maibutnoho/b8acc9cc1b6585369b098840e5fb6f35a7491ffc/smart-3.png" type="image/png">
   <!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -709,9 +713,9 @@
             } else {
                  // Закриваємо, якщо немає збігу (і є запит)
                  if (q) {
-                    d.open = false;
+                   d.open = false;
                  } else {
-                     d.open = initialOpenState.get(d) || false;
+                    d.open = initialOpenState.get(d) || false;
                  }
             }
           });
@@ -725,14 +729,14 @@
 
           // Плавна прокрутка до першого результату в акордеоні, якщо він поза полем зору
           if (q && firstMatch && accordionWrapper) {
-              const accordionRect = accordionWrapper.getBoundingClientRect();
-              const firstMatchRect = firstMatch.getBoundingClientRect();
+               const accordionRect = accordionWrapper.getBoundingClientRect();
+               const firstMatchRect = firstMatch.getBoundingClientRect();
 
-              // Перевіряємо, чи перший збіг видимий
-              if (firstMatchRect.top < accordionRect.top || firstMatchRect.bottom > window.innerHeight) {
+               // Перевіряємо, чи перший збіг видимий
+               if (firstMatchRect.top < accordionRect.top || firstMatchRect.bottom > window.innerHeight) {
                   // Прокручуємо до елемента акордеону
                    firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }
+               }
           }
 
 
