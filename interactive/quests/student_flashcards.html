@@ -85,14 +85,15 @@
       Шапка з оригінальним синім градієнтом
     --><header class="bg-gradient-to-r from-[#1E3A5F] to-[#4BA3C3] text-white p-4 shadow-xl sticky top-0 z-50">
         <nav class="max-w-4xl mx-auto flex justify-between items-center">
-            <!-- Кнопка "На головну" з іконкою SVG -->
-            <a href="https://learn4life-ua.github.io/mova-maibutnoho" class="inline-flex items-center gap-2 text-white no-underline font-semibold text-sm sm:text-base hover:opacity-85 transition-opacity">
+            <!-- === ЗМІНЕНО === -->
+            <a href="index.html" class="inline-flex items-center gap-2 text-white no-underline font-semibold text-sm sm:text-base hover:opacity-85 transition-opacity">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 12H5"></path>
                     <path d="M12 19l-7-7 7-7"></path>
                 </svg>
-                На головну
+                Назад до завдань
             </a>
+            <!-- === КІНЕЦЬ ЗМІН === -->
             <!-- Заголовок посібника --><div class="text-xs sm:text-sm opacity-80 hidden sm:block">
                 Посібник: <strong class="text-white">Мова майбутнього</strong>
             </div>
@@ -203,7 +204,8 @@
             const card = document.createElement('div');
             // Встановлюємо атрибут для фільтрації
             card.dataset.category = cardData.category;
-            card.className = 'flip-card cursor-pointer rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out min-h-[16rem]';
+            // === ЗМІНЕНО: min-h-[16rem] на min-h-[22rem] для кращого вміщення тексту ===
+            card.className = 'flip-card cursor-pointer rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out min-h-[22rem]';
 
             const cardInner = document.createElement('div');
             cardInner.className = 'flip-card-inner rounded-xl shadow-xl'; 
